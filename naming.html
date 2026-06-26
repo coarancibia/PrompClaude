@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude + Figma · Naming de pantallas</title>
+<style>
+  :root{
+    --ink-900:#13151a;
+    --ink-700:#3a3d46;
+    --ink-500:#6b6f7a;
+    --ink-300:#a9adb8;
+    --paper:#f6f5f2;
+    --panel:#ffffff;
+    --line:#e3e1db;
+    --accent:#ff5a36;
+    --accent-dim:#ffe7de;
+    --code-bg:#1c1d22;
+    --code-text:#e9e8e4;
+    --code-accent:#ff8a65;
+    --mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --serif: "Fraunces", "Georgia", serif;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink-900);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ---------- top bar / breadcrumb ---------- */
+  .topbar{
+    border-bottom:1px solid var(--line);
+    background:var(--panel);
+  }
+  .topbar-inner{
+    max-width:1320px;
+    margin:0 auto;
+    padding:16px 48px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  @media (max-width:600px){.topbar-inner{padding:14px 16px;}}
+  .breadcrumb{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-500);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .breadcrumb a{color:var(--ink-500); text-decoration:none;}
+  .breadcrumb a:hover{color:var(--accent);}
+  .breadcrumb .current{color:var(--ink-900); font-weight:600;}
+  .switcher{
+    display:flex;
+    gap:8px;
+  }
+  .switcher a{
+    font-family:var(--mono);
+    font-size:12px;
+    padding:6px 12px;
+    border-radius:99px;
+    text-decoration:none;
+    color:var(--ink-500);
+    border:1px solid var(--line);
+    transition:all .15s ease;
+  }
+  .switcher a:hover{border-color:var(--accent); color:var(--accent);}
+  .switcher a.active{background:var(--ink-900); color:#fff; border-color:var(--ink-900);}
+
+  /* ---------- layout shell ---------- */
+  .shell{
+    display:grid;
+    grid-template-columns:272px 1fr;
+    max-width:1320px;
+    margin:0 auto;
+  }
+
+  @media (max-width: 960px){
+    .shell{grid-template-columns:1fr;}
+  }
+
+  /* ---------- sidebar / nav ---------- */
+  .nav{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    padding:32px 20px 32px 0;
+    border-right:1px solid var(--line);
+  }
+  @media (max-width:960px){
+    .nav{position:relative; height:auto; border-right:none; border-bottom:1px solid var(--line); padding:24px 24px 16px;}
+  }
+
+  .nav-brand{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-500);
+    margin-bottom:4px;
+  }
+  .nav-title{
+    font-family:var(--serif);
+    font-size:21px;
+    line-height:1.2;
+    margin:0 0 24px;
+    font-weight:600;
+  }
+  .nav-title em{color:var(--accent); font-style:normal;}
+
+  .nav-section-label{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-300);
+    margin:20px 0 8px;
+  }
+
+  .nav a.navlink{
+    display:flex;
+    gap:10px;
+    align-items:baseline;
+    text-decoration:none;
+    color:var(--ink-700);
+    font-size:13.5px;
+    padding:7px 0;
+    border-bottom:1px solid transparent;
+    transition:color .15s ease;
+  }
+  .nav a.navlink:hover{color:var(--accent);}
+  .nav a.navlink .tag{
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--ink-300);
+    flex-shrink:0;
+    width:20px;
+  }
+
+  /* ---------- main column ---------- */
+  main{padding:56px 48px 100px;}
+  @media (max-width:960px){main{padding:36px 22px 80px;}}
+  @media (max-width:600px){main{padding:28px 16px 64px;}}
+
+  /* ---------- hero ---------- */
+  .hero{margin-bottom:64px;}
+  .hero-eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+  .hero-eyebrow::before{
+    content:"";
+    width:7px;height:7px;
+    background:var(--accent);
+    border-radius:50%;
+    display:inline-block;
+  }
+  h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(34px, 4.6vw, 54px);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    margin:0 0 20px;
+    max-width:15ch;
+  }
+  .hero-lede{
+    font-size:16.5px;
+    line-height:1.6;
+    color:var(--ink-700);
+    max-width:640px;
+    margin:0 0 28px;
+  }
+  .hero-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .pill{
+    font-family:var(--mono);
+    font-size:11.5px;
+    padding:6px 12px;
+    border:1px solid var(--line);
+    border-radius:99px;
+    color:var(--ink-500);
+    background:var(--panel);
+  }
+  .pill b{color:var(--ink-900); font-weight:600;}
+
+  /* ---------- syntax strip (the naming pattern itself) ---------- */
+  .syntax{
+    margin:0 0 72px;
+    border:1px solid var(--line);
+    background:var(--code-bg);
+    border-radius:14px;
+    padding:30px 28px;
+  }
+  .syntax-label{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-300);
+    margin-bottom:18px;
+  }
+  .syntax-pattern{
+    font-family:var(--mono);
+    font-size:clamp(14px, 2.4vw, 19px);
+    color:var(--code-text);
+    line-height:1.6;
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px;
+    margin-bottom:22px;
+  }
+  .syntax-pattern .seg{
+    padding:3px 2px;
+    border-bottom:2px solid;
+  }
+  .syntax-pattern .slash{color:var(--ink-300); padding:3px 4px;}
+  .seg-proyecto{border-color:#ff8a65; color:#ff8a65;}
+  .seg-dispositivo{border-color:#7fd1ae; color:#7fd1ae;}
+  .seg-flujo{border-color:#88b8ff; color:#88b8ff;}
+  .seg-pantalla{border-color:#e6c068; color:#e6c068;}
+  .seg-foco{border-color:#d99bf0; color:#d99bf0;}
+
+  .syntax-legend{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:14px;
+  }
+  @media (max-width:860px){.syntax-legend{grid-template-columns:repeat(2, 1fr);}}
+  @media (max-width:520px){.syntax-legend{grid-template-columns:1fr;}}
+  .legend-item{
+    border-left:2px solid;
+    padding-left:10px;
+  }
+  .legend-item .lname{
+    font-family:var(--mono);
+    font-size:11.5px;
+    font-weight:600;
+    margin-bottom:3px;
+  }
+  .legend-item .ldesc{
+    font-size:12px;
+    color:var(--ink-300);
+    line-height:1.4;
+  }
+  .legend-item.legend-proyecto{border-color:#ff8a65;} .legend-item.legend-proyecto .lname{color:#ff8a65;}
+  .legend-item.legend-dispositivo{border-color:#7fd1ae;} .legend-item.legend-dispositivo .lname{color:#7fd1ae;}
+  .legend-item.legend-flujo{border-color:#88b8ff;} .legend-item.legend-flujo .lname{color:#88b8ff;}
+  .legend-item.legend-pantalla{border-color:#e6c068;} .legend-item.legend-pantalla .lname{color:#e6c068;}
+  .legend-item.legend-foco{border-color:#d99bf0;} .legend-item.legend-foco .lname{color:#d99bf0;}
+
+  /* ---------- section heading ---------- */
+  section.block{margin-bottom:80px; scroll-margin-top:24px;}
+  .block-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:8px;
+    flex-wrap:wrap;
+  }
+  .block-num{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+  }
+  h2{
+    font-family:var(--serif);
+    font-size:26px;
+    font-weight:600;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .block-sub{
+    color:var(--ink-500);
+    font-size:14.5px;
+    line-height:1.55;
+    max-width:680px;
+    margin:10px 0 28px;
+  }
+
+  /* ---------- prompt card ---------- */
+  .promptcard{
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:var(--panel);
+    overflow:hidden;
+    margin-bottom:22px;
+  }
+  .promptcard-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    padding:16px 20px;
+    border-bottom:1px solid var(--line);
+    background:#fbfaf8;
+  }
+  .promptcard-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+    font-weight:600;
+    color:var(--ink-900);
+  }
+  .promptcard-title .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--accent);
+    flex-shrink:0;
+  }
+  .promptcard-where{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-500);
+    background:var(--accent-dim);
+    padding:3px 9px;
+    border-radius:99px;
+    white-space:nowrap;
+  }
+
+  .copybtn{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:0.02em;
+    color:var(--ink-700);
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:7px 12px;
+    cursor:pointer;
+    transition:all .15s ease;
+    flex-shrink:0;
+  }
+  .copybtn:hover{border-color:var(--accent); color:var(--accent);}
+  .copybtn:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .copybtn.copied{background:var(--ink-900); color:#fff; border-color:var(--ink-900);}
+  .copybtn svg{width:13px; height:13px; flex-shrink:0;}
+
+  .promptbody{
+    position:relative;
+    background:var(--code-bg);
+  }
+  .promptbody pre{
+    margin:0;
+    padding:22px 24px;
+    font-family:var(--mono);
+    font-size:12.8px;
+    line-height:1.65;
+    color:var(--code-text);
+    white-space:pre-wrap;
+    word-break:break-word;
+    max-height:420px;
+    overflow-y:auto;
+  }
+  .promptbody pre::-webkit-scrollbar{width:8px;}
+  .promptbody pre::-webkit-scrollbar-thumb{background:#3a3b42; border-radius:8px;}
+
+  .promptbody .ph{color:var(--code-accent); font-weight:600;}
+  .promptbody .com{color:#7a7d88;}
+
+  .promptcard-foot{
+    padding:13px 20px;
+    font-size:12.5px;
+    color:var(--ink-500);
+    border-top:1px solid var(--line);
+    background:#fbfaf8;
+    line-height:1.5;
+  }
+  .promptcard-foot b{color:var(--ink-700);}
+
+  /* ---------- two col grid ---------- */
+  .twocol{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  @media (max-width:760px){.twocol{grid-template-columns:1fr;}}
+
+  /* ---------- field table (naming fields) ---------- */
+  .ptable{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13.5px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:18px;
+  }
+  .ptable th{
+    text-align:left;
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-500);
+    background:#fbfaf8;
+    padding:12px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .ptable td{
+    padding:13px 18px;
+    border-bottom:1px solid var(--line);
+    color:var(--ink-700);
+    line-height:1.45;
+    vertical-align:top;
+  }
+  .ptable tr:last-child td{border-bottom:none;}
+  .ptable td:first-child{color:var(--ink-900); font-weight:500; width:22%;}
+  .ptable code{
+    font-family:var(--mono);
+    font-size:12.5px;
+    background:var(--accent-dim);
+    color:#c1492c;
+    padding:2px 7px;
+    border-radius:5px;
+  }
+
+  /* ---------- checklist ---------- */
+  .checkgrid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:18px;
+  }
+  @media (max-width:760px){.checkgrid{grid-template-columns:1fr;}}
+  .checkcard{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px 20px 6px;
+    background:var(--panel);
+  }
+  .checkcard h3{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 14px;
+  }
+  .checkcard ul{list-style:none; margin:0; padding:0;}
+  .checkcard li{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    font-size:13.5px;
+    line-height:1.5;
+    color:var(--ink-700);
+    padding:9px 0;
+    border-top:1px solid var(--line);
+  }
+  .checkcard li:first-child{border-top:none;}
+  .checkcard li svg{
+    flex-shrink:0;
+    margin-top:2px;
+    width:14px; height:14px;
+    color:var(--accent);
+  }
+
+  /* ---------- do / dont ---------- */
+  .dodont{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  @media (max-width:760px){.dodont{grid-template-columns:1fr;}}
+  .dodont .col{
+    border-radius:12px;
+    padding:22px 22px 14px;
+    border:1px solid var(--line);
+  }
+  .dodont .do{background:#f4faf2; border-color:#d7ead0;}
+  .dodont .dont{background:#fdf4f2; border-color:#f4d9d1;}
+  .dodont h3{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin:0 0 14px;
+  }
+  .dodont .do h3{color:#3f7d2c;}
+  .dodont .dont h3{color:#c1492c;}
+  .dodont ul{margin:0; padding:0; list-style:none;}
+  .dodont li{
+    font-size:13.5px;
+    line-height:1.5;
+    color:var(--ink-700);
+    padding:8px 0;
+    display:flex;
+    gap:9px;
+  }
+  .dodont li::before{flex-shrink:0; margin-top:1px; font-family:var(--mono); font-size:12px;}
+  .dodont .do li::before{content:"+"; color:#3f7d2c;}
+  .dodont .dont li::before{content:"–"; color:#c1492c;}
+
+  /* ---------- flow strip ---------- */
+  .flow{
+    margin:0 0 0;
+    border:1px solid var(--line);
+    background:var(--panel);
+    border-radius:14px;
+    padding:28px 28px 24px;
+  }
+  .flow-label{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--ink-500);
+    margin-bottom:18px;
+  }
+  .flow-steps{
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:0;
+    position:relative;
+  }
+  @media (max-width:800px){
+    .flow-steps{grid-template-columns:1fr; gap:18px;}
+  }
+  .flow-step{
+    position:relative;
+    padding-right:18px;
+  }
+  .flow-step:not(:last-child)::after{
+    content:"→";
+    position:absolute;
+    right:-6px;
+    top:2px;
+    color:var(--ink-300);
+    font-size:14px;
+  }
+  @media (max-width:800px){
+    .flow-step:not(:last-child)::after{content:"↓"; right:auto; left:0; top:auto; bottom:-16px;}
+  }
+  .flow-num{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--accent);
+    margin-bottom:6px;
+  }
+  .flow-step p{
+    font-size:13px;
+    line-height:1.45;
+    color:var(--ink-700);
+    margin:0;
+    max-width:22ch;
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    margin-top:40px;
+    padding-top:28px;
+    font-size:12.5px;
+    color:var(--ink-300);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Prompts DS</a>
+      <span>/</span>
+      <span class="current">Naming de pantallas</span>
+    </div>
+    <div class="switcher">
+      <a href="componentes.html">Componentes</a>
+      <a href="naming.html" class="active">Naming pantallas</a>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- ================= NAV ================= -->
+  <nav class="nav" aria-label="Navegación del documento">
+    <div class="nav-brand">cencoPrime · cencoPrime black</div>
+    <h2 class="nav-title">Naming de<br>pantallas <em>·</em> DS</h2>
+
+    <div class="nav-section-label">Configuración</div>
+    <a class="navlink" href="#config-proyecto"><span class="tag">01</span> Contexto del proyecto</a>
+    <a class="navlink" href="#modo-naming"><span class="tag">02</span> Modo naming</a>
+    <a class="navlink" href="#chat-exclusivo"><span class="tag">03</span> Chat exclusivo</a>
+
+    <div class="nav-section-label">La nomenclatura</div>
+    <a class="navlink" href="#estructura"><span class="tag">04</span> Estructura del nombre</a>
+    <a class="navlink" href="#reglas-escritura"><span class="tag">05</span> Reglas de escritura</a>
+
+    <div class="nav-section-label">Uso diario</div>
+    <a class="navlink" href="#pedir-naming"><span class="tag">06</span> Pedir naming</a>
+    <a class="navlink" href="#ajustar"><span class="tag">07</span> Ajustar naming</a>
+
+    <div class="nav-section-label">Calidad</div>
+    <a class="navlink" href="#checklist"><span class="tag">08</span> Checklist revisión</a>
+    <a class="navlink" href="#buenas-practicas"><span class="tag">09</span> Buenas prácticas</a>
+  </nav>
+
+  <!-- ================= MAIN ================= -->
+  <main>
+
+    <div class="hero">
+      <div class="hero-eyebrow">Instructivo de equipo · Editable</div>
+      <h1>Una sola regla para nombrar cada pantalla del archivo.</h1>
+      <p class="hero-lede">
+        Este mapa traduce el instructivo de naming en prompts listos para copiar a Claude. Sirve para
+        dejar la regla de nomenclatura configurada una sola vez, abrir un chat exclusivo para renombrar,
+        y pedir correcciones sin repetir contexto en cada mensaje.
+      </p>
+      <div class="hero-meta">
+        <span class="pill">Design System <b>cencoPrime</b></span>
+        <span class="pill">Herramienta <b>Claude + Figma</b></span>
+        <span class="pill">Formato <b>snake_case</b></span>
+        <span class="pill">9 bloques de prompts</span>
+      </div>
+    </div>
+
+    <div class="syntax" aria-label="Estructura de la nomenclatura">
+      <div class="syntax-label">La nomenclatura</div>
+      <div class="syntax-pattern">
+        <span class="seg seg-proyecto">proyecto</span><span class="slash">/</span><span class="seg seg-dispositivo">dispositivo</span><span class="slash">/</span><span class="seg seg-flujo">flujo</span><span class="slash">/</span><span class="seg seg-pantalla">pantalla_o_estado</span><span class="slash">/</span><span class="seg seg-foco">foco_ajuste</span>
+      </div>
+      <div class="syntax-legend">
+        <div class="legend-item legend-proyecto">
+          <div class="lname">proyecto</div>
+          <div class="ldesc">Marca o iniciativa. Ej: cencoprimeblack</div>
+        </div>
+        <div class="legend-item legend-dispositivo">
+          <div class="lname">dispositivo</div>
+          <div class="ldesc">Formato de pantalla. Ej: desktop / mobile</div>
+        </div>
+        <div class="legend-item legend-flujo">
+          <div class="lname">flujo</div>
+          <div class="ldesc">Flujo principal. Ej: gestion_cuenta</div>
+        </div>
+        <div class="legend-item legend-pantalla">
+          <div class="lname">pantalla_o_estado</div>
+          <div class="ldesc">Pantalla, paso o estado. Ej: skeleton / error</div>
+        </div>
+        <div class="legend-item legend-foco">
+          <div class="lname">foco_ajuste</div>
+          <div class="ldesc">Contexto específico. Ej: carga_inicial</div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="flow" aria-label="Flujo de trabajo recomendado">
+      <div class="flow-label">Flujo recomendado</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-num">01</div>
+          <p>Configurar el proyecto una sola vez con el modo naming.</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">02</div>
+          <p>Abrir el chat <em>"Naming pantallas DS"</em> dentro del proyecto.</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">03</div>
+          <p>Entregar link de Figma + proyecto + dispositivo + flujo.</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">04</div>
+          <p>Revisar consistencia con el checklist.</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">05</div>
+          <p>Pedir corrección sobre el mismo link si algo queda mal.</p>
+        </div>
+      </div>
+    </div>
+
+    <br><br>
+
+    <!-- ============ 01 CONFIG PROYECTO ============ -->
+    <section class="block" id="config-proyecto">
+      <div class="block-head">
+        <span class="block-num">01</span>
+        <h2>Contexto general del proyecto</h2>
+      </div>
+      <p class="block-sub">
+        El naming usa el mismo proyecto de Claude que ya tiene cargado el contexto del Design System,
+        flujos, marca y forma de trabajo. No se crea un proyecto nuevo: se agrega una regla adicional
+        sobre el que ya existe.
+      </p>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Qué debe tener el proyecto</div>
+          <div class="promptcard-where">Instrucciones del proyecto</div>
+        </div>
+        <div class="promptbody">
+          <pre>El proyecto debe contener: contexto del Design System, flujos del producto, lineamientos de marca y la forma de trabajo del equipo. El modo de naming (bloque 02) se agrega como una regla adicional, no como un proyecto nuevo.</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 02 MODO NAMING ============ -->
+    <section class="block" id="modo-naming">
+      <div class="block-head">
+        <span class="block-num">02</span>
+        <h2>Modo naming de pantallas</h2>
+      </div>
+      <p class="block-sub">
+        Este bloque se agrega al final de las instrucciones del proyecto. Define la nomenclatura y le
+        dice a Claude que trabaje solo sobre el link indicado, sin tocar diseño ni contenido visual.
+      </p>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Bloque para instrucciones del proyecto</div>
+          <div class="promptcard-where">Instrucciones del proyecto · pegar al final</div>
+        </div>
+        <div class="promptbody">
+          <pre>Modo naming de pantallas en Figma:
+
+Cuando pida nombrar pantallas y entregue un link de Figma, renombrar directamente los frames/pantallas del link indicado.
+
+Aplicar esta nomenclatura:
+
+proyecto/dispositivo/flujo/pantalla_o_estado/foco_ajuste
+
+Reglas:
+- Trabajar solo sobre el link, frame o sección indicada.
+- No cambiar diseño, componentes ni contenido visual.
+- No leer todo el archivo si no es necesario.
+- Usar nombres claros, entendibles y orientados al flujo.
+- No usar nombres técnicos tipo node_123.
+- Usar minúsculas, sin tildes y con snake_case.
+- Mantener consistencia entre pantallas del mismo flujo.
+- Si falta contexto, inferir el nombre más claro según la pantalla.
+
+Ejemplo:
+cencoprimeblack/desktop/gestion_cuenta/skeleton/carga_inicial
+
+No hacer explicación larga. Priorizar renombrar en Figma.</pre>
+        </div>
+        <div class="promptcard-foot">Se pega <b>una sola vez</b>, al final de las instrucciones del proyecto. No se repite en los chats.</div>
+      </div>
+    </section>
+
+    <!-- ============ 03 CHAT EXCLUSIVO ============ -->
+    <section class="block" id="chat-exclusivo">
+      <div class="block-head">
+        <span class="block-num">03</span>
+        <h2>Chat exclusivo para naming</h2>
+      </div>
+      <p class="block-sub">
+        Igual que con componentes, conviene un chat dedicado para no mezclar tareas y mantener el
+        contexto liviano.
+      </p>
+
+      <div class="twocol">
+        <div class="promptcard">
+          <div class="promptcard-head">
+            <div class="promptcard-title"><span class="dot"></span>Nombre del chat</div>
+            <div class="promptcard-where">Título de la conversación</div>
+          </div>
+          <div class="promptbody">
+            <pre>Naming pantallas DS</pre>
+          </div>
+        </div>
+
+        <div class="promptcard">
+          <div class="promptcard-head">
+            <div class="promptcard-title"><span class="dot"></span>Primer mensaje del chat</div>
+            <div class="promptcard-where">Primer mensaje, una sola vez</div>
+          </div>
+          <div class="promptbody">
+            <pre>Este chat será solo para nombrar pantallas en Figma.
+
+Usa las instrucciones del proyecto y aplica la nomenclatura definida:
+
+proyecto/dispositivo/flujo/pantalla_o_estado/foco_ajuste
+
+Cuando entregue un link de Figma, proyecto, dispositivo y flujo, renombra directamente los frames/pantallas del link indicado.
+
+No cambies diseño, componentes ni contenido visual. Solo renombra pantallas.</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04 ESTRUCTURA ============ -->
+    <section class="block" id="estructura">
+      <div class="block-head">
+        <span class="block-num">04</span>
+        <h2>Estructura del nombre</h2>
+      </div>
+      <p class="block-sub">
+        Cada nivel del nombre tiene un rol específico. Esta tabla sirve de referencia rápida al armar
+        o revisar un nombre.
+      </p>
+
+      <table class="ptable">
+        <thead>
+          <tr><th>Campo</th><th>Qué indica</th><th>Ejemplo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>proyecto</td><td>Marca o iniciativa</td><td><code>cencoprimeblack</code></td></tr>
+          <tr><td>dispositivo</td><td>Formato de pantalla</td><td><code>desktop</code> / <code>mobile</code></td></tr>
+          <tr><td>flujo</td><td>Flujo principal</td><td><code>gestion_cuenta</code></td></tr>
+          <tr><td>pantalla_o_estado</td><td>Pantalla, paso o estado</td><td><code>skeleton</code> / <code>error</code> / <code>detalle</code></td></tr>
+          <tr><td>foco_ajuste</td><td>Contexto específico del ajuste</td><td><code>carga_inicial</code> / <code>usuario_inactivo</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Ejemplo de nombre completo</div>
+          <div class="promptcard-where">Referencia</div>
+        </div>
+        <div class="promptbody">
+          <pre>cencoprimeblack/desktop/gestion_cuenta/skeleton/carga_inicial</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 05 REGLAS DE ESCRITURA ============ -->
+    <section class="block" id="reglas-escritura">
+      <div class="block-head">
+        <span class="block-num">05</span>
+        <h2>Reglas de escritura</h2>
+      </div>
+      <p class="block-sub">
+        Cinco reglas simples que mantienen consistencia entre pantallas, flujos y personas del equipo.
+      </p>
+
+      <table class="ptable">
+        <thead>
+          <tr><th>Regla</th><th>Ejemplo correcto</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Usar minúsculas</td><td><code>cencoprimeblack</code></td></tr>
+          <tr><td>No usar tildes</td><td><code>gestion_cuenta</code></td></tr>
+          <tr><td>Usar snake_case</td><td><code>usuario_inactivo</code></td></tr>
+          <tr><td>Separar niveles con <code>/</code></td><td><code>desktop/gestion_cuenta</code></td></tr>
+          <tr><td>Evitar nombres técnicos</td><td>No usar <code>node_123</code></td></tr>
+          <tr><td>Nombrar según flujo, pantalla y estado</td><td><code>login/error/otp_incorrecto</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ============ 06 PEDIR NAMING ============ -->
+    <section class="block" id="pedir-naming">
+      <div class="block-head">
+        <span class="block-num">06</span>
+        <h2>Pedir naming de pantallas</h2>
+      </div>
+      <p class="block-sub">
+        Este es el prompt de uso diario dentro del chat "Naming pantallas DS": link de Figma, proyecto,
+        dispositivo y flujo.
+      </p>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Plantilla para nombrar</div>
+          <div class="promptcard-where">Chat "Naming pantallas DS"</div>
+        </div>
+        <div class="promptbody">
+          <pre>Nombrar pantallas:
+
+Link:
+<span class="ph">[LINK FIGMA]</span>
+
+Proyecto:
+<span class="ph">[NOMBRE_PROYECTO]</span>
+
+Dispositivo:
+<span class="ph">[desktop/mobile]</span>
+
+Flujo:
+<span class="ph">[NOMBRE_FLUJO]</span></pre>
+        </div>
+        <div class="promptcard-foot">Reemplazar los textos en <b>naranjo</b> antes de enviar.</div>
+      </div>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Ejemplo aplicado</div>
+          <div class="promptcard-where">Referencia · flujo de sesión iniciada</div>
+        </div>
+        <div class="promptbody">
+          <pre><span class="com">Nombrar pantallas:</span>
+
+<span class="com">Link:</span>
+https://www.figma.com/design/0qTUFAaJz6Cr1NXohVvkkj/Sesi%C3%B3n-iniciada?node-id=132-45709&t=lFHnq2MZuDe6UrhR-4
+
+<span class="com">Proyecto:</span>
+cencoprimeblack
+
+<span class="com">Dispositivo:</span>
+desktop
+
+<span class="com">Flujo:</span>
+sesion_iniciada</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 07 AJUSTAR ============ -->
+    <section class="block" id="ajustar">
+      <div class="block-head">
+        <span class="block-num">07</span>
+        <h2>Ajustar naming que quedó mal</h2>
+      </div>
+      <p class="block-sub">
+        Si los nombres no respetan la estructura o no quedan claros, se pide corrección sobre el mismo
+        link, sin volver a explicar todo el contexto.
+      </p>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Prompt de ajuste</div>
+          <div class="promptcard-where">Chat "Naming pantallas DS" · sobre el link existente</div>
+        </div>
+        <div class="promptbody">
+          <pre>Ajustar naming de pantallas:
+
+Link:
+<span class="ph">[LINK FIGMA]</span>
+
+Corrige solo los nombres de los frames/pantallas del link indicado.
+
+Mantén la nomenclatura:
+proyecto/dispositivo/flujo/pantalla_o_estado/foco_ajuste
+
+No cambies diseño, componentes ni contenido visual.
+Usa minúsculas, sin tildes y con snake_case.</pre>
+        </div>
+        <div class="promptcard-foot">No es necesario volver a indicar proyecto, dispositivo o flujo si ya están bien en algunos frames; basta con apuntar al link.</div>
+      </div>
+    </section>
+
+    <!-- ============ 08 CHECKLIST ============ -->
+    <section class="block" id="checklist">
+      <div class="block-head">
+        <span class="block-num">08</span>
+        <h2>Checklist de revisión</h2>
+      </div>
+      <p class="block-sub">
+        Después de que Claude nombre las pantallas, esto se revisa manualmente antes de dar por
+        terminada la tarea.
+      </p>
+
+      <div class="checkgrid">
+        <div class="checkcard">
+          <h3>Estructura</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>El nombre sigue la estructura definida.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Tiene proyecto, dispositivo, flujo, pantalla/estado y foco.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Usa <code>/</code> para separar niveles.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Usa snake_case.</li>
+          </ul>
+        </div>
+        <div class="checkcard">
+          <h3>Claridad</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>El nombre se entiende sin abrir el frame.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>No usa nombres genéricos como "pantalla_1" o "final".</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>No usa nombres técnicos tipo node_123.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Se entiende el flujo al que pertenece.</li>
+          </ul>
+        </div>
+        <div class="checkcard">
+          <h3>Consistencia</h3>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Todas las pantallas del flujo tienen la misma lógica.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>El dispositivo está bien indicado.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>El proyecto está escrito igual en todos los frames.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Los estados se nombran de forma consistente.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 09 BUENAS PRACTICAS ============ -->
+    <section class="block" id="buenas-practicas">
+      <div class="block-head">
+        <span class="block-num">09</span>
+        <h2>Buenas prácticas para ahorrar tokens</h2>
+      </div>
+      <p class="block-sub">
+        Reglas simples para que el equipo trabaje rápido sin gastar contexto repitiendo lo que el
+        proyecto ya tiene configurado.
+      </p>
+
+      <div class="dodont">
+        <div class="col do">
+          <h3>Hacer</h3>
+          <ul>
+            <li>Usar un chat exclusivo para naming.</li>
+            <li>No repetir todo el contexto del DS en cada mensaje.</li>
+            <li>Entregar solo link, proyecto, dispositivo y flujo.</li>
+            <li>Usar nombres de flujo claros.</li>
+            <li>Pedir ajustes sobre el mismo link si algo queda mal.</li>
+          </ul>
+        </div>
+        <div class="col dont">
+          <h3>Evitar</h3>
+          <ul>
+            <li>Pedir "antes de comenzar dime lo que harás".</li>
+            <li>Pedir explicación larga.</li>
+            <li>Mandar links de todo el archivo si solo se debe trabajar una sección.</li>
+            <li>Mezclar naming, componentes, documentación y revisión UI en el mismo chat.</li>
+            <li>Usar nombres con tildes, mayúsculas o espacios.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Basado en el Instructivo de trabajo · Naming de pantallas con Claude + Figma.</span>
+      <span>cencoPrime / cencoPrime black</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  function escapeForClipboard(el){
+    const clone = el.cloneNode(true);
+    return clone.textContent;
+  }
+
+  document.querySelectorAll('.promptcard').forEach(function(card){
+    const pre = card.querySelector('pre');
+    if(!pre) return;
+    const head = card.querySelector('.promptcard-head');
+
+    const btn = document.createElement('button');
+    btn.className = 'copybtn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Copiar prompt');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copiar</span>';
+
+    btn.addEventListener('click', function(){
+      const text = escapeForClipboard(pre);
+      const finish = function(){
+        btn.classList.add('copied');
+        btn.querySelector('span').textContent = 'Copiado';
+        setTimeout(function(){
+          btn.classList.remove('copied');
+          btn.querySelector('span').textContent = 'Copiar';
+        }, 1600);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(finish).catch(function(){
+          fallbackCopy(text, finish);
+        });
+      } else {
+        fallbackCopy(text, finish);
+      }
+    });
+
+    head.appendChild(btn);
+  });
+
+  function fallbackCopy(text, cb){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    cb();
+  }
+</script>
+
+</body>
+</html>
