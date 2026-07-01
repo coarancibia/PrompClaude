@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude + Figma · Auditoría del Design System</title>
+<style>
+  :root{
+    --ink-900:#13151a;
+    --ink-700:#3a3d46;
+    --ink-500:#6b6f7a;
+    --ink-300:#a9adb8;
+    --paper:#f6f5f2;
+    --panel:#ffffff;
+    --line:#e3e1db;
+    --accent:#ff5a36;
+    --accent-dim:#ffe7de;
+    --code-bg:#1c1d22;
+    --code-text:#e9e8e4;
+    --code-accent:#ff8a65;
+    --mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --serif: "Fraunces", "Georgia", serif;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--paper);color:var(--ink-900);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+  @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+
+  /* topbar */
+  .topbar{border-bottom:1px solid var(--line);background:var(--panel);}
+  .topbar-inner{max-width:1320px;margin:0 auto;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  @media(max-width:600px){.topbar-inner{padding:14px 16px;}}
+  .breadcrumb{font-family:var(--mono);font-size:12.5px;color:var(--ink-500);display:flex;align-items:center;gap:8px;}
+  .breadcrumb a{color:var(--ink-500);text-decoration:none;}
+  .breadcrumb a:hover{color:var(--accent);}
+  .breadcrumb .current{color:var(--ink-900);font-weight:600;}
+  .switcher{display:flex;gap:8px;flex-wrap:wrap;}
+  .switcher a{font-family:var(--mono);font-size:12px;padding:6px 12px;border-radius:99px;text-decoration:none;color:var(--ink-500);border:1px solid var(--line);transition:all .15s ease;}
+  .switcher a:hover{border-color:var(--accent);color:var(--accent);}
+  .switcher a.active{background:var(--ink-900);color:#fff;border-color:var(--ink-900);}
+
+  /* shell */
+  .shell{display:grid;grid-template-columns:272px 1fr;max-width:1320px;margin:0 auto;}
+  @media(max-width:960px){.shell{grid-template-columns:1fr;}}
+
+  /* nav */
+  .nav{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;padding:32px 20px 32px 0;border-right:1px solid var(--line);}
+  @media(max-width:960px){.nav{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--line);padding:24px 24px 16px;}}
+  .nav-brand{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-500);margin-bottom:4px;}
+  .nav-title{font-family:var(--serif);font-size:21px;line-height:1.2;margin:0 0 24px;font-weight:600;}
+  .nav-title em{color:var(--accent);font-style:normal;}
+  .nav-section-label{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-300);margin:20px 0 8px;}
+  .nav a.navlink{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--ink-700);font-size:13.5px;padding:7px 0;transition:color .15s ease;}
+  .nav a.navlink:hover{color:var(--accent);}
+  .nav a.navlink .tag{font-family:var(--mono);font-size:10.5px;color:var(--ink-300);flex-shrink:0;width:20px;}
+
+  /* main */
+  main{padding:56px 48px 100px;}
+  @media(max-width:960px){main{padding:36px 22px 80px;}}
+  @media(max-width:600px){main{padding:28px 16px 64px;}}
+
+  /* hero */
+  .hero{margin-bottom:64px;}
+  .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .hero-eyebrow::before{content:"";width:7px;height:7px;background:var(--accent);border-radius:50%;display:inline-block;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(34px,4.6vw,54px);line-height:1.05;letter-spacing:-.01em;margin:0 0 20px;max-width:15ch;}
+  .hero-lede{font-size:16.5px;line-height:1.6;color:var(--ink-700);max-width:640px;margin:0 0 28px;}
+  .hero-meta{display:flex;flex-wrap:wrap;gap:10px;}
+  .pill{font-family:var(--mono);font-size:11.5px;padding:6px 12px;border:1px solid var(--line);border-radius:99px;color:var(--ink-500);background:var(--panel);}
+  .pill b{color:var(--ink-900);font-weight:600;}
+
+  /* priority strip */
+  .pstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:72px;}
+  @media(max-width:760px){.pstrip{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:460px){.pstrip{grid-template-columns:1fr;}}
+  .pcard{border-radius:12px;padding:18px 18px 14px;border-left:4px solid;}
+  .pcard.critico{background:#fdf2f2;border-color:#d93025;}
+  .pcard.alto{background:#fdf6ed;border-color:#e67e22;}
+  .pcard.medio{background:#f4faf2;border-color:#2e7d32;}
+  .pcard.bajo{background:#f0f4ff;border-color:#1565c0;}
+  .pcard-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin-bottom:6px;}
+  .pcard.critico .pcard-label{color:#d93025;}
+  .pcard.alto .pcard-label{color:#e67e22;}
+  .pcard.medio .pcard-label{color:#2e7d32;}
+  .pcard.bajo .pcard-label{color:#1565c0;}
+  .pcard p{font-size:13px;line-height:1.45;color:var(--ink-700);margin:0;}
+
+  /* flow */
+  .flow{margin:0 0 72px;border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:28px 28px 24px;}
+  .flow-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-500);margin-bottom:18px;}
+  .flow-steps{display:grid;grid-template-columns:repeat(7,1fr);gap:0;position:relative;}
+  @media(max-width:960px){.flow-steps{grid-template-columns:1fr;gap:18px;}}
+  .flow-step{position:relative;padding-right:14px;}
+  .flow-step:not(:last-child)::after{content:"→";position:absolute;right:-4px;top:2px;color:var(--ink-300);font-size:14px;}
+  @media(max-width:960px){.flow-step:not(:last-child)::after{content:"↓";right:auto;left:0;top:auto;bottom:-16px;}}
+  .flow-num{font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:6px;}
+  .flow-step p{font-size:12.5px;line-height:1.4;color:var(--ink-700);margin:0;}
+
+  /* section */
+  section.block{margin-bottom:80px;scroll-margin-top:24px;}
+  .block-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;flex-wrap:wrap;}
+  .block-num{font-family:var(--mono);font-size:13px;color:var(--accent);}
+  h2{font-family:var(--serif);font-size:26px;font-weight:600;margin:0;letter-spacing:-.01em;}
+  .block-sub{color:var(--ink-500);font-size:14.5px;line-height:1.55;max-width:680px;margin:10px 0 28px;}
+
+  /* prompt card */
+  .promptcard{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden;margin-bottom:22px;}
+  .promptcard-head{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid var(--line);background:#fbfaf8;}
+  .promptcard-title{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--ink-900);}
+  .promptcard-title .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+  .promptcard-where{font-family:var(--mono);font-size:11px;color:var(--ink-500);background:var(--accent-dim);padding:3px 9px;border-radius:99px;white-space:nowrap;}
+  .copybtn{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11.5px;color:var(--ink-700);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;transition:all .15s ease;flex-shrink:0;}
+  .copybtn:hover{border-color:var(--accent);color:var(--accent);}
+  .copybtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .copybtn.copied{background:var(--ink-900);color:#fff;border-color:var(--ink-900);}
+  .copybtn svg{width:13px;height:13px;flex-shrink:0;}
+  .promptbody{background:var(--code-bg);}
+  .promptbody pre{margin:0;padding:22px 24px;font-family:var(--mono);font-size:12.8px;line-height:1.65;color:var(--code-text);white-space:pre-wrap;word-break:break-word;max-height:420px;overflow-y:auto;}
+  .promptbody pre::-webkit-scrollbar{width:8px;}
+  .promptbody pre::-webkit-scrollbar-thumb{background:#3a3b42;border-radius:8px;}
+  .promptbody .ph{color:var(--code-accent);font-weight:600;}
+  .promptbody .com{color:#7a7d88;}
+  .promptcard-foot{padding:13px 20px;font-size:12.5px;color:var(--ink-500);border-top:1px solid var(--line);background:#fbfaf8;line-height:1.5;}
+  .promptcard-foot b{color:var(--ink-700);}
+
+  /* twocol */
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:760px){.twocol{grid-template-columns:1fr;}}
+
+  /* review grid */
+  .reviewgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media(max-width:900px){.reviewgrid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:560px){.reviewgrid{grid-template-columns:1fr;}}
+  .reviewcard{border:1px solid var(--line);border-radius:12px;padding:20px 20px 8px;background:var(--panel);}
+  .reviewcard h3{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 14px;}
+  .reviewcard ul{list-style:none;margin:0;padding:0;}
+  .reviewcard li{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.5;color:var(--ink-700);padding:8px 0;border-top:1px solid var(--line);}
+  .reviewcard li:first-child{border-top:none;}
+  .reviewcard li::before{content:"·";color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px;}
+
+  /* priority table */
+  .ptable{width:100%;border-collapse:collapse;font-size:13.5px;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:18px;}
+  .ptable th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-500);background:#fbfaf8;padding:12px 18px;border-bottom:1px solid var(--line);}
+  .ptable td{padding:13px 18px;border-bottom:1px solid var(--line);color:var(--ink-700);line-height:1.45;vertical-align:top;}
+  .ptable tr:last-child td{border-bottom:none;}
+  .ptable td:first-child{width:12%;}
+  .badge{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:6px;}
+  .badge.critico{background:#fdf2f2;color:#d93025;}
+  .badge.alto{background:#fdf6ed;color:#e67e22;}
+  .badge.medio{background:#f4faf2;color:#2e7d32;}
+  .badge.bajo{background:#f0f4ff;color:#1565c0;}
+
+  /* do dont */
+  .dodont{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:760px){.dodont{grid-template-columns:1fr;}}
+  .dodont .col{border-radius:12px;padding:22px 22px 14px;border:1px solid var(--line);}
+  .dodont .do{background:#f4faf2;border-color:#d7ead0;}
+  .dodont .dont{background:#fdf4f2;border-color:#f4d9d1;}
+  .dodont h3{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 14px;}
+  .dodont .do h3{color:#3f7d2c;}
+  .dodont .dont h3{color:#c1492c;}
+  .dodont ul{margin:0;padding:0;list-style:none;}
+  .dodont li{font-size:13.5px;line-height:1.5;color:var(--ink-700);padding:8px 0;display:flex;gap:9px;}
+  .dodont li::before{flex-shrink:0;margin-top:1px;font-family:var(--mono);font-size:12px;}
+  .dodont .do li::before{content:"+";color:#3f7d2c;}
+  .dodont .dont li::before{content:"–";color:#c1492c;}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);margin-top:40px;padding-top:28px;font-size:12.5px;color:var(--ink-300);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Prompts DS</a>
+      <span>/</span>
+      <span class="current">Auditoría DS</span>
+    </div>
+    <div class="switcher">
+      <a href="componentes.html">Componentes</a>
+      <a href="naming.html">Naming pantallas</a>
+      <a href="auditoria.html" class="active">Auditoría DS</a>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <nav class="nav" aria-label="Navegación del documento">
+    <div class="nav-brand">cencoPrime · cencoPrime black</div>
+    <h2 class="nav-title">Auditoría<br><em>DS</em> · Figma</h2>
+
+    <div class="nav-section-label">Configuración</div>
+    <a class="navlink" href="#config-proyecto"><span class="tag">01</span> Modo auditoría</a>
+    <a class="navlink" href="#chat-exclusivo"><span class="tag">02</span> Chat exclusivo</a>
+
+    <div class="nav-section-label">Uso diario</div>
+    <a class="navlink" href="#pedir-auditoria"><span class="tag">03</span> Pedir auditoría</a>
+    <a class="navlink" href="#corregir"><span class="tag">04</span> Corregir hallazgos</a>
+
+    <div class="nav-section-label">Referencia</div>
+    <a class="navlink" href="#que-revisa"><span class="tag">05</span> Qué revisa Claude</a>
+    <a class="navlink" href="#formato"><span class="tag">06</span> Formato de entrega</a>
+    <a class="navlink" href="#prioridades"><span class="tag">07</span> Criterios de prioridad</a>
+
+    <div class="nav-section-label">Calidad</div>
+    <a class="navlink" href="#buenas-practicas"><span class="tag">08</span> Buenas prácticas</a>
+  </nav>
+
+  <main>
+
+    <div class="hero">
+      <div class="hero-eyebrow">Instructivo de equipo · Editable</div>
+      <h1>Detectar inconsistencias antes de que lleguen a producción.</h1>
+      <p class="hero-lede">
+        Este mapa traduce el instructivo de auditoría en prompts listos para copiar a Claude. Sirve para
+        revisar si las pantallas están correctamente construidas con DS Tokens y DS Components, y levantar
+        hallazgos priorizados y accionables para mejorar consistencia, accesibilidad y handoff.
+      </p>
+      <div class="hero-meta">
+        <span class="pill">Design System <b>cencoPrime</b></span>
+        <span class="pill">Herramienta <b>Claude + Figma</b></span>
+        <span class="pill">Accesibilidad <b>AA</b></span>
+        <span class="pill">8 bloques de prompts</span>
+      </div>
+    </div>
+
+    <div class="pstrip">
+      <div class="pcard critico">
+        <div class="pcard-label">Crítico</div>
+        <p>Rompe el DS, afecta accesibilidad, desarrollo o la experiencia principal.</p>
+      </div>
+      <div class="pcard alto">
+        <div class="pcard-label">Alto</div>
+        <p>Genera inconsistencia importante o afecta responsive y handoff.</p>
+      </div>
+      <div class="pcard medio">
+        <div class="pcard-label">Medio</div>
+        <p>Mejora relevante que no bloquea el flujo.</p>
+      </div>
+      <div class="pcard bajo">
+        <div class="pcard-label">Bajo</div>
+        <p>Ajuste menor de orden, naming, limpieza o consistencia visual.</p>
+      </div>
+    </div>
+
+    <div class="flow">
+      <div class="flow-label">Flujo recomendado</div>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-num">01</div><p>Crear chat "Auditoría DS Figma" en el proyecto.</p></div>
+        <div class="flow-step"><div class="flow-num">02</div><p>Entregar link + proyecto + dispositivo + flujo.</p></div>
+        <div class="flow-step"><div class="flow-num">03</div><p>Claude audita el frame o sección indicada.</p></div>
+        <div class="flow-step"><div class="flow-num">04</div><p>Equipo revisa hallazgos priorizados.</p></div>
+        <div class="flow-step"><div class="flow-num">05</div><p>Se decide qué corregir.</p></div>
+        <div class="flow-step"><div class="flow-num">06</div><p>Se pide corrección de los hallazgos necesarios.</p></div>
+        <div class="flow-step"><div class="flow-num">07</div><p>Se valida nuevamente el uso del DS.</p></div>
+      </div>
+    </div>
+
+    <br><br>
+
+    <!-- 01 MODO AUDITORÍA -->
+    <section class="block" id="config-proyecto">
+      <div class="block-head"><span class="block-num">01</span><h2>Modo auditoría del DS</h2></div>
+      <p class="block-sub">Este bloque se agrega al final de las instrucciones del proyecto. Define qué debe revisar Claude, cómo debe entregar los hallazgos y qué no debe tocar.</p>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Bloque para instrucciones del proyecto</div>
+          <div class="promptcard-where">Instrucciones del proyecto · pegar al final</div>
+        </div>
+        <div class="promptbody">
+          <pre>Modo auditoría de uso del DS en Figma:
+
+Cuando pida auditar un Figma y entregue un link, revisar si las pantallas están usando correctamente el DS Tokens y DS Components existentes.
+
+Objetivo:
+Detectar si el diseño está bien construido según el Design System o si existen inconsistencias, componentes duplicados, estilos manuales, tokens mal aplicados, problemas de accesibilidad, responsive o layout.
+
+Revisar principalmente:
+- Uso correcto de componentes existentes del DS.
+- Componentes creados manualmente cuando ya existe uno en la librería.
+- Instancias detachadas o modificadas fuera de la lógica del componente.
+- Variantes/properties mal usadas.
+- Colores hardcodeados en vez de tokens.
+- Tipografías fuera del DS.
+- Spacing, padding, gap, radius y tamaños fuera de tokens.
+- Estados faltantes o mal aplicados: default, hover, pressed, focus, disabled, error, selected, loading, empty.
+- Auto layout, constraints, Hug contents y Fill container.
+- Responsive y adaptación al contenedor.
+- Accesibilidad AA: contraste, legibilidad, tamaño táctil, jerarquía visual y foco visible.
+- Naming de frames, componentes o capas si afecta la claridad del handoff.
+
+Reglas de trabajo:
+- Trabajar solo sobre el link, frame o sección indicada.
+- No modificar diseño, componentes ni contenido visual, salvo que se pida explícitamente.
+- No leer todo el archivo si no es necesario.
+- Comparar contra DS Tokens y DS Components como fuente de verdad.
+- Si existe un componente del DS que debería usarse, indicarlo.
+- Si falta una regla, token o componente en el DS, marcarlo como "pendiente de definición".
+- No hacer una explicación larga. Entregar hallazgos claros, accionables y priorizados.
+
+Formato de entrega:
+- Resumen general del estado del uso del DS.
+- Hallazgos por prioridad: crítico, alto, medio, bajo.
+- Para cada hallazgo indicar:
+  - Pantalla o sección.
+  - Problema detectado.
+  - Impacto en experiencia, consistencia, accesibilidad o desarrollo.
+  - Recomendación concreta.
+  - Componente/token del DS que debería usarse, si aplica.</pre>
+        </div>
+        <div class="promptcard-foot">Se pega <b>una sola vez</b> al final de las instrucciones del proyecto.</div>
+      </div>
+    </section>
+
+    <!-- 02 CHAT EXCLUSIVO -->
+    <section class="block" id="chat-exclusivo">
+      <div class="block-head"><span class="block-num">02</span><h2>Chat exclusivo para auditorías</h2></div>
+      <p class="block-sub">Un chat dedicado por flujo auditado para mantener el contexto limpio y no mezclar con creación de componentes ni naming.</p>
+
+      <div class="twocol">
+        <div class="promptcard">
+          <div class="promptcard-head">
+            <div class="promptcard-title"><span class="dot"></span>Nombre del chat</div>
+            <div class="promptcard-where">Título de la conversación</div>
+          </div>
+          <div class="promptbody"><pre>Auditoría DS Figma</pre></div>
+        </div>
+
+        <div class="promptcard">
+          <div class="promptcard-head">
+            <div class="promptcard-title"><span class="dot"></span>Primer mensaje del chat</div>
+            <div class="promptcard-where">Primer mensaje · una sola vez</div>
+          </div>
+          <div class="promptbody">
+            <pre>Este chat será solo para auditar el uso del Design System en Figma.
+
+Usa las instrucciones del proyecto y revisa si las pantallas están correctamente construidas con los DS Tokens y DS Components existentes.
+
+Cuando entregue un link de Figma, revisa solo el frame, sección o flujo indicado.
+
+No modifiques diseño, componentes ni contenido visual. Solo audita.
+
+Entrega hallazgos claros, priorizados y accionables, indicando problema, impacto y recomendación concreta.</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 PEDIR AUDITORÍA -->
+    <section class="block" id="pedir-auditoria">
+      <div class="block-head"><span class="block-num">03</span><h2>Pedir una auditoría</h2></div>
+      <p class="block-sub">Prompt de uso diario. Solo link, proyecto, dispositivo y flujo. Claude hace el resto con el contexto del proyecto.</p>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Plantilla para auditar</div>
+          <div class="promptcard-where">Chat "Auditoría DS Figma"</div>
+        </div>
+        <div class="promptbody">
+          <pre>Auditar uso del DS en Figma:
+
+Link:
+<span class="ph">[LINK FIGMA]</span>
+
+Proyecto:
+<span class="ph">[NOMBRE PROYECTO]</span>
+
+Dispositivo:
+<span class="ph">[desktop/mobile/tablet]</span>
+
+Flujo:
+<span class="ph">[NOMBRE FLUJO]</span>
+
+Revisar si las pantallas usan correctamente DS Tokens y DS Components existentes.
+
+No modificar diseño. Solo auditar.
+
+Entregar hallazgos priorizados con:
+- Pantalla/sección
+- Problema detectado
+- Impacto
+- Recomendación concreta
+- Componente/token DS sugerido si aplica</pre>
+        </div>
+        <div class="promptcard-foot">Reemplazar los textos en <b>naranjo</b> antes de enviar. Auditar por sección o flujo, no el archivo completo.</div>
+      </div>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Ejemplo aplicado</div>
+          <div class="promptcard-where">Referencia · flujo sesión iniciada</div>
+        </div>
+        <div class="promptbody">
+          <pre><span class="com">Auditar uso del DS en Figma:</span>
+
+<span class="com">Link:</span>
+https://www.figma.com/design/0qTUFAaJz6Cr1NXohVvkkj/Sesi%C3%B3n-iniciada?node-id=132-45709
+
+<span class="com">Proyecto:</span>
+cencoprimeblack
+
+<span class="com">Dispositivo:</span>
+desktop
+
+<span class="com">Flujo:</span>
+sesion_iniciada
+
+Revisar si las pantallas usan correctamente DS Tokens y DS Components existentes.
+
+No modificar diseño. Solo auditar.
+
+Entregar hallazgos priorizados con:
+- Pantalla/sección
+- Problema detectado
+- Impacto
+- Recomendación concreta
+- Componente/token DS sugerido si aplica</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 CORREGIR -->
+    <section class="block" id="corregir">
+      <div class="block-head"><span class="block-num">04</span><h2>Corregir hallazgos después de auditar</h2></div>
+      <p class="block-sub">Primero se audita, el equipo decide qué corregir, y después se pide la corrección. No mezclar ambas tareas en el mismo mensaje.</p>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Prompt de corrección</div>
+          <div class="promptcard-where">Chat "Auditoría DS Figma" · después de revisar hallazgos</div>
+        </div>
+        <div class="promptbody">
+          <pre>Corregir hallazgos de la auditoría DS:
+
+Link:
+<span class="ph">[LINK FIGMA]</span>
+
+Corregir solo los hallazgos de prioridad:
+<span class="ph">[crítico/alto/medio/bajo]</span>
+
+Usar DS Tokens y DS Components existentes.
+
+No rediseñar el flujo. Solo ajustar inconsistencias detectadas en la auditoría.</pre>
+        </div>
+        <div class="promptcard-foot">La segunda línea es la única que cambia. Se puede pedir corrección de una o varias prioridades a la vez.</div>
+      </div>
+    </section>
+
+    <!-- 05 QUÉ REVISA -->
+    <section class="block" id="que-revisa">
+      <div class="block-head"><span class="block-num">05</span><h2>Qué revisa Claude en una auditoría</h2></div>
+      <p class="block-sub">Esta es la lista completa de lo que Claude chequea, organizada por área. Sirve como referencia para saber qué esperar de la auditoría.</p>
+
+      <div class="reviewgrid">
+        <div class="reviewcard">
+          <h3>Componentes</h3>
+          <ul>
+            <li>Componentes existentes del DS bien usados.</li>
+            <li>Elementos manuales que deberían ser componentes.</li>
+            <li>Componentes duplicados.</li>
+            <li>Instancias detachadas sin justificación.</li>
+            <li>Variantes/properties bien utilizadas.</li>
+            <li>Estados faltantes del componente.</li>
+          </ul>
+        </div>
+        <div class="reviewcard">
+          <h3>Tokens</h3>
+          <ul>
+            <li>Colores aplicados desde tokens (no hardcodeados).</li>
+            <li>Tipografía del DS.</li>
+            <li>Spacing, padding y gap con tokens.</li>
+            <li>Radius correcto.</li>
+            <li>Overlays según el DS.</li>
+            <li>Tamaños de íconos y jerarquía visual.</li>
+          </ul>
+        </div>
+        <div class="reviewcard">
+          <h3>Layout y responsive</h3>
+          <ul>
+            <li>Auto Layout correcto.</li>
+            <li>Hug contents y Fill container bien usados.</li>
+            <li>Constraints configurados.</li>
+            <li>Elementos dentro del frame.</li>
+            <li>Comportamiento responsive correcto.</li>
+            <li>Sin anchos fijos innecesarios.</li>
+          </ul>
+        </div>
+        <div class="reviewcard">
+          <h3>Accesibilidad AA</h3>
+          <ul>
+            <li>Contraste mínimo AA.</li>
+            <li>Legibilidad del texto.</li>
+            <li>Tamaños táctiles adecuados.</li>
+            <li>Foco visible.</li>
+            <li>Jerarquía de información clara.</li>
+            <li>Estados de error no dependen solo del color.</li>
+          </ul>
+        </div>
+        <div class="reviewcard">
+          <h3>Handoff</h3>
+          <ul>
+            <li>Nombres claros de frames y capas.</li>
+            <li>Capas entendibles para desarrollo.</li>
+            <li>Frames ordenados.</li>
+            <li>Componentes fáciles de identificar.</li>
+            <li>Nomenclatura consistente si aplica.</li>
+          </ul>
+        </div>
+        <div class="reviewcard">
+          <h3>Estados visuales</h3>
+          <ul>
+            <li>Default, hover, pressed, focus.</li>
+            <li>Disabled, error, selected.</li>
+            <li>Loading y empty states.</li>
+            <li>Todos los estados necesarios presentes.</li>
+            <li>Estados aplicados de forma consistente.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 FORMATO -->
+    <section class="block" id="formato">
+      <div class="block-head"><span class="block-num">06</span><h2>Formato esperado de la auditoría</h2></div>
+      <p class="block-sub">Así debe venir la respuesta de Claude. Sirve como referencia para saber si la entrega está completa o para pedirle que lo reformatee.</p>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Estructura de respuesta esperada</div>
+          <div class="promptcard-where">Referencia de formato</div>
+        </div>
+        <div class="promptbody">
+          <pre><span class="com">Resumen general:</span>
+[Breve diagnóstico del uso del DS en el flujo revisado]
+
+<span class="com">Hallazgos críticos:</span>
+1. Pantalla/sección:
+   Problema:
+   Impacto:
+   Recomendación:
+   Componente/token DS sugerido:
+
+<span class="com">Hallazgos altos:</span>
+1. Pantalla/sección:
+   Problema:
+   Impacto:
+   Recomendación:
+   Componente/token DS sugerido:
+
+<span class="com">Hallazgos medios:</span>
+1. Pantalla/sección:
+   Problema:
+   Impacto:
+   Recomendación:
+   Componente/token DS sugerido:
+
+<span class="com">Hallazgos bajos:</span>
+1. Pantalla/sección:
+   Problema:
+   Impacto:
+   Recomendación:
+   Componente/token DS sugerido:
+
+<span class="com">Pendientes de definición:</span>
+- [Reglas, tokens o componentes que no existen en el DS y deben definirse]</pre>
+        </div>
+        <div class="promptcard-foot">Si Claude no entrega este formato, pegar este bloque al final del prompt de auditoría como referencia.</div>
+      </div>
+    </section>
+
+    <!-- 07 PRIORIDADES -->
+    <section class="block" id="prioridades">
+      <div class="block-head"><span class="block-num">07</span><h2>Criterios de prioridad</h2></div>
+      <p class="block-sub">Lógica que usa Claude para ordenar los hallazgos. Sirve también para que el equipo decida qué corregir primero.</p>
+
+      <table class="ptable">
+        <thead>
+          <tr><th>Prioridad</th><th>Cuándo usarla</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge critico">Crítico</span></td>
+            <td>Rompe el uso del DS, afecta accesibilidad, bloquea desarrollo o daña la experiencia principal.</td>
+          </tr>
+          <tr>
+            <td><span class="badge alto">Alto</span></td>
+            <td>Genera inconsistencia importante o puede afectar responsive y handoff.</td>
+          </tr>
+          <tr>
+            <td><span class="badge medio">Medio</span></td>
+            <td>Es una mejora relevante, pero no bloquea el flujo ni la experiencia principal.</td>
+          </tr>
+          <tr>
+            <td><span class="badge bajo">Bajo</span></td>
+            <td>Ajuste menor de orden, naming, limpieza o consistencia visual secundaria.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 08 BUENAS PRÁCTICAS -->
+    <section class="block" id="buenas-practicas">
+      <div class="block-head"><span class="block-num">08</span><h2>Buenas prácticas para ahorrar tokens</h2></div>
+      <p class="block-sub">Reglas para que el equipo trabaje rápido sin gastar contexto repitiendo lo que el proyecto ya tiene configurado.</p>
+
+      <div class="dodont">
+        <div class="col do">
+          <h3>Hacer</h3>
+          <ul>
+            <li>Usar un chat exclusivo para auditoría DS.</li>
+            <li>Entregar solo link, proyecto, dispositivo y flujo.</li>
+            <li>Pedir auditoría sobre un frame o sección específica.</li>
+            <li>Separar auditoría de corrección en mensajes distintos.</li>
+            <li>Pedir correcciones solo después de revisar los hallazgos.</li>
+            <li>Priorizar hallazgos accionables antes de pedir que corrija.</li>
+          </ul>
+        </div>
+        <div class="col dont">
+          <h3>Evitar</h3>
+          <ul>
+            <li>Mandar el archivo completo si solo se revisa una sección.</li>
+            <li>Pedir análisis muy largo o narrativo.</li>
+            <li>Mezclar auditoría con creación de componentes.</li>
+            <li>Mezclar auditoría con naming de pantallas.</li>
+            <li>Pedir que corrija mientras audita, salvo que sea necesario.</li>
+            <li>Repetir todo el contexto del DS si ya está en el proyecto.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Basado en el Instructivo de trabajo · Auditoría de uso del DS con Claude + Figma.</span>
+      <span>cencoPrime / cencoPrime black</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll('.promptcard').forEach(function(card){
+    const pre = card.querySelector('pre');
+    if(!pre) return;
+    const head = card.querySelector('.promptcard-head');
+    const btn = document.createElement('button');
+    btn.className = 'copybtn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label','Copiar prompt');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copiar</span>';
+    btn.addEventListener('click', function(){
+      const text = pre.cloneNode(true).textContent;
+      const finish = function(){
+        btn.classList.add('copied');
+        btn.querySelector('span').textContent = 'Copiado';
+        setTimeout(function(){ btn.classList.remove('copied'); btn.querySelector('span').textContent = 'Copiar'; }, 1600);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(finish).catch(function(){ fallbackCopy(text,finish); });
+      } else { fallbackCopy(text,finish); }
+    });
+    head.appendChild(btn);
+  });
+  function fallbackCopy(text,cb){
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta); cb();
+  }
+</script>
+</body>
+</html>
