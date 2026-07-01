@@ -24,7 +24,14 @@
   h1{font-family:var(--serif);font-weight:600;font-size:clamp(36px,5vw,58px);line-height:1.05;letter-spacing:-.01em;margin:0 0 22px;max-width:17ch;}
   .lede{font-size:17px;line-height:1.65;color:var(--ink-700);max-width:620px;margin:0 0 56px;}
 
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:56px;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px;}
+  .pill{font-family:var(--mono);font-size:11.5px;padding:6px 12px;border:1px solid var(--line);border-radius:99px;color:var(--ink-500);background:var(--panel);}
+  .pill b{color:var(--ink-900);font-weight:600;}
+
+  /* SECTION LABEL */
+  .section-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-300);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:40px;}
   @media(max-width:960px){.grid{grid-template-columns:1fr 1fr;}}
   @media(max-width:600px){.grid{grid-template-columns:1fr;}}
 
@@ -42,9 +49,21 @@
   .card .cta svg{width:14px;height:14px;transition:transform .18s ease;}
   .card:hover .cta svg{transform:translateX(3px);}
 
-  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px;}
-  .pill{font-family:var(--mono);font-size:11.5px;padding:6px 12px;border:1px solid var(--line);border-radius:99px;color:var(--ink-500);background:var(--panel);}
-  .pill b{color:var(--ink-900);font-weight:600;}
+  /* AGENTE CARD — destacada */
+  .card-agente{grid-column:1/-1;background:var(--ink-900);border-color:var(--ink-900);color:#fff;}
+  .card-agente:hover{border-color:#333;transform:translateY(-2px);box-shadow:0 16px 40px -16px rgba(0,0,0,.5);}
+  .card-agente .card-icon{background:rgba(255,255,255,.1);}
+  .card-agente .card-tag{color:#ff8c6b;background:rgba(255,90,54,.15);}
+  .card-agente h2{color:#fff;}
+  .card-agente p{color:rgba(255,255,255,.55);}
+  .card-agente .pattern{color:rgba(255,255,255,.35);background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);}
+  .card-agente .cta{color:#fff;}
+
+  .agente-inner{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;}
+  @media(max-width:700px){.agente-inner{grid-template-columns:1fr;gap:24px;}}
+
+  .agente-modes{display:flex;gap:8px;flex-wrap:wrap;}
+  .mode-chip{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1);}
 
   .footnote{font-size:12.5px;color:var(--ink-300);border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
 </style>
@@ -58,9 +77,41 @@
   <div class="meta-row">
     <span class="pill">Herramienta <b>Claude + Figma</b></span>
     <span class="pill">Design System <b>cencoPrime</b></span>
-    <span class="pill">3 instructivos disponibles</span>
+    <span class="pill"><b>4</b> instructivos disponibles</span>
   </div>
 
+  <!-- AGENTE -->
+  <div class="section-label">Agente · nuevo</div>
+  <div class="grid" style="margin-bottom:48px;">
+    <a class="card card-agente" href="agente.html">
+      <div class="agente-inner">
+        <div>
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <span class="card-tag">Agente DS</span>
+          <h2>Agente DS cencoPrime</h2>
+          <p>Un solo agente con el DS siempre cargado. Entrega el link de Figma o el nombre del componente y ejecuta el comando. Sin copiar prompts, sin configurar nada.</p>
+          <div class="agente-modes">
+            <span class="mode-chip">/crear</span>
+            <span class="mode-chip">/naming</span>
+            <span class="mode-chip">/auditar</span>
+            <span class="mode-chip">/documentar</span>
+            <span class="mode-chip">/tickets</span>
+            <span class="mode-chip">/handoff</span>
+            <span class="mode-chip">/variantes</span>
+            <span class="mode-chip">/corregir</span>
+            <span class="mode-chip">/rebrandear</span>
+            <span class="mode-chip">/qa</span>
+          </div>
+        </div>
+        <div class="cta">Ver agente <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
+      </div>
+    </a>
+  </div>
+
+  <!-- INSTRUCTIVOS -->
+  <div class="section-label">Instructivos · prompts para copiar</div>
   <div class="grid">
 
     <a class="card" href="componentes.html">
