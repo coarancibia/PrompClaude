@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claude + Figma · Prompts del Design System</title>
+<title>Instructivo de prompts para el equipo · Claude</title>
 <style>
   :root{
     --ink-900:#13151a;--ink-700:#3a3d46;--ink-500:#6b6f7a;--ink-300:#a9adb8;
@@ -19,140 +19,474 @@
   .wrap{max-width:1160px;margin:0 auto;padding:90px 48px 100px;}
   @media(max-width:700px){.wrap{padding:56px 20px 70px;}}
 
+  section{scroll-margin-top:32px;}
+
+  /* NAV */
+  .nav{display:flex;align-items:center;gap:8px;margin-bottom:48px;font-family:var(--mono);font-size:12px;color:var(--ink-300);flex-wrap:wrap;}
+  .nav a{color:var(--ink-500);text-decoration:none;}
+  .nav a:hover{color:var(--accent);}
+  .nav-pages{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;}
+  .nav-pages a{font-family:var(--mono);font-size:11px;padding:5px 12px;border:1px solid var(--line);border-radius:99px;color:var(--ink-500);text-decoration:none;background:var(--panel);transition:border-color .15s,color .15s;}
+  .nav-pages a:hover{border-color:var(--accent);color:var(--accent);}
+
   .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:20px;}
   .eyebrow::before{content:"";width:7px;height:7px;background:var(--accent);border-radius:50%;display:inline-block;}
-  h1{font-family:var(--serif);font-weight:600;font-size:clamp(36px,5vw,58px);line-height:1.05;letter-spacing:-.01em;margin:0 0 22px;max-width:17ch;}
-  .lede{font-size:17px;line-height:1.65;color:var(--ink-700);max-width:620px;margin:0 0 56px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(32px,4.5vw,52px);line-height:1.05;letter-spacing:-.01em;margin:0 0 22px;max-width:22ch;}
+  .lede{font-size:17px;line-height:1.65;color:var(--ink-700);max-width:640px;margin:0 0 20px;}
+  .clarify{font-size:13.5px;line-height:1.6;color:var(--ink-500);max-width:640px;margin:0 0 40px;padding:14px 18px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;}
 
-  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:56px;}
   .pill{font-family:var(--mono);font-size:11.5px;padding:6px 12px;border:1px solid var(--line);border-radius:99px;color:var(--ink-500);background:var(--panel);}
   .pill b{color:var(--ink-900);font-weight:600;}
 
-  /* SECTION LABEL */
+  /* SECTION TITLE */
   .section-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-300);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+  .section-intro{font-size:14px;line-height:1.65;color:var(--ink-500);max-width:640px;margin:-10px 0 28px;}
 
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:40px;}
+  /* GRID */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:56px;}
   @media(max-width:960px){.grid{grid-template-columns:1fr 1fr;}}
   @media(max-width:600px){.grid{grid-template-columns:1fr;}}
 
-  .card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:32px;position:relative;overflow:hidden;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease;}
+  .grid-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:56px;}
+  @media(max-width:1020px){.grid-cards{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){.grid-cards{grid-template-columns:1fr;}}
+
+  .card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:28px 26px;position:relative;overflow:hidden;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease;}
   .card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 12px 28px -16px rgba(19,21,26,.18);}
   .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
 
-  .card-icon{width:38px;height:38px;border-radius:10px;background:var(--ink-900);color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
-  .card-icon svg{width:18px;height:18px;}
-  .card-tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);display:inline-block;padding:4px 11px;border-radius:99px;margin-bottom:20px;}
-  .card h2{font-family:var(--serif);font-size:22px;font-weight:600;margin:0 0 12px;letter-spacing:-.005em;}
-  .card p{font-size:13.5px;line-height:1.6;color:var(--ink-500);margin:0 0 22px;}
-  .card .pattern{font-family:var(--mono);font-size:11px;color:var(--ink-300);background:#fbfaf8;border:1px solid var(--line);border-radius:8px;padding:9px 12px;margin-bottom:22px;word-break:break-all;line-height:1.5;}
-  .card .cta{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12.5px;color:var(--ink-900);font-weight:600;}
-  .card .cta svg{width:14px;height:14px;transition:transform .18s ease;}
+  .card-icon{width:36px;height:36px;border-radius:10px;background:var(--ink-900);color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+  .card-icon svg{width:17px;height:17px;}
+  .card-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);display:inline-block;padding:4px 11px;border-radius:99px;margin-bottom:16px;}
+  .card-tag.tag-guia{color:#1d4ed8;background:#dfe9ff;}
+  .card-tag.tag-checklist{color:#1d7a4e;background:#d6f5e6;}
+  .card-tag.tag-revision{color:#7c3aed;background:#ece3fd;}
+  .card h2{font-family:var(--serif);font-size:18px;font-weight:600;margin:0 0 8px;letter-spacing:-.005em;}
+  .card p{font-size:13px;line-height:1.55;color:var(--ink-500);margin:0 0 18px;}
+  .card .cta{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--ink-900);font-weight:600;}
+  .card .cta svg{width:13px;height:13px;transition:transform .18s ease;}
   .card:hover .cta svg{transform:translateX(3px);}
 
-  /* AGENTE CARD — destacada */
-  .card-agente{grid-column:1/-1;background:var(--ink-900);border-color:var(--ink-900);color:#fff;}
-  .card-agente:hover{border-color:#333;transform:translateY(-2px);box-shadow:0 16px 40px -16px rgba(0,0,0,.5);}
-  .card-agente .card-icon{background:rgba(255,255,255,.1);}
-  .card-agente .card-tag{color:#ff8c6b;background:rgba(255,90,54,.15);}
-  .card-agente h2{color:#fff;}
-  .card-agente p{color:rgba(255,255,255,.55);}
-  .card-agente .pattern{color:rgba(255,255,255,.35);background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);}
-  .card-agente .cta{color:#fff;}
+  /* RAZONES */
+  .reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:56px;}
+  @media(max-width:760px){.reasons{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.reasons{grid-template-columns:1fr;}}
+  .reason{padding:22px 20px;border:1px solid var(--line);border-radius:12px;background:var(--panel);}
+  .reason-num{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--accent);margin-bottom:8px;line-height:1;}
+  .reason b{display:block;color:var(--ink-900);font-size:13.5px;margin-bottom:4px;}
+  .reason span{font-size:12.5px;color:var(--ink-500);line-height:1.5;}
 
-  .agente-inner{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;}
-  @media(max-width:700px){.agente-inner{grid-template-columns:1fr;gap:24px;}}
+  /* STEPS */
+  .steps{display:flex;flex-direction:column;gap:10px;margin-bottom:56px;}
+  .step-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-radius:12px;}
+  .step-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--ink-900);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11.5px;font-weight:700;}
+  .step-text{font-size:13.5px;line-height:1.6;color:var(--ink-700);padding-top:3px;}
+  .step-text b{color:var(--ink-900);}
+  .inline-code{font-family:var(--mono);background:#fbfaf8;border:1px solid var(--line);padding:2px 8px;border-radius:6px;font-size:12px;color:var(--ink-900);}
 
-  .agente-modes{display:flex;gap:8px;flex-wrap:wrap;}
-  .mode-chip{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1);}
+  /* TEMPLATE PROMPT */
+  .template-block{border:1px solid var(--line);border-radius:14px;background:var(--panel);overflow:hidden;margin-bottom:56px;}
+  .template-row{display:flex;gap:14px;padding:14px 20px;border-bottom:1px solid var(--line);}
+  .template-row:last-child{border-bottom:none;}
+  .template-row:nth-child(odd){background:#fbfaf8;}
+  .template-key{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);min-width:210px;flex-shrink:0;padding-top:2px;}
+  .template-val{font-size:13px;color:var(--ink-500);line-height:1.5;}
+
+  /* PROMPTS BASE */
+  .prompt-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:56px;}
+  @media(max-width:760px){.prompt-grid{grid-template-columns:1fr;}}
+  .prompt-card{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:24px;scroll-margin-top:110px;}
+  .prompt-card .card-tag{margin-bottom:12px;}
+  .prompt-card h3{font-family:var(--serif);font-size:17px;font-weight:600;margin:0 0 6px;}
+  .prompt-card .desc{font-size:12.5px;color:var(--ink-500);margin:0 0 14px;line-height:1.5;}
+  .prompt-code{font-family:var(--mono);font-size:11.5px;line-height:1.7;background:var(--ink-900);color:#e8e6df;border-radius:10px;padding:16px 18px;white-space:pre-wrap;word-break:break-word;margin:0 0 14px;}
+  .copy-btn{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-900);background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:7px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:border-color .15s,color .15s;}
+  .copy-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .copy-btn.copied{border-color:#1d7a4e;color:#1d7a4e;}
+  .copy-btn svg{width:12px;height:12px;}
+
+  /* REGLAS */
+  .rule-list{display:flex;flex-direction:column;gap:2px;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:56px;}
+  .rule-item{display:flex;gap:12px;align-items:flex-start;padding:14px 20px;background:var(--panel);border-bottom:1px solid var(--line);font-size:13.5px;color:var(--ink-700);line-height:1.55;}
+  .rule-item:last-child{border-bottom:none;}
+  .rule-icon{flex-shrink:0;color:var(--accent);margin-top:2px;}
+
+  /* CHECKLIST */
+  .check-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:56px;}
+  @media(max-width:700px){.check-grid{grid-template-columns:1fr;}}
+  .check-card{display:flex;align-items:center;gap:14px;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--panel);cursor:pointer;transition:border-color .15s ease,background .15s ease;}
+  .check-card:hover{border-color:var(--accent);}
+  .check-card:has(input:checked){background:var(--accent-dim);border-color:var(--accent);}
+  .check-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--ink-900);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;}
+  .check-text{flex:1;font-size:13.5px;color:var(--ink-700);line-height:1.5;}
+  .check-card input{width:19px;height:19px;accent-color:var(--accent);flex-shrink:0;cursor:pointer;}
+
+  /* CALLOUT DARK */
+  .callout-dark{background:var(--ink-900);border-radius:20px;padding:40px 48px;margin-bottom:56px;}
+  @media(max-width:700px){.callout-dark{padding:28px 24px;}}
+  .callout-dark h2{font-family:var(--serif);font-size:24px;font-weight:600;color:#fff;margin:0 0 14px;line-height:1.25;}
+  .callout-dark p{font-size:14px;line-height:1.7;color:rgba(255,255,255,.62);margin:0 0 12px;max-width:760px;}
+  .callout-dark p:last-child{margin-bottom:0;}
+  .callout-dark p b{color:rgba(255,255,255,.92);}
+
+  .placeholder-list{display:flex;flex-direction:column;gap:10px;margin-bottom:56px;}
+  .placeholder-item{border:1px dashed var(--line);border-radius:10px;padding:14px 18px;font-size:12.5px;color:var(--ink-300);font-family:var(--mono);background:var(--panel);}
 
   .footnote{font-size:12.5px;color:var(--ink-300);border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="eyebrow">Instructivos de equipo · cencoPrime / cencoPrime black</div>
-  <h1>Prompts de Claude para trabajar el Design System en Figma.</h1>
-  <p class="lede">Elige el instructivo que necesitas. Cada uno trae los prompts del flujo completo — configuración del proyecto, chat exclusivo, uso diario y ajustes — listos para copiar y pegar.</p>
 
-  <div class="meta-row">
-    <span class="pill">Herramienta <b>Claude + Figma</b></span>
-    <span class="pill">Design System <b>cencoPrime</b></span>
-    <span class="pill"><b>4</b> instructivos disponibles</span>
-  </div>
+  <nav class="nav">
+    <a href="index.html">Inicio</a>
+    <span>/</span>
+    <span>Instructivo de prompts</span>
+    <div class="nav-pages">
+      <a href="componentes.html">Componentes</a>
+      <a href="naming.html">Naming pantallas</a>
+      <a href="agente.html">Agente DS</a>
+    </div>
+  </nav>
 
-  <!-- AGENTE -->
-  <div class="section-label">Agente · nuevo</div>
-  <div class="grid" style="margin-bottom:48px;">
-    <a class="card card-agente" href="agente.html">
-      <div class="agente-inner">
-        <div>
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-          </div>
-          <span class="card-tag">Agente DS</span>
-          <h2>Agente DS cencoPrime</h2>
-          <p>Un solo agente con el DS siempre cargado. Entrega el link de Figma o el nombre del componente y ejecuta el comando. Sin copiar prompts, sin configurar nada.</p>
-          <div class="agente-modes">
-            <span class="mode-chip">/crear</span>
-            <span class="mode-chip">/naming</span>
-            <span class="mode-chip">/auditar</span>
-            <span class="mode-chip">/documentar</span>
-            <span class="mode-chip">/tickets</span>
-            <span class="mode-chip">/handoff</span>
-            <span class="mode-chip">/variantes</span>
-            <span class="mode-chip">/corregir</span>
-            <span class="mode-chip">/rebrandear</span>
-            <span class="mode-chip">/qa</span>
-          </div>
-        </div>
-        <div class="cta">Ver agente <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
-      </div>
-    </a>
-  </div>
+  <div class="eyebrow">Equipo de diseño · Claude</div>
+  <h1>Instructivo de prompts para el equipo</h1>
+  <p class="lede">Guía base para trabajar con Claude y mantener criterios consistentes en diseño, documentación y revisión de flujos mientras avanzamos hacia el uso de agentes.</p>
+  <p class="clarify">Esta guía no reemplaza el criterio de diseño, pero ayuda a ordenar la forma en que pedimos, revisamos y documentamos.</p>
 
-  <!-- INSTRUCTIVOS -->
-  <div class="section-label">Instructivos · prompts para copiar</div>
-  <div class="grid">
+  <!-- PARA QUÉ SIRVE -->
+  <section id="para-que-sirve">
+    <div class="section-label">¿Para qué sirve esta guía?</div>
+    <div class="reasons">
+      <div class="reason"><div class="reason-num">01</div><b>Unificar criterios</b><span>Que pedir algo a Claude se sienta parecido sin importar quién lo escriba.</span></div>
+      <div class="reason"><div class="reason-num">02</div><b>Evitar resultados dispares</b><span>Menos variación entre personas al resolver un mismo tipo de tarea.</span></div>
+      <div class="reason"><div class="reason-num">03</div><b>Reducir retrabajo</b><span>Prompts más claros desde el inicio significan menos vueltas después.</span></div>
+      <div class="reason"><div class="reason-num">04</div><b>Dejar instrucciones reutilizables</b><span>Para flujos, pantallas y documentación, listas para copiar.</span></div>
+      <div class="reason"><div class="reason-num">05</div><b>Preparar el terreno</b><span>Una base de criterios mientras se implementan agentes especializados.</span></div>
+    </div>
+  </section>
+
+  <!-- CHECKLIST -->
+  <section id="checklist">
+    <div class="section-label">Checklist antes de usar Claude</div>
+    <p class="section-intro">Revisa esto antes de escribir el prompt, no después.</p>
+    <div class="check-grid">
+      <label class="check-card"><span class="check-num">1</span><span class="check-text">¿El archivo correcto está abierto?</span><input type="checkbox"></label>
+      <label class="check-card"><span class="check-num">2</span><span class="check-text">¿La carpeta correcta está abierta en VS Code?</span><input type="checkbox"></label>
+      <label class="check-card"><span class="check-num">3</span><span class="check-text">¿Claude está corriendo desde esa misma carpeta?</span><input type="checkbox"></label>
+      <label class="check-card"><span class="check-num">4</span><span class="check-text">¿El prompt indica qué archivo debe modificar?</span><input type="checkbox"></label>
+      <label class="check-card"><span class="check-num">5</span><span class="check-text">¿Se aclaró qué no debe cambiar?</span><input type="checkbox"></label>
+      <label class="check-card"><span class="check-num">6</span><span class="check-text">¿Se pidió revisar antes de ejecutar?</span><input type="checkbox"></label>
+      <label class="check-card"><span class="check-num">7</span><span class="check-text">¿Se validó visualmente el resultado?</span><input type="checkbox"></label>
+    </div>
+  </section>
+
+  <!-- NAVEGACIÓN POR CARDS -->
+  <div class="section-label">Explora el instructivo</div>
+  <div class="grid-cards">
 
     <a class="card" href="componentes.html">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       </div>
-      <span class="card-tag">Creación</span>
-      <h2>Crear componentes</h2>
-      <p>Pedirle a Claude que cree o ajuste componentes directamente en Figma, respetando tokens, auto layout, estados y accesibilidad AA.</p>
-      <div class="pattern">Crear componente: [NOMBRE] · Link: [LINK DE FIGMA]</div>
-      <div class="cta">Ver prompts <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
+      <span class="card-tag tag-guia">Guía</span>
+      <h2>Componentes</h2>
+      <p>Prompts para crear y ajustar componentes del Design System respetando tokens y accesibilidad.</p>
+      <div class="cta">Ver página <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
     </a>
 
     <a class="card" href="naming.html">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
       </div>
-      <span class="card-tag">Organización</span>
+      <span class="card-tag tag-guia">Guía</span>
       <h2>Naming de pantallas</h2>
-      <p>Pedirle a Claude que renombre frames y pantallas en Figma con una nomenclatura consistente para todo el equipo.</p>
-      <div class="pattern">proyecto/dispositivo/flujo/pantalla_o_estado/foco_ajuste</div>
-      <div class="cta">Ver prompts <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
+      <p>Nomenclatura y estructura de nombres para frames y pantallas en Figma.</p>
+      <div class="cta">Ver página <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
     </a>
 
-    <a class="card" href="auditoria.html">
+    <a class="card" href="agente.html">
       <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16.01"/><line x1="16" y1="16" x2="16" y2="16.01"/></svg>
       </div>
-      <span class="card-tag">Calidad</span>
-      <h2>Auditoría del DS</h2>
-      <p>Pedirle a Claude que revise si las pantallas están correctamente construidas con DS Tokens y DS Components, con hallazgos priorizados.</p>
-      <div class="pattern">Auditar · crítico / alto / medio / bajo · accesibilidad AA</div>
-      <div class="cta">Ver prompts <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
+      <span class="card-tag tag-guia">Guía</span>
+      <h2>Agente</h2>
+      <p>Un solo agente con el Design System siempre cargado: crear, auditar, documentar y más.</p>
+      <div class="cta">Ver página <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
     </a>
 
+  </div>
+
+  <!-- CÓMO USAR UN PROMPT -->
+  <section id="uso-prompt">
+    <div class="section-label">Cómo usar un prompt</div>
+    <p class="section-intro">Los prompts base de esta guía están pensados para adaptarse, no para copiarse tal cual.</p>
+    <div class="steps">
+      <div class="step-row"><div class="step-num">1</div><div class="step-text"><b>Copia</b> el prompt base que más se acerque a lo que necesitas.</div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-text"><b>Reemplaza los campos entre corchetes</b> por el nombre real de la pantalla, archivo o flujo.</div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-text">Agrega <b>contexto del flujo o pantalla</b> que Claude no pueda deducir por sí solo.</div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-text">Indica <b>restricciones</b> visuales, funcionales o de contenido si aplican.</div></div>
+      <div class="step-row"><div class="step-num">5</div><div class="step-text">Pide primero <b>análisis</b>, antes de pedir ejecución. Separa siempre estos dos pasos.</div></div>
+      <div class="step-row"><div class="step-num">6</div><div class="step-text"><b>Revisa el resultado</b> antes de aplicarlo o de darlo por terminado.</div></div>
+    </div>
+  </section>
+
+  <!-- ESTRUCTURA RECOMENDADA -->
+  <section id="estructura-prompt">
+    <div class="section-label">Estructura recomendada de un prompt</div>
+    <p class="section-intro">Todo prompt sólido puede armarse con estos ocho bloques. No todos son obligatorios, pero conviene tenerlos presentes.</p>
+    <div class="template-block">
+      <div class="template-row"><div class="template-key">Contexto</div><div class="template-val">Qué es la pantalla o flujo y en qué estado está hoy.</div></div>
+      <div class="template-row"><div class="template-key">Objetivo</div><div class="template-val">Qué se quiere lograr con esta tarea puntual.</div></div>
+      <div class="template-row"><div class="template-key">Archivo o pantalla a trabajar</div><div class="template-val">Nombre o ruta exacta de lo que Claude debe abrir.</div></div>
+      <div class="template-row"><div class="template-key">Restricciones</div><div class="template-val">Qué no se puede hacer: no rediseñar, no inventar componentes, etc.</div></div>
+      <div class="template-row"><div class="template-key">Criterios de diseño</div><div class="template-val">Qué componentes, estilos o patrones ya existentes debe respetar.</div></div>
+      <div class="template-row"><div class="template-key">Criterios de accesibilidad</div><div class="template-val">Nivel esperado, por ejemplo AA, y qué validar puntualmente.</div></div>
+      <div class="template-row"><div class="template-key">Entregable esperado</div><div class="template-val">Qué formato de respuesta se espera: lista, checklist, comparación.</div></div>
+      <div class="template-row"><div class="template-key">Qué no debe modificar</div><div class="template-val">Qué queda explícitamente fuera del alcance de esta tarea.</div></div>
+    </div>
+  </section>
+
+  <!-- PROMPTS BASE -->
+  <section id="prompts-base">
+    <div class="section-label">Prompts base para copiar</div>
+    <p class="section-intro">Copia el bloque, reemplaza lo que está entre corchetes y agrega el contexto que falte.</p>
+    <div class="prompt-grid">
+
+      <div class="prompt-card" id="prompt-revision-uiux">
+        <span class="card-tag tag-revision">Revisión</span>
+        <h3>Revisar una pantalla a nivel UI/UX</h3>
+        <p class="desc">Para pedir un diagnóstico priorizado antes de tocar nada.</p>
+        <pre class="prompt-code">Contexto: estoy trabajando en [nombre de la pantalla o flujo].
+Objetivo: revisar la pantalla a nivel UI/UX sin modificar nada todavía.
+Archivo a analizar: [ruta o nombre del archivo].
+Restricciones: no ejecutes cambios, solo entrega un análisis.
+Evalúa: jerarquía visual, consistencia con el resto del flujo, claridad de la información y usabilidad general.
+Entregable esperado: hallazgos priorizados (crítico / alto / medio / bajo) con una breve explicación de cada uno.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+
+      <div class="prompt-card">
+        <span class="card-tag">Prompt</span>
+        <h3>Mejorar una pantalla sin cambiar estructura</h3>
+        <p class="desc">Para pulir detalle visual sin tocar el layout ni el orden de bloques.</p>
+        <pre class="prompt-code">Contexto: [nombre de la pantalla] ya tiene una estructura definida y funciona bien a nivel de layout.
+Objetivo: mejorar el detalle visual (espaciado, jerarquía, contraste, textos) sin modificar la estructura ni el orden de los bloques.
+Archivo a trabajar: [archivo].
+Restricciones: no cambies la estructura, no agregues ni elimines secciones, no inventes componentes nuevos.
+Criterios de diseño: usa los componentes y estilos ya definidos en el proyecto.
+Entregable esperado: los mismos bloques, con mejoras puntuales y una lista de qué cambiaste y por qué.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+
+      <div class="prompt-card">
+        <span class="card-tag tag-guia">Guía</span>
+        <h3>Documentar un flujo</h3>
+        <p class="desc">Para dejar un flujo entendible por cualquier persona del equipo.</p>
+        <pre class="prompt-code">Contexto: necesito documentar el flujo de [nombre del flujo] para que cualquier persona del equipo lo entienda.
+Objetivo: generar documentación clara del flujo, paso a paso.
+Archivo o pantallas a revisar: [archivo(s) o pantallas del flujo].
+Entregable esperado: descripción general, pasos del flujo, estados posibles (vacío, error, carga, éxito) y casos borde a considerar.
+Qué no debe modificar: no cambies el código ni el diseño, solo documenta lo que existe.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+
+      <div class="prompt-card">
+        <span class="card-tag tag-revision">Revisión</span>
+        <h3>Auditar consistencia visual</h3>
+        <p class="desc">Para comparar una pantalla contra el resto del proyecto.</p>
+        <pre class="prompt-code">Contexto: quiero validar que [pantalla o flujo] sea consistente con el resto del proyecto.
+Objetivo: auditar el uso de estilos, espaciados, tipografía y componentes.
+Archivo a analizar: [archivo].
+Restricciones: no ejecutes cambios, solo reporta.
+Compara contra: [archivo o pantalla de referencia].
+Entregable esperado: listado de inconsistencias priorizadas (crítico / alto / medio / bajo).</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+
+      <div class="prompt-card" id="prompt-accesibilidad">
+        <span class="card-tag tag-checklist">Checklist</span>
+        <h3>Revisar accesibilidad básica</h3>
+        <p class="desc">Para validar contraste, foco, orden de lectura y etiquetas.</p>
+        <pre class="prompt-code">Contexto: quiero validar accesibilidad básica en [pantalla o flujo].
+Objetivo: revisar contraste de color, tamaños de texto, foco visible, orden de lectura y etiquetas.
+Archivo a analizar: [archivo].
+Criterios de accesibilidad: nivel AA como mínimo.
+Restricciones: no ejecutes cambios todavía, solo entrega el diagnóstico.
+Entregable esperado: checklist de accesibilidad con hallazgos y nivel de severidad.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+
+      <div class="prompt-card" id="prompt-handoff">
+        <span class="card-tag tag-checklist">Checklist</span>
+        <h3>Preparar handoff para desarrollo</h3>
+        <p class="desc">Para verificar que una pantalla está lista antes de pasarla a dev.</p>
+        <pre class="prompt-code">Contexto: [pantalla o flujo] está por pasar a desarrollo.
+Objetivo: preparar el handoff antes de entregar al equipo de desarrollo.
+Archivo a revisar: [archivo].
+Verifica: naming consistente, estados definidos, componentes usados correctamente y accesibilidad básica.
+Entregable esperado: checklist de handoff con lo que está listo y lo que falta antes de entregar.
+Qué no debe modificar: no cambies el diseño, solo evalúa si está listo para entregar.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+
+      <div class="prompt-card">
+        <span class="card-tag tag-revision">Revisión</span>
+        <h3>Revisar uso de componentes existentes</h3>
+        <p class="desc">Para detectar componentes duplicados o mal usados.</p>
+        <pre class="prompt-code">Contexto: quiero asegurarme de que [pantalla o flujo] use los componentes ya definidos en el proyecto.
+Objetivo: identificar dónde se usan componentes fuera del set definido o se duplica algo que ya existe.
+Archivo a analizar: [archivo].
+Restricciones: no inventes componentes nuevos si ya existe uno que cumple la función.
+Entregable esperado: componentes usados correctamente, mal usados o duplicados, con sugerencia de reemplazo.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+
+      <div class="prompt-card">
+        <span class="card-tag tag-checklist">Checklist</span>
+        <h3>Generar checklist de revisión</h3>
+        <p class="desc">Para dejar una lista accionable antes de dar algo por terminado.</p>
+        <pre class="prompt-code">Contexto: necesito un checklist de revisión para [pantalla o flujo] antes de darlo por terminado.
+Objetivo: generar un checklist claro y accionable.
+Archivo a revisar: [archivo].
+Entregable esperado: checklist con ítems verificables (sí/no), agrupados por diseño, contenido, accesibilidad y consistencia.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+
+      <div class="prompt-card">
+        <span class="card-tag">Prompt</span>
+        <h3>Mejorar textos de una pantalla</h3>
+        <p class="desc">Para pulir redacción sin tocar estructura ni diseño.</p>
+        <pre class="prompt-code">Contexto: los textos de [pantalla] necesitan revisión.
+Objetivo: mejorar claridad, tono y consistencia de los textos sin cambiar la estructura ni el diseño.
+Archivo a trabajar: [archivo].
+Restricciones: no cambies la función de cada texto (título, ayuda, error, etc.), solo mejora la redacción.
+Entregable esperado: lista de textos actuales versus propuesta, con una breve razón del cambio.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+
+      <div class="prompt-card">
+        <span class="card-tag tag-revision">Revisión</span>
+        <h3>Comparar versión actual versus nueva propuesta</h3>
+        <p class="desc">Para tomar decisiones con un análisis objetivo, no solo visual.</p>
+        <pre class="prompt-code">Contexto: tengo dos versiones de [pantalla o flujo]: la actual y una nueva propuesta.
+Objetivo: comparar ambas versiones de forma objetiva.
+Archivos a comparar: [archivo actual] y [archivo nuevo].
+Entregable esperado: comparación con diferencias, qué mejora, qué empeora y una recomendación final.
+Qué no debe modificar: no elijas por mí, solo entrega el análisis comparativo.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- REGLAS -->
+  <section id="reglas">
+    <div class="section-label">Reglas para obtener resultados consistentes</div>
+    <div class="rule-list">
+      <div class="rule-item"><span class="rule-icon">→</span> Siempre indica el objetivo del flujo, no solo la tarea puntual.</div>
+      <div class="rule-item"><span class="rule-icon">→</span> No pidas cambios visuales sin explicar cuál es el problema que resuelven.</div>
+      <div class="rule-item"><span class="rule-icon">→</span> Separa siempre análisis de ejecución: primero que revise, después que ejecute.</div>
+      <div class="rule-item"><span class="rule-icon">→</span> Pide que no invente componentes si ya existen componentes definidos.</div>
+      <div class="rule-item"><span class="rule-icon">→</span> Pide que mantenga la estructura cuando el objetivo es solo una mejora visual.</div>
+      <div class="rule-item"><span class="rule-icon">→</span> Indica siempre si el resultado es para desktop, mobile o responsive.</div>
+      <div class="rule-item"><span class="rule-icon">→</span> Pide que explique sus decisiones cada vez que haga un cambio.</div>
+    </div>
+  </section>
+
+  <!-- MIENTRAS ESPERAMOS AGENTES -->
+  <section id="esperando-agentes">
+    <div class="section-label">Mientras esperamos los agentes</div>
+    <div class="callout-dark">
+      <h2>Una guía temporal, no una versión final.</h2>
+      <p>Hoy esta página funciona como una <b>guía editable y centralizada</b> para ordenar cómo el equipo le pide tareas a Claude: qué contexto dar, qué restricciones poner y qué entregable esperar.</p>
+      <p>Cuando existan <b>agentes especializados por tipo de tarea</b> (revisión, documentación, naming, accesibilidad), buena parte de estos prompts se van a mover ahí. Hasta entonces, esta guía es la fuente de verdad compartida del equipo.</p>
+    </div>
+  </section>
+
+  <div class="section-label">Próximas instrucciones del equipo · prompts pendientes por agregar</div>
+  <div class="placeholder-list">
+    <div class="placeholder-item">+ Espacio para el próximo prompt del equipo</div>
+    <div class="placeholder-item">+ Espacio para el próximo prompt del equipo</div>
+    <div class="placeholder-item">+ Espacio para el próximo prompt del equipo</div>
   </div>
 
   <div class="footnote">
-    <span>Basado en los instructivos de trabajo del equipo de diseño.</span>
-    <span>cencoPrime / cencoPrime black</span>
+    <span>Instructivo interno del equipo de diseño para trabajar con Claude.</span>
+    <span>Guía viva · se actualiza a medida que el equipo suma criterios</span>
   </div>
+
 </div>
+
+<script>
+  function copyPrompt(btn){
+    var code = btn.parentElement.querySelector('.prompt-code');
+    var text = code.textContent;
+    var restore = function(){
+      var original = btn.innerHTML;
+      btn.classList.add('copied');
+      btn.innerHTML = 'Copiado ✓';
+      setTimeout(function(){
+        btn.classList.remove('copied');
+        btn.innerHTML = original;
+      }, 1800);
+    };
+    var fallbackOriginal = btn.innerHTML;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        btn.classList.add('copied');
+        btn.innerHTML = 'Copiado ✓';
+        setTimeout(function(){
+          btn.classList.remove('copied');
+          btn.innerHTML = fallbackOriginal;
+        }, 1800);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.classList.add('copied');
+      btn.innerHTML = 'Copiado ✓';
+      setTimeout(function(){
+        btn.classList.remove('copied');
+        btn.innerHTML = fallbackOriginal;
+      }, 1800);
+    }
+  }
+</script>
 </body>
 </html>

@@ -228,52 +228,81 @@
   }
   .syntax-pattern{
     font-family:var(--mono);
-    font-size:clamp(14px, 2.4vw, 19px);
+    font-size:clamp(13px, 2vw, 17px);
     color:var(--code-text);
     line-height:1.6;
     display:flex;
     flex-wrap:wrap;
-    gap:2px;
-    margin-bottom:22px;
+    align-items:center;
+    gap:4px;
+    margin-bottom:8px;
   }
   .syntax-pattern .seg{
-    padding:3px 2px;
-    border-bottom:2px solid;
+    padding:7px 13px;
+    border-radius:8px;
+    font-weight:700;
   }
-  .syntax-pattern .slash{color:var(--ink-300); padding:3px 4px;}
-  .seg-proyecto{border-color:#ff8a65; color:#ff8a65;}
-  .seg-dispositivo{border-color:#7fd1ae; color:#7fd1ae;}
-  .seg-flujo{border-color:#88b8ff; color:#88b8ff;}
-  .seg-pantalla{border-color:#e6c068; color:#e6c068;}
-  .seg-foco{border-color:#d99bf0; color:#d99bf0;}
+  .syntax-pattern.example{
+    font-size:clamp(12px, 1.7vw, 14.5px);
+    font-weight:500;
+    margin-bottom:0;
+  }
+  .syntax-pattern.example .seg{padding:5px 11px; font-weight:600;}
+  .syntax-pattern .slash{color:rgba(255,255,255,.25); padding:3px 2px; font-weight:400;}
+  .syntax-example-row{display:flex; align-items:center; gap:14px; margin-bottom:26px; flex-wrap:wrap;}
+  .syntax-example-tag{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.35);
+    flex-shrink:0;
+  }
+  .seg-proyecto{background:rgba(255,138,101,.16); color:#ff8a65;}
+  .seg-dispositivo{background:rgba(127,209,174,.16); color:#7fd1ae;}
+  .seg-flujo{background:rgba(136,184,255,.16); color:#88b8ff;}
+  .seg-pantalla{background:rgba(230,192,104,.16); color:#e6c068;}
+  .seg-foco{background:rgba(217,155,240,.16); color:#d99bf0;}
 
   .syntax-legend{
     display:grid;
     grid-template-columns:repeat(5, 1fr);
-    gap:14px;
+    gap:12px;
   }
   @media (max-width:860px){.syntax-legend{grid-template-columns:repeat(2, 1fr);}}
   @media (max-width:520px){.syntax-legend{grid-template-columns:1fr;}}
   .legend-item{
-    border-left:2px solid;
-    padding-left:10px;
+    border-radius:10px;
+    padding:14px 15px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
   }
   .legend-item .lname{
     font-family:var(--mono);
     font-size:11.5px;
     font-weight:600;
-    margin-bottom:3px;
+    margin-bottom:5px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+  }
+  .legend-item .lname::before{
+    content:"";
+    width:7px;height:7px;
+    border-radius:50%;
+    background:currentColor;
+    flex-shrink:0;
   }
   .legend-item .ldesc{
     font-size:12px;
     color:var(--ink-300);
     line-height:1.4;
   }
-  .legend-item.legend-proyecto{border-color:#ff8a65;} .legend-item.legend-proyecto .lname{color:#ff8a65;}
-  .legend-item.legend-dispositivo{border-color:#7fd1ae;} .legend-item.legend-dispositivo .lname{color:#7fd1ae;}
-  .legend-item.legend-flujo{border-color:#88b8ff;} .legend-item.legend-flujo .lname{color:#88b8ff;}
-  .legend-item.legend-pantalla{border-color:#e6c068;} .legend-item.legend-pantalla .lname{color:#e6c068;}
-  .legend-item.legend-foco{border-color:#d99bf0;} .legend-item.legend-foco .lname{color:#d99bf0;}
+  .legend-item.legend-proyecto .lname{color:#ff8a65;}
+  .legend-item.legend-dispositivo .lname{color:#7fd1ae;}
+  .legend-item.legend-flujo .lname{color:#88b8ff;}
+  .legend-item.legend-pantalla .lname{color:#e6c068;}
+  .legend-item.legend-foco .lname{color:#d99bf0;}
 
   /* ---------- section heading ---------- */
   section.block{margin-bottom:80px; scroll-margin-top:24px;}
@@ -593,14 +622,14 @@
 <div class="topbar">
   <div class="topbar-inner">
     <div class="breadcrumb">
-      <a href="index.html">Prompts DS</a>
+      <a href="index.html">Inicio</a>
       <span>/</span>
       <span class="current">Naming de pantallas</span>
     </div>
     <div class="switcher">
       <a href="componentes.html">Componentes</a>
       <a href="naming.html" class="active">Naming pantallas</a>
-      <a href="auditoria.html">Auditoría DS</a>
+      <a href="agente.html">Agente</a>
     </div>
   </div>
 </div>
@@ -610,7 +639,7 @@
   <!-- ================= NAV ================= -->
   <nav class="nav" aria-label="Navegación del documento">
     <div class="nav-brand">cencoPrime · cencoPrime black</div>
-    <h2 class="nav-title">Naming de<br>pantallas <em>·</em> DS</h2>
+    <h2 class="nav-title">Naming de<br>pantallas</h2>
 
     <div class="nav-section-label">Configuración</div>
     <a class="navlink" href="#config-proyecto"><span class="tag">01</span> Contexto del proyecto</a>
@@ -642,7 +671,7 @@
         y pedir correcciones sin repetir contexto en cada mensaje.
       </p>
       <div class="hero-meta">
-        <span class="pill">Design System <b>cencoPrime</b></span>
+        <span class="pill">Proyecto <b>cencoPrime</b></span>
         <span class="pill">Herramienta <b>Claude + Figma</b></span>
         <span class="pill">Formato <b>snake_case</b></span>
         <span class="pill">9 bloques de prompts</span>
@@ -653,6 +682,12 @@
       <div class="syntax-label">La nomenclatura</div>
       <div class="syntax-pattern">
         <span class="seg seg-proyecto">proyecto</span><span class="slash">/</span><span class="seg seg-dispositivo">dispositivo</span><span class="slash">/</span><span class="seg seg-flujo">flujo</span><span class="slash">/</span><span class="seg seg-pantalla">pantalla_o_estado</span><span class="slash">/</span><span class="seg seg-foco">foco_ajuste</span>
+      </div>
+      <div class="syntax-example-row">
+        <span class="syntax-example-tag">Ejemplo real</span>
+        <div class="syntax-pattern example">
+          <span class="seg seg-proyecto">cencoprimeblack</span><span class="slash">/</span><span class="seg seg-dispositivo">desktop</span><span class="slash">/</span><span class="seg seg-flujo">gestion_cuenta</span><span class="slash">/</span><span class="seg seg-pantalla">skeleton</span><span class="slash">/</span><span class="seg seg-foco">carga_inicial</span>
+        </div>
       </div>
       <div class="syntax-legend">
         <div class="legend-item legend-proyecto">
@@ -689,7 +724,7 @@
         </div>
         <div class="flow-step">
           <div class="flow-num">02</div>
-          <p>Abrir el chat <em>"Naming pantallas DS"</em> dentro del proyecto.</p>
+          <p>Abrir el chat <em>"Naming pantallas"</em> dentro del proyecto.</p>
         </div>
         <div class="flow-step">
           <div class="flow-num">03</div>
@@ -715,8 +750,8 @@
         <h2>Contexto general del proyecto</h2>
       </div>
       <p class="block-sub">
-        El naming usa el mismo proyecto de Claude que ya tiene cargado el contexto del Design System,
-        flujos, marca y forma de trabajo. No se crea un proyecto nuevo: se agrega una regla adicional
+        El naming usa el mismo proyecto de Claude que ya tiene cargado el contexto de flujos, marca
+        y forma de trabajo. No se crea un proyecto nuevo: se agrega una regla adicional
         sobre el que ya existe.
       </p>
 
@@ -726,7 +761,7 @@
           <div class="promptcard-where">Instrucciones del proyecto</div>
         </div>
         <div class="promptbody">
-          <pre>El proyecto debe contener: contexto del Design System, flujos del producto, lineamientos de marca y la forma de trabajo del equipo. El modo de naming (bloque 02) se agrega como una regla adicional, no como un proyecto nuevo.</pre>
+          <pre>El proyecto debe contener: contexto de estilos y componentes existentes, flujos del producto, lineamientos de marca y la forma de trabajo del equipo. El modo de naming (bloque 02) se agrega como una regla adicional, no como un proyecto nuevo.</pre>
         </div>
       </div>
     </section>
@@ -793,7 +828,7 @@ No hacer explicación larga. Priorizar renombrar en Figma.</pre>
             <div class="promptcard-where">Título de la conversación</div>
           </div>
           <div class="promptbody">
-            <pre>Naming pantallas DS</pre>
+            <pre>Naming pantallas</pre>
           </div>
         </div>
 
@@ -884,14 +919,14 @@ No cambies diseño, componentes ni contenido visual. Solo renombra pantallas.</p
         <h2>Pedir naming de pantallas</h2>
       </div>
       <p class="block-sub">
-        Este es el prompt de uso diario dentro del chat "Naming pantallas DS": link de Figma, proyecto,
+        Este es el prompt de uso diario dentro del chat "Naming pantallas": link de Figma, proyecto,
         dispositivo y flujo.
       </p>
 
       <div class="promptcard">
         <div class="promptcard-head">
           <div class="promptcard-title"><span class="dot"></span>Plantilla para nombrar</div>
-          <div class="promptcard-where">Chat "Naming pantallas DS"</div>
+          <div class="promptcard-where">Chat "Naming pantallas"</div>
         </div>
         <div class="promptbody">
           <pre>Nombrar pantallas:
@@ -948,7 +983,7 @@ sesion_iniciada</pre>
       <div class="promptcard">
         <div class="promptcard-head">
           <div class="promptcard-title"><span class="dot"></span>Prompt de ajuste</div>
-          <div class="promptcard-where">Chat "Naming pantallas DS" · sobre el link existente</div>
+          <div class="promptcard-where">Chat "Naming pantallas" · sobre el link existente</div>
         </div>
         <div class="promptbody">
           <pre>Ajustar naming de pantallas:
@@ -1026,7 +1061,7 @@ Usa minúsculas, sin tildes y con snake_case.</pre>
           <h3>Hacer</h3>
           <ul>
             <li>Usar un chat exclusivo para naming.</li>
-            <li>No repetir todo el contexto del DS en cada mensaje.</li>
+            <li>No repetir todo el contexto en cada mensaje.</li>
             <li>Entregar solo link, proyecto, dispositivo y flujo.</li>
             <li>Usar nombres de flujo claros.</li>
             <li>Pedir ajustes sobre el mismo link si algo queda mal.</li>

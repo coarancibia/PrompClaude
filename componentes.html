@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claude + Figma · Mapa de prompts del Design System</title>
+<title>Claude + Figma · Prompts para crear componentes</title>
 <style>
   :root{
     --ink-900:#13151a;
@@ -141,7 +141,7 @@
     line-height:1.05;
     letter-spacing:-0.01em;
     margin:0 0 20px;
-    max-width:13ch;
+    max-width:100%;
   }
   .hero-lede{
     font-size:16.5px;
@@ -528,14 +528,14 @@
 <div class="topbar">
   <div class="topbar-inner">
     <div class="breadcrumb">
-      <a href="index.html">Prompts DS</a>
+      <a href="index.html">Inicio</a>
       <span>/</span>
       <span class="current">Crear componentes</span>
     </div>
     <div class="switcher">
       <a href="componentes.html" class="active">Componentes</a>
       <a href="naming.html">Naming pantallas</a>
-      <a href="auditoria.html">Auditoría DS</a>
+      <a href="agente.html">Agente</a>
     </div>
   </div>
 </div>
@@ -545,7 +545,7 @@
   <!-- ================= NAV ================= -->
   <nav class="nav" aria-label="Navegación del documento">
     <div class="nav-brand">cencoPrime · cencoPrime black</div>
-    <h2 class="nav-title">Claude <em>×</em> Figma<br>Prompts del DS</h2>
+    <h2 class="nav-title">Claude <em>×</em> Figma<br>Crear componentes</h2>
 
     <div class="nav-section-label">Configuración</div>
     <a href="#config-proyecto"><span class="tag">01</span> Contexto del proyecto</a>
@@ -568,14 +568,14 @@
 
     <div class="hero">
       <div class="hero-eyebrow">Instructivo de equipo · Editable</div>
-      <h1>Cada prompt que el equipo necesita, listo para copiar.</h1>
+      <h1>Cómo crear un componente y no morir en el intento.</h1>
       <p class="hero-lede">
-        Este mapa traduce el instructivo de trabajo en bloques de texto que se copian directo a Claude.
+        Esta página traduce el instructivo de trabajo en bloques de texto que se copian directo a Claude.
         Sirve para dejar configurado el proyecto una sola vez, abrir un chat exclusivo para componentes,
         y pedir creaciones o ajustes sin reescribir instrucciones cada vez.
       </p>
       <div class="hero-meta">
-        <span class="pill">Design System <b>cencoPrime</b></span>
+        <span class="pill">Proyecto <b>cencoPrime</b></span>
         <span class="pill">Herramienta <b>Claude + Figma</b></span>
         <span class="pill">Accesibilidad <b>AA</b></span>
         <span class="pill">9 bloques de prompts</span>
@@ -587,11 +587,11 @@
       <div class="flow-steps">
         <div class="flow-step">
           <div class="flow-num">01</div>
-          <p>Configurar el proyecto una sola vez con el contexto del DS.</p>
+          <p>Configurar el proyecto una sola vez con el contexto necesario.</p>
         </div>
         <div class="flow-step">
           <div class="flow-num">02</div>
-          <p>Abrir el chat <em>"Componentes DS"</em> dentro del proyecto.</p>
+          <p>Abrir el chat <em>"Componentes"</em> dentro del proyecto.</p>
         </div>
         <div class="flow-step">
           <div class="flow-num">03</div>
@@ -615,13 +615,13 @@
         <h2>Contexto general del proyecto</h2>
       </div>
       <p class="block-sub">
-        Antes de pedir cualquier componente, el proyecto en Claude debe tener cargados los tres archivos
+        Antes de pedir cualquier componente, el proyecto en Claude debe tener cargados los archivos
         de fuente de verdad. Esto se hace una sola vez y no se repite en cada chat.
       </p>
 
       <div class="source-note">
-        <b>Cargar en el proyecto de Claude:</b> DS Tokens (colores, tipografía, espaciados, radius, overlays,
-        estados, variables) · DS Components (comportamiento, variantes, anatomía, responsive, documentación)
+        <b>Cargar en el proyecto de Claude:</b> Estilos base (colores, tipografía, espaciados, radius, overlays,
+        estados, variables) · Componentes existentes (comportamiento, variantes, anatomía, responsive, documentación)
         · Branding (logo, marca, acentos de color, convivencia con banderas Cencosud).
       </div>
 
@@ -631,9 +631,9 @@
           <div class="promptcard-where">Instrucciones del proyecto</div>
         </div>
         <div class="promptbody">
-          <pre>Claude debe usar estos archivos como fuente de verdad y no inventar reglas visuales que no estén definidas en el DS.</pre>
+          <pre>Claude debe usar estos archivos como fuente de verdad y no inventar reglas visuales que no estén ya definidas.</pre>
         </div>
-        <div class="promptcard-foot">Se agrega junto con los tres archivos cargados (DS Tokens, DS Components, Branding).</div>
+        <div class="promptcard-foot">Se agrega junto con los archivos cargados (Estilos base, Componentes existentes, Branding).</div>
       </div>
     </section>
 
@@ -658,19 +658,19 @@
 
 Cuando pida crear un componente y entregue un link de Figma, crear el componente directamente en el lugar indicado.
 
-Usar el contexto del DS Tokens, DS Components y branding como fuente de verdad.
+Usar el contexto de los estilos, componentes existentes y branding cargados como fuente de verdad.
 
 Respetar siempre:
 tokens, auto layout, variables, estados, accesibilidad AA, nomenclatura del sistema y responsive.
 
 El componente debe quedar funcional dentro del layout donde se inserta:
-- No usar ancho fijo salvo que el DS lo defina.
+- No usar ancho fijo salvo que así esté definido.
 - Usar Hug contents, Fill container o constraints según corresponda.
 - Revisar el contenedor padre antes de ajustar el componente.
 - Evitar posiciones absolutas innecesarias.
 - El componente no debe salirse del frame ni romper el layout.
 - Si el espacio no alcanza, debe adaptarse, bajar de línea o ajustar su contenido según corresponda.
-- Mantener padding, gap, radius y tipografía con tokens del DS.
+- Mantener padding, gap, radius y tipografía según los estilos definidos.
 
 Dejarlo armado como componente principal, con variantes/properties editables si corresponde.
 
@@ -688,7 +688,7 @@ No hacer análisis previo ni explicación larga. Priorizar ejecutar en Figma.</p
       </div>
       <p class="block-sub">
         Se recomienda un chat dedicado, dentro del mismo proyecto, para mantener el contexto liviano y
-        evitar repetir instrucciones del DS en cada mensaje.
+        evitar repetir instrucciones en cada mensaje.
       </p>
 
       <div class="twocol">
@@ -698,7 +698,7 @@ No hacer análisis previo ni explicación larga. Priorizar ejecutar en Figma.</p
             <div class="promptcard-where">Título de la conversación</div>
           </div>
           <div class="promptbody">
-            <pre>Componentes DS</pre>
+            <pre>Componentes</pre>
           </div>
         </div>
 
@@ -710,11 +710,11 @@ No hacer análisis previo ni explicación larga. Priorizar ejecutar en Figma.</p
           <div class="promptbody">
             <pre>Este chat será solo para crear componentes en Figma.
 
-Usa las instrucciones del proyecto y el contexto guardado del DS Tokens, DS Components y branding.
+Usa las instrucciones del proyecto y el contexto guardado (estilos, componentes existentes y branding).
 
 Cuando entregue un nombre o breve descripción + link de Figma, crea el componente directamente en el lugar indicado.
 
-No necesito análisis largo ni explicación previa. Prioriza ejecutar en Figma respetando tokens, auto layout, variables, estados, accesibilidad AA, responsive y nomenclatura del DS.</pre>
+No necesito análisis largo ni explicación previa. Prioriza ejecutar en Figma respetando tokens, auto layout, variables, estados, accesibilidad AA, responsive y la nomenclatura ya definida.</pre>
           </div>
         </div>
       </div>
@@ -728,13 +728,13 @@ No necesito análisis largo ni explicación previa. Prioriza ejecutar en Figma r
       </div>
       <p class="block-sub">
         Para componentes sin mayor complejidad, basta con nombre + link. Este es el prompt que se usa
-        día a día dentro del chat "Componentes DS".
+        día a día dentro del chat "Componentes".
       </p>
 
       <div class="promptcard">
         <div class="promptcard-head">
           <div class="promptcard-title"><span class="dot"></span>Prompt rápido</div>
-          <div class="promptcard-where">Chat "Componentes DS"</div>
+          <div class="promptcard-where">Chat "Componentes"</div>
         </div>
         <div class="promptbody">
           <pre>Crear componente: <span class="ph">[NOMBRE DEL COMPONENTE]</span>
@@ -759,7 +759,7 @@ Link: <span class="ph">[LINK DE FIGMA]</span></pre>
       <div class="promptcard">
         <div class="promptcard-head">
           <div class="promptcard-title"><span class="dot"></span>Plantilla con especificaciones</div>
-          <div class="promptcard-where">Chat "Componentes DS"</div>
+          <div class="promptcard-where">Chat "Componentes"</div>
         </div>
         <div class="promptbody">
           <pre>Crear componente:
@@ -819,7 +819,7 @@ Selector de ordenamiento
       <div class="promptcard">
         <div class="promptcard-head">
           <div class="promptcard-title"><span class="dot"></span>Prompt de ajuste</div>
-          <div class="promptcard-where">Chat "Componentes DS" · sobre el componente existente</div>
+          <div class="promptcard-where">Chat "Componentes" · sobre el componente existente</div>
         </div>
         <div class="promptbody">
           <pre>Ajustar componente en Figma:
@@ -840,7 +840,7 @@ Debe quedar:
 - Sin posiciones absolutas innecesarias.
 - Con resize configurado según corresponda: Fill container / Hug contents.
 - Si no cabe en la misma fila, debe bajar o ajustarse según el espacio.
-- Mantener tokens, variables, estados, accesibilidad AA y nomenclatura del DS.
+- Mantener tokens, variables, estados, accesibilidad AA y la nomenclatura ya definida.
 
 Revisa también el contenedor padre para que el componente se adapte correctamente al ancho disponible.</pre>
         </div>
@@ -905,12 +905,12 @@ Revisa también el contenedor padre para que el componente se adapte correctamen
           </ul>
         </div>
         <div class="checkcard">
-          <h3>Design System</h3>
+          <h3>Estilos y consistencia</h3>
           <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Usa tokens del DS.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Usa los estilos ya definidos.</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>No usa colores hardcodeados.</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Mantiene padding, gap, radius y tipografía.</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Respeta nomenclatura del DS.</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Respeta la nomenclatura definida.</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>No duplica componentes existentes.</li>
           </ul>
         </div>
@@ -952,18 +952,18 @@ Revisa también el contenedor padre para que el componente se adapte correctamen
         <div class="col dont">
           <h3>Evitar</h3>
           <ul>
-            <li>Repetir todos los links del DS en cada mensaje.</li>
+            <li>Repetir todos los links de referencia en cada mensaje.</li>
             <li>Pedir análisis cuando solo se necesita crear.</li>
             <li>Dar instrucciones muy largas para componentes simples.</li>
             <li>Pedir que lo rehaga desde cero si solo necesita ajuste.</li>
-            <li>Permitir anchos fijos sin justificación del DS.</li>
+            <li>Permitir anchos fijos sin justificación clara.</li>
           </ul>
         </div>
       </div>
     </section>
 
     <footer>
-      <span>Basado en el Instructivo de trabajo · Creación de componentes con Claude + Figma + Design System.</span>
+      <span>Basado en el Instructivo de trabajo · Creación de componentes con Claude + Figma.</span>
       <span>cencoPrime / cencoPrime black</span>
     </footer>
 
