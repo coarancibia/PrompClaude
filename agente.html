@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claude + Figma · Agente cencoPrime</title>
+<title>Agente de Product Design · Skills</title>
 <style>
   :root{
     --ink-900:#13151a;--ink-700:#3a3d46;--ink-500:#6b6f7a;--ink-300:#a9adb8;
@@ -13,70 +13,121 @@
     --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   }
   *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
   body{margin:0;background:var(--paper);color:var(--ink-900);font-family:var(--sans);-webkit-font-smoothing:antialiased;}
   @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
 
   .wrap{max-width:1160px;margin:0 auto;padding:90px 48px 100px;}
   @media(max-width:700px){.wrap{padding:56px 20px 70px;}}
 
+  section{scroll-margin-top:32px;}
+
   /* NAV */
-  .nav{display:flex;align-items:center;gap:8px;margin-bottom:48px;font-family:var(--mono);font-size:12px;color:var(--ink-300);}
+  .nav{display:flex;align-items:center;gap:8px;margin-bottom:48px;font-family:var(--mono);font-size:12px;color:var(--ink-300);flex-wrap:wrap;}
   .nav a{color:var(--ink-500);text-decoration:none;}
   .nav a:hover{color:var(--accent);}
-  .nav-pages{display:flex;gap:6px;margin-left:auto;}
+  .nav-pages{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;}
   .nav-pages a{font-family:var(--mono);font-size:11px;padding:5px 12px;border:1px solid var(--line);border-radius:99px;color:var(--ink-500);text-decoration:none;background:var(--panel);transition:border-color .15s,color .15s;}
   .nav-pages a:hover{border-color:var(--accent);color:var(--accent);}
   .nav-pages a.active{border-color:var(--ink-900);color:var(--ink-900);font-weight:600;}
 
   .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:10px;margin-bottom:20px;}
   .eyebrow::before{content:"";width:7px;height:7px;background:var(--accent);border-radius:50%;display:inline-block;}
-  h1{font-family:var(--serif);font-weight:600;font-size:clamp(32px,4.5vw,52px);line-height:1.05;letter-spacing:-.01em;margin:0 0 22px;max-width:22ch;}
-  .lede{font-size:17px;line-height:1.65;color:var(--ink-700);max-width:640px;margin:0 0 40px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(32px,4.5vw,52px);line-height:1.05;letter-spacing:-.01em;margin:0 0 22px;max-width:24ch;}
+  .lede{font-size:17px;line-height:1.65;color:var(--ink-700);max-width:680px;margin:0 0 24px;}
 
-  .why-intro{font-size:14.5px;line-height:1.65;color:var(--ink-700);max-width:720px;margin:0 0 32px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;}
+  .why-intro{font-size:14.5px;line-height:1.65;color:var(--ink-700);max-width:760px;margin:0 0 32px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;}
   .why-intro b{color:var(--ink-900);}
 
-  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:56px;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;}
   .pill{font-family:var(--mono);font-size:11.5px;padding:6px 12px;border:1px solid var(--line);border-radius:99px;color:var(--ink-500);background:var(--panel);}
   .pill b{color:var(--ink-900);font-weight:600;}
 
+  /* JUMP NAV */
+  .jump-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:56px;}
+  .jump-nav a{font-family:var(--mono);font-size:11.5px;padding:7px 14px;border:1px solid var(--line);border-radius:99px;color:var(--ink-500);text-decoration:none;background:var(--panel);transition:border-color .15s,color .15s;}
+  .jump-nav a:hover{border-color:var(--accent);color:var(--accent);}
+
   /* INTRO AGENTE */
-  .agent-intro{background:var(--ink-900);border-radius:20px;padding:40px 48px;margin-bottom:56px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  .agent-intro{background:var(--ink-900);border-radius:20px;padding:40px 48px;margin-bottom:32px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
   @media(max-width:760px){.agent-intro{grid-template-columns:1fr;padding:28px 24px;gap:28px;}}
   .agent-intro h2{font-family:var(--serif);font-size:28px;font-weight:600;color:#fff;margin:0 0 14px;line-height:1.2;}
   .agent-intro p{font-size:14px;line-height:1.7;color:rgba(255,255,255,.6);margin:0;}
   .agent-intro p b{color:rgba(255,255,255,.9);}
   .agent-modes{display:flex;flex-direction:column;gap:8px;}
-  .mode-row{display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(255,255,255,.06);border-radius:10px;border:1px solid rgba(255,255,255,.08);}
-  .mode-cmd{font-family:var(--mono);font-size:12px;font-weight:700;color:#ff8c6b;min-width:110px;}
-  .mode-desc{font-size:13px;color:rgba(255,255,255,.55);}
+  .mode-row{display:flex;align-items:center;gap:12px;padding:11px 16px;background:rgba(255,255,255,.06);border-radius:10px;border:1px solid rgba(255,255,255,.08);}
+  .mode-cmd{font-family:var(--mono);font-size:12px;font-weight:700;color:#ff8c6b;min-width:80px;}
+  .mode-desc{font-size:12.5px;color:rgba(255,255,255,.55);}
+
+  /* CALLOUT DARK */
+  .callout-dark{background:var(--ink-900);border-radius:20px;padding:40px 48px;margin-bottom:56px;}
+  @media(max-width:700px){.callout-dark{padding:28px 24px;}}
+  .callout-dark h2{font-family:var(--serif);font-size:24px;font-weight:600;color:#fff;margin:0 0 14px;line-height:1.25;}
+  .callout-dark p{font-size:14px;line-height:1.7;color:rgba(255,255,255,.62);margin:0 0 12px;max-width:780px;}
+  .callout-dark p:last-child{margin-bottom:0;}
+  .callout-dark p b{color:rgba(255,255,255,.92);}
 
   /* SECTION TITLE */
-  .section-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-300);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+  .section-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-300);margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;}
+  .section-label .count{color:var(--ink-500);}
+  .section-intro{font-size:14px;line-height:1.65;color:var(--ink-500);max-width:680px;margin:0 0 24px;}
 
-  /* GRID MODOS */
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:56px;}
-  @media(max-width:960px){.grid{grid-template-columns:1fr 1fr;}}
-  @media(max-width:600px){.grid{grid-template-columns:1fr;}}
-  .grid-2{grid-template-columns:repeat(2,1fr);}
-  @media(max-width:600px){.grid-2{grid-template-columns:1fr;}}
+  /* SKILL GRID */
+  .skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:64px;}
+  @media(max-width:860px){.skill-grid{grid-template-columns:1fr;}}
 
-  .card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:32px;position:relative;overflow:hidden;transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease;}
-  .card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 12px 28px -16px rgba(19,21,26,.18);}
-  .card:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
-  .card.disabled{opacity:.5;pointer-events:none;}
+  .skill-card{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:14px;transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease;}
+  .skill-card:hover{border-color:var(--accent);box-shadow:0 12px 28px -16px rgba(19,21,26,.18);transform:translateY(-2px);}
 
-  .card-icon{width:38px;height:38px;border-radius:10px;background:var(--ink-900);color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+  .skill-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .card-icon{width:38px;height:38px;border-radius:10px;background:var(--ink-900);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .card-icon svg{width:18px;height:18px;}
-  .card-tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);display:inline-block;padding:4px 11px;border-radius:99px;margin-bottom:20px;}
-  .card-tag.tag-nuevo{color:#1d7a4e;background:#d6f5e6;}
-  .card-tag.tag-existente{color:var(--ink-500);background:#f0efe9;}
-  .card h2{font-family:var(--serif);font-size:20px;font-weight:600;margin:0 0 10px;letter-spacing:-.005em;}
-  .card p{font-size:13.5px;line-height:1.6;color:var(--ink-500);margin:0 0 20px;}
-  .card .pattern{font-family:var(--mono);font-size:11px;color:var(--ink-300);background:#fbfaf8;border:1px solid var(--line);border-radius:8px;padding:9px 12px;margin-bottom:20px;word-break:break-all;line-height:1.5;}
-  .card .cta{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--ink-900);font-weight:600;}
-  .card .cta svg{width:14px;height:14px;transition:transform .18s ease;}
-  .card:hover .cta svg{transform:translateX(3px);}
+
+  .priority-badge{font-family:var(--mono);font-size:10.5px;padding:4px 10px;border-radius:99px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+  .priority-alta{color:#b23c1f;background:#ffe7de;}
+  .priority-media{color:#8a6d1d;background:#faf0d6;}
+  .priority-apoyo{color:var(--ink-500);background:#f0efe9;}
+
+  .card-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;display:inline-block;padding:4px 11px;border-radius:99px;margin-bottom:2px;}
+  .tag-investigacion{color:#1d4ed8;background:#dfe9ff;}
+  .tag-flujos{color:#7c3aed;background:#ece3fd;}
+  .tag-diseno{color:var(--accent);background:var(--accent-dim);}
+  .tag-testing{color:#1d7a4e;background:#d6f5e6;}
+  .tag-handoff{color:var(--ink-500);background:#f0efe9;}
+  .tag-gestion{color:#0f766e;background:#d7f3ef;}
+
+  .skill-card h3{font-family:var(--serif);font-size:18px;font-weight:600;margin:10px 0 0;letter-spacing:-.005em;line-height:1.3;}
+  .skill-trigger{font-family:var(--mono);font-size:12px;color:var(--ink-300);font-weight:400;margin-left:8px;}
+
+  .skill-desc{font-size:13.5px;line-height:1.6;color:var(--ink-700);margin:0;}
+  .skill-when{font-size:12.5px;line-height:1.6;color:var(--ink-500);margin:0;}
+  .skill-when b{color:var(--ink-900);}
+
+  .io-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:480px){.io-grid{grid-template-columns:1fr;}}
+  .io-box{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fbfaf8;}
+  .io-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+  .io-text{font-size:12px;line-height:1.5;color:var(--ink-700);}
+
+  .prompt-code{font-family:var(--mono);font-size:11.5px;line-height:1.7;background:var(--ink-900);color:#e8e6df;border-radius:10px;padding:16px 18px;white-space:pre-wrap;word-break:break-word;margin:0;}
+  .copy-btn{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-900);background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:7px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:border-color .15s,color .15s;align-self:flex-start;}
+  .copy-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .copy-btn.copied{border-color:#1d7a4e;color:#1d7a4e;}
+  .copy-btn svg{width:12px;height:12px;}
+
+  .mini-check{display:flex;flex-direction:column;gap:7px;padding-top:4px;border-top:1px solid var(--line);}
+  .mini-check-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-300);margin:8px 0 2px;}
+  .mini-check-item{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--ink-500);line-height:1.5;}
+  .mini-check-item svg{flex-shrink:0;width:13px;height:13px;color:var(--accent);margin-top:2px;}
+
+  .skill-connects{display:flex;flex-direction:column;gap:8px;}
+  .skill-connects-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-300);}
+  .connect-item{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:#fbfaf8;text-decoration:none;color:inherit;transition:border-color .15s ease,transform .15s ease;}
+  .connect-item:hover{border-color:var(--accent);transform:translateX(2px);}
+  .connect-item-title{font-size:12.5px;font-weight:600;color:var(--ink-900);margin-bottom:2px;}
+  .connect-item-desc{font-size:11.5px;color:var(--ink-500);line-height:1.5;}
+  .connect-item-arrow{flex-shrink:0;color:var(--ink-300);margin-top:2px;transition:color .15s ease;}
+  .connect-item:hover .connect-item-arrow{color:var(--accent);}
 
   /* COMPARACION */
   .compare{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:56px;}
@@ -89,15 +140,6 @@
   .compare-col.highlight .compare-item{border-bottom-color:rgba(255,255,255,.08);color:rgba(255,255,255,.7);}
   .compare-item:last-child{border-bottom:none;}
   .compare-icon{flex-shrink:0;margin-top:1px;}
-
-  /* TOKEN TABLE */
-  .ventajas{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:56px;}
-  @media(max-width:760px){.ventajas{grid-template-columns:1fr 1fr;}}
-  @media(max-width:480px){.ventajas{grid-template-columns:1fr;}}
-  .ventaja{padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--panel);}
-  .ventaja-num{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--accent);margin-bottom:6px;line-height:1;}
-  .ventaja-label{font-size:13px;color:var(--ink-500);line-height:1.4;}
-  .ventaja-label b{color:var(--ink-900);display:block;margin-bottom:2px;}
 
   .footnote{font-size:12.5px;color:var(--ink-300);border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
 </style>
@@ -116,207 +158,492 @@
     </div>
   </nav>
 
-  <div class="eyebrow">cencoPrime · cencoPrime black</div>
-  <h1>Un agente con las skills para automatizar el trabajo diario.</h1>
-  <p class="lede">En vez de copiar prompts cada vez, el agente tiene las skills del equipo siempre cargadas: crear, nombrar, auditar, documentar y más. Solo entregas el link de Figma o el nombre del componente y ejecutas el comando.</p>
+  <div class="eyebrow">Equipo de diseño · Product Design</div>
+  <h1>Un agente de Product Design con skills para cada etapa del flujo.</h1>
+  <p class="lede">No es una lista de agentes independientes. Es <b style="color:var(--ink-900);">un solo agente</b> que activa el skill correcto según la tarea en la que estés: sintetizar research, mapear un flujo, preparar un handoff, redactar un criterio de aceptación o dejar registro de una decisión.</p>
 
   <div class="why-intro">
-    <b>¿Por qué crear un agente?</b> Hoy cada persona copia el prompt, ajusta el contexto y lo pega en Claude. Funciona, pero se repite en cada tarea y depende de que alguien recuerde el prompt correcto. Un agente empaqueta esas skills una sola vez: automatiza lo repetitivo y deja al equipo con más tiempo para lo que sí requiere criterio.
+    <b>¿Por qué skills y no un agente por tarea?</b> Porque el trabajo de un Product Designer no es una sola disciplina, es un flujo continuo. Un mismo agente, con distintos skills cargados, se adapta a cada momento del proceso sin que el equipo tenga que cambiar de herramienta ni recordar qué prompt usar en cada caso.
   </div>
 
   <div class="meta-row">
-    <span class="pill">Herramienta <b>Claude + Figma</b></span>
-    <span class="pill">Proyecto <b>cencoPrime</b></span>
-    <span class="pill">Accesibilidad <b>AA</b></span>
-    <span class="pill"><b>10 skills</b> disponibles</span>
+    <span class="pill">Agente <b>Product Design</b></span>
+    <span class="pill"><b>9 skills</b> disponibles</span>
+    <span class="pill">Un agente <b>múltiples skills</b></span>
+    <span class="pill">Apoya, <b>no reemplaza</b> el criterio UX/UI</span>
   </div>
 
-  <!-- VENTAJAS -->
-  <div class="section-label">Por qué ocupa menos tokens</div>
-  <div class="ventajas" style="margin-bottom:56px;">
-    <div class="ventaja">
-      <div class="ventaja-num">1×</div>
-      <div class="ventaja-label"><b>System prompt</b>Se carga una sola vez por sesión, no en cada mensaje</div>
-    </div>
-    <div class="ventaja">
-      <div class="ventaja-num">~10</div>
-      <div class="ventaja-label"><b>Tokens por mensaje</b>Solo el comando + el link. El contexto no se repite</div>
-    </div>
-    <div class="ventaja">
-      <div class="ventaja-num">−80%</div>
-      <div class="ventaja-label"><b>Menos contexto</b>Frente a copiar el prompt completo en cada turno</div>
-    </div>
+  <div class="jump-nav">
+    <a href="#investigacion">Investigación y definición</a>
+    <a href="#flujos">Flujos y casuísticas</a>
+    <a href="#diseno">Diseño, contenido y revisión</a>
+    <a href="#testing">Testing y validación</a>
+    <a href="#handoff-qa">Handoff, QA y documentación</a>
+    <a href="#gestion">Gestión y seguimiento</a>
   </div>
 
   <!-- INTRO AGENTE -->
   <div class="agent-intro">
     <div>
-      <h2>Agente cencoPrime</h2>
-      <p>Un solo agente con las <b>skills del equipo</b> siempre cargadas: crear, nombrar, auditar, documentar y más, listas para ejecutar sin reconfigurar nada.</p>
+      <h2>Un agente, muchos skills</h2>
+      <p>Describes la tarea o pegas el input —transcripciones, notas, link de Figma, historia de usuario— y el agente activa el skill que corresponde.</p>
       <br>
-      <p>Tu equipo solo necesita el link de Figma o el nombre del componente. El agente hace el resto sin copiar prompts ni configurar nada.</p>
+      <p>No hay que elegir entre "agentes" distintos. Es <b>un mismo agente de Product Design</b> con las 9 skills siempre cargadas, listo para el momento del flujo en que estés.</p>
     </div>
     <div class="agent-modes">
-      <div class="mode-row"><span class="mode-cmd">/crear</span><span class="mode-desc">Crea o ajusta un componente en Figma</span></div>
-      <div class="mode-row"><span class="mode-cmd">/naming</span><span class="mode-desc">Renombra frames con la nomenclatura del proyecto</span></div>
-      <div class="mode-row"><span class="mode-cmd">/auditar</span><span class="mode-desc">Revisa estilos y componentes y reporta desvíos</span></div>
-      <div class="mode-row"><span class="mode-cmd">/documentar</span><span class="mode-desc">Genera anatomía, estados y guía de uso</span></div>
-      <div class="mode-row"><span class="mode-cmd">/tickets</span><span class="mode-desc">Historia de usuario + criterios + story points</span></div>
-      <div class="mode-row"><span class="mode-cmd">/handoff</span><span class="mode-desc">Checklist completo pre-entrega a dev</span></div>
-      <div class="mode-row"><span class="mode-cmd">/variantes</span><span class="mode-desc">Detecta estados y variantes faltantes</span></div>
-      <div class="mode-row"><span class="mode-cmd">/corregir</span><span class="mode-desc">Aplica correcciones de auditoría en Figma</span></div>
-      <div class="mode-row"><span class="mode-cmd">/rebrandear</span><span class="mode-desc">Detecta qué actualizar al nuevo branding</span></div>
-      <div class="mode-row"><span class="mode-cmd">/qa</span><span class="mode-desc">Revisión visual antes de presentar</span></div>
+      <div class="mode-row"><span class="mode-cmd">/research</span><span class="mode-desc">Síntesis de entrevistas, notas y encuestas</span></div>
+      <div class="mode-row"><span class="mode-cmd">/post-test</span><span class="mode-desc">Hallazgos post-test cruzados con hipótesis</span></div>
+      <div class="mode-row"><span class="mode-cmd">/flujos</span><span class="mode-desc">Mapeo de flujos, estados y casuísticas</span></div>
+      <div class="mode-row"><span class="mode-cmd">/handoff</span><span class="mode-desc">Documentación clara para desarrollo</span></div>
+      <div class="mode-row"><span class="mode-cmd">/framing</span><span class="mode-desc">Problem statement, JTBD e hipótesis</span></div>
+      <div class="mode-row"><span class="mode-cmd">/revisión</span><span class="mode-desc">Revisión UX/UI antes de entregar</span></div>
+      <div class="mode-row"><span class="mode-cmd">/copy</span><span class="mode-desc">Redacción UX de textos de interfaz</span></div>
+      <div class="mode-row"><span class="mode-cmd">/benchmark</span><span class="mode-desc">Referencias y direcciones conceptuales</span></div>
+      <div class="mode-row"><span class="mode-cmd">/reunión</span><span class="mode-desc">Síntesis de acuerdos y pendientes</span></div>
     </div>
   </div>
 
-  <!-- MODOS EXISTENTES -->
-  <div class="section-label">Modos existentes · ya documentados en el instructivo</div>
-  <div class="grid grid-2" style="margin-bottom:40px;">
-
-    <a class="card" href="componentes.html">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      </div>
-      <span class="card-tag tag-existente">Existente · Creación</span>
-      <h2>/crear</h2>
-      <p>Crea o ajusta componentes en Figma respetando tokens, auto layout, estados y accesibilidad AA.</p>
-      <div class="pattern">Crear componente: [NOMBRE] · Link: [LINK DE FIGMA]</div>
-      <div class="cta">Ver prompts <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
-    </a>
-
-    <a class="card" href="naming.html">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
-      </div>
-      <span class="card-tag tag-existente">Existente · Organización</span>
-      <h2>/naming</h2>
-      <p>Renombra frames y pantallas en Figma con la nomenclatura consistente del proyecto.</p>
-      <div class="pattern">proyecto/dispositivo/flujo/pantalla_o_estado/foco_ajuste</div>
-      <div class="cta">Ver prompts <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
-    </a>
-
+  <!-- NO REEMPLAZA CRITERIO -->
+  <div class="callout-dark">
+    <h2>Esto no reemplaza tu criterio de diseño.</h2>
+    <p>Los skills de este agente <b>apoyan, aceleran y ordenan</b> tareas operativas, repetitivas o de documentación: sintetizar notas, mapear estados, redactar textos, preparar un handoff.</p>
+    <p>Las decisiones de fondo —qué problema vale la pena resolver, qué experiencia tiene sentido, qué se prioriza y qué se descarta— siguen siendo del <b>Product Designer y del UX/UI Designer</b>. El objetivo es liberar tiempo operativo para que ese criterio tenga más espacio, no menos.</p>
   </div>
 
-  <!-- MODOS NUEVOS -->
-  <div class="section-label">Modos nuevos · por agregar al agente</div>
-  <div class="grid" style="margin-bottom:56px;">
+  <!-- 1. INVESTIGACIÓN Y DEFINICIÓN -->
+  <section id="investigacion">
+    <div class="section-label">Investigación y definición <span class="count">· 2 skills</span></div>
+    <p class="section-intro">Antes de diseñar: entender qué dicen los usuarios y enmarcar el problema con foco.</p>
+    <div class="skill-grid">
 
-    <div class="card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <span class="priority-badge priority-alta">Prioridad alta</span>
+        </div>
+        <div>
+          <span class="card-tag tag-investigacion">Investigación y definición</span>
+          <h3>01 · Síntesis de research<span class="skill-trigger">/research</span></h3>
+        </div>
+        <p class="skill-desc">Toma transcripciones de entrevistas, notas de campo o encuestas y las convierte en insights agrupados por tema, con citas de respaldo y nivel de recurrencia.</p>
+        <p class="skill-when"><b>Cuándo usarlo:</b> después de cerrar una ronda de entrevistas o encuestas, antes de la sesión de síntesis con el equipo.</p>
+        <div class="io-grid">
+          <div class="io-box"><div class="io-label">Input</div><div class="io-text">Transcripciones, notas de campo o encuestas.</div></div>
+          <div class="io-box"><div class="io-label">Output</div><div class="io-text">Insights agrupados, pain points priorizados y oportunidades.</div></div>
+        </div>
+        <pre class="prompt-code">Contexto: acabamos de cerrar [N] entrevistas / encuesta sobre [tema].
+Objetivo: sintetizar el research en insights agrupados por tema.
+Input: [pegar transcripciones, notas o respuestas].
+Entregable esperado: insights agrupados por tema, con cita de respaldo y nivel de recurrencia (cuántas personas lo mencionaron); pain points priorizados; oportunidades detectadas.
+Restricciones: no propongas soluciones todavía, solo sintetiza lo que dijeron los usuarios.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+        <div class="mini-check">
+          <div class="mini-check-label">Checklist rápido</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Se agruparon los insights por tema, no por pregunta?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Cada insight tiene al menos una cita de respaldo?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Se indicó cuántas personas mencionaron cada punto?</div>
+        </div>
       </div>
-      <span class="card-tag tag-nuevo">Nuevo · Calidad</span>
-      <h2>/auditar</h2>
-      <p>Revisa si las pantallas están correctamente construidas respetando los estilos y componentes ya definidos. Hallazgos priorizados: crítico / alto / medio / bajo.</p>
-      <div class="pattern">Auditar · crítico / alto / medio / bajo · accesibilidad AA</div>
-      <div class="cta">Próximamente</div>
-    </div>
 
-    <div class="card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <span class="priority-badge priority-media">Prioridad media</span>
+        </div>
+        <div>
+          <span class="card-tag tag-investigacion">Investigación y definición</span>
+          <h3>06 · Framing del problema<span class="skill-trigger">/framing</span></h3>
+        </div>
+        <p class="skill-desc">A partir de insights o contexto de negocio, genera problem statements, JTBD, hipótesis y criterios de éxito.</p>
+        <p class="skill-when"><b>Cuándo usarlo:</b> al iniciar un proyecto o feature nueva, antes de pasar a ideación o wireframes.</p>
+        <div class="io-grid">
+          <div class="io-box"><div class="io-label">Input</div><div class="io-text">Insights, requerimiento o contexto de negocio.</div></div>
+          <div class="io-box"><div class="io-label">Output</div><div class="io-text">Problem statement, JTBD, hipótesis y métricas de éxito.</div></div>
+        </div>
+        <pre class="prompt-code">Contexto: estamos por empezar a trabajar en [proyecto o feature].
+Objetivo: enmarcar el problema antes de diseñar.
+Input: [insights, requerimiento o contexto de negocio].
+Entregable esperado: problem statement; JTBD (job to be done); hipótesis a validar; métricas de éxito propuestas.
+Restricciones: no propongas soluciones de diseño todavía, solo enmarca el problema.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+        <div class="mini-check">
+          <div class="mini-check-label">Checklist rápido</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿El problem statement describe un problema, no una solución disfrazada?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Hay al menos una hipótesis verificable?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Las métricas de éxito son medibles, no aspiracionales?</div>
+        </div>
       </div>
-      <span class="card-tag tag-nuevo">Nuevo · Documentación</span>
-      <h2>/documentar</h2>
-      <p>Dado el nombre del componente, genera anatomía, estados, comportamiento y guía de uso lista para pegar en Figma.</p>
-      <div class="pattern">/documentar [nombre del componente]</div>
-      <div class="cta">Próximamente</div>
-    </div>
 
-    <div class="card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    </div>
+  </section>
+
+  <!-- 2. FLUJOS Y CASUÍSTICAS -->
+  <section id="flujos">
+    <div class="section-label">Flujos y casuísticas <span class="count">· 1 skill</span></div>
+    <p class="section-intro">Antes de diseñar pantallas: mapear el terreno completo para no descubrir casos borde a mitad de camino.</p>
+    <div class="skill-grid">
+
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+          </div>
+          <span class="priority-badge priority-alta">Prioridad alta</span>
+        </div>
+        <div>
+          <span class="card-tag tag-flujos">Flujos y casuísticas</span>
+          <h3>03 · Mapeo de flujos, estados y casuísticas<span class="skill-trigger">/flujos</span></h3>
+        </div>
+        <p class="skill-desc">Ayuda a identificar pantallas, caminos principales, caminos alternativos, errores, estados vacíos, loading, success, disabled, sesión expirada, sin permisos y otros casos borde.</p>
+        <p class="skill-when"><b>Cuándo usarlo:</b> al iniciar un flujo nuevo o antes de diseñar wireframes.</p>
+        <div class="io-grid">
+          <div class="io-box"><div class="io-label">Input</div><div class="io-text">Flujo, requerimiento o concepto.</div></div>
+          <div class="io-box"><div class="io-label">Output</div><div class="io-text">User flow, lista de pantallas, estados y casuísticas.</div></div>
+        </div>
+        <pre class="prompt-code">Contexto: vamos a diseñar el flujo de [nombre del flujo].
+Objetivo: mapear el flujo completo antes de empezar a diseñar pantallas.
+Input: [descripción del flujo o requerimiento].
+Entregable esperado: user flow con camino principal y alternativos; lista de pantallas necesarias; estados a cubrir (vacío, loading, success, error, disabled, sesión expirada, sin permisos); otros casos borde relevantes.
+Restricciones: no diseñes las pantallas todavía, solo mapea la estructura.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+        <div class="mini-check">
+          <div class="mini-check-label">Checklist rápido</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Están el camino principal y al menos un camino alternativo?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Se cubrieron los estados obligatorios (vacío, loading, error, success)?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Se consideraron sesión expirada y permisos si aplica?</div>
+        </div>
       </div>
-      <span class="card-tag tag-nuevo">Nuevo · Gestión</span>
-      <h2>/tickets</h2>
-      <p>Genera historia de usuario, criterios de aceptación y estimación en story points lista para crear en Jira.</p>
-      <div class="pattern">/tickets [componente o pantalla]</div>
-      <div class="cta">Próximamente</div>
-    </div>
 
-    <div class="card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    </div>
+  </section>
+
+  <!-- 3. DISEÑO, CONTENIDO Y REVISIÓN -->
+  <section id="diseno">
+    <div class="section-label">Diseño, contenido y revisión <span class="count">· 3 skills</span></div>
+    <p class="section-intro">Durante el diseño: pulir, redactar y revisar antes de mostrar el trabajo a alguien más.</p>
+    <div class="skill-grid">
+
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <span class="priority-badge priority-media">Prioridad media</span>
+        </div>
+        <div>
+          <span class="card-tag tag-diseno">Diseño, contenido y revisión</span>
+          <h3>07 · Skill de revisión UX/UI y calidad visual<span class="skill-trigger">/revisión</span></h3>
+        </div>
+        <p class="skill-desc">Ayuda a revisar que una pantalla o flujo tenga buena jerarquía, consistencia visual, uso correcto del sistema, estados claros y una estructura lista para critique, handoff o QA. Este skill no reemplaza el criterio del Product Designer; funciona como apoyo para detectar inconsistencias y ordenar la capa UI.</p>
+        <p class="skill-when"><b>Cuándo usarlo:</b> antes de una critique, handoff o QA, para dejar la capa UI ordenada.</p>
+        <div class="skill-connects">
+          <div class="skill-connects-label">Conecta con</div>
+          <a class="connect-item" href="componentes.html">
+            <div><div class="connect-item-title">Crear componentes</div><div class="connect-item-desc">Revisar o construir componentes reutilizables con variantes, estados y reglas claras.</div></div>
+            <svg class="connect-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a class="connect-item" href="naming.html">
+            <div><div class="connect-item-title">Naming de pantallas</div><div class="connect-item-desc">Aplicar una nomenclatura consistente para ordenar Figma y facilitar el handoff.</div></div>
+            <svg class="connect-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a class="connect-item" href="auditoria.html">
+            <div><div class="connect-item-title">Auditoría DS</div><div class="connect-item-desc">Revisar consistencia visual, accesibilidad básica, uso de componentes, espaciados, jerarquía y estados.</div></div>
+            <svg class="connect-item-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="io-grid">
+          <div class="io-box"><div class="io-label">Input</div><div class="io-text">Pantalla, flujo, captura, link de Figma o componente.</div></div>
+          <div class="io-box"><div class="io-label">Output</div><div class="io-text">Observaciones priorizadas, mejoras visuales, inconsistencias detectadas y próximos pasos.</div></div>
+        </div>
+        <pre class="prompt-code">Contexto: [pantalla, flujo o componente] está por pasar a critique / handoff / QA.
+Objetivo: revisar jerarquía, consistencia visual, uso del sistema y estados antes de avanzar.
+Input: [pantalla, flujo, captura, link de Figma o componente].
+Entregable esperado: observaciones priorizadas (crítico / alto / medio / bajo); mejoras visuales sugeridas; inconsistencias detectadas (espaciado, tipografía, color, naming); próximos pasos para dejarlo listo.
+Restricciones: no ejecutes cambios, solo entrega el diagnóstico. No reemplaza el criterio del Product Designer.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+        <div class="mini-check">
+          <div class="mini-check-label">Checklist rápido</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿La jerarquía visual es clara?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Los componentes están bien usados?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Los estados están considerados?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿La pantalla respeta naming y estructura?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Existen inconsistencias de espaciado, tipografía o color?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Está lista para handoff o requiere ajustes?</div>
+        </div>
       </div>
-      <span class="card-tag tag-nuevo">Nuevo · Entrega</span>
-      <h2>/handoff</h2>
-      <p>Checklist completo antes de pasar a desarrollo: naming, tokens, estados, componentes definidos y accesibilidad AA.</p>
-      <div class="pattern">/handoff [link Figma o nombre]</div>
-      <div class="cta">Próximamente</div>
-    </div>
 
-    <div class="card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <span class="priority-badge priority-media">Prioridad media</span>
+        </div>
+        <div>
+          <span class="card-tag tag-diseno">Diseño, contenido y revisión</span>
+          <h3>08 · Redacción UX<span class="skill-trigger">/copy</span></h3>
+        </div>
+        <p class="skill-desc">Mejora textos de interfaz como títulos, subtítulos, botones, mensajes de error, empty states, tooltips, modales y alertas.</p>
+        <p class="skill-when"><b>Cuándo usarlo:</b> al pulir el detalle de una pantalla ya definida, o al detectar textos genéricos o poco claros.</p>
+        <div class="io-grid">
+          <div class="io-box"><div class="io-label">Input</div><div class="io-text">Textos actuales o contexto de pantalla.</div></div>
+          <div class="io-box"><div class="io-label">Output</div><div class="io-text">Propuesta de microcopy clara, humana y accionable.</div></div>
+        </div>
+        <pre class="prompt-code">Contexto: los textos de [pantalla o componente] necesitan revisión.
+Objetivo: mejorar el microcopy sin cambiar estructura ni diseño.
+Input: [textos actuales o descripción del contexto de la pantalla].
+Entregable esperado: propuesta de texto por cada elemento (título, botón, error, empty state, tooltip, etc.), con el texto actual al lado para comparar y una breve razón del cambio.
+Restricciones: no cambies la función de cada texto, solo mejora la redacción.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+        <div class="mini-check">
+          <div class="mini-check-label">Checklist rápido</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Cada propuesta se compara contra el texto actual?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿El tono es consistente con el resto del producto?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Los mensajes de error explican qué hacer, no solo qué falló?</div>
+        </div>
       </div>
-      <span class="card-tag tag-nuevo">Nuevo · Calidad</span>
-      <h2>/variantes</h2>
-      <p>Detecta qué variantes y estados faltan en un componente según lo ya definido. Prioriza: urgente / recomendado / opcional.</p>
-      <div class="pattern">/variantes [nombre del componente]</div>
-      <div class="cta">Próximamente</div>
-    </div>
 
-    <div class="card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          </div>
+          <span class="priority-badge priority-media">Prioridad media</span>
+        </div>
+        <div>
+          <span class="card-tag tag-diseno">Diseño, contenido y revisión</span>
+          <h3>09 · Benchmark / exploración de conceptos<span class="skill-trigger">/benchmark</span></h3>
+        </div>
+        <p class="skill-desc">Ordena referencias y genera alternativas de solución para no partir desde cero.</p>
+        <p class="skill-when"><b>Cuándo usarlo:</b> al iniciar la etapa de ideación de un flujo o componente nuevo, antes de bocetar.</p>
+        <div class="io-grid">
+          <div class="io-box"><div class="io-label">Input</div><div class="io-text">Problema o necesidad.</div></div>
+          <div class="io-box"><div class="io-label">Output</div><div class="io-text">Referencias, patrones, oportunidades y 3-5 direcciones.</div></div>
+        </div>
+        <pre class="prompt-code">Contexto: necesitamos resolver [problema o necesidad].
+Objetivo: explorar referencias y direcciones conceptuales antes de diseñar.
+Input: [descripción del problema o necesidad].
+Entregable esperado: referencias relevantes; patrones detectados entre ellas; oportunidades para diferenciarnos; pros y contras de cada patrón; entre 3 y 5 direcciones conceptuales posibles.
+Restricciones: no elijas una dirección por mí, solo preséntalas con sus tradeoffs.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+        <div class="mini-check">
+          <div class="mini-check-label">Checklist rápido</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Hay entre 3 y 5 direcciones, no una sola respuesta?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Cada dirección tiene pros y contras explícitos?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Las referencias son relevantes al problema, no genéricas?</div>
+        </div>
       </div>
-      <span class="card-tag tag-nuevo">Nuevo · Calidad</span>
-      <h2>/corregir</h2>
-      <p>Aplica en Figma las correcciones de una auditoría previa. Sin rediseñar el flujo, solo ajusta las inconsistencias detectadas.</p>
-      <div class="pattern">/corregir [link] · prioridad [crítico/alto/medio]</div>
-      <div class="cta">Próximamente</div>
-    </div>
 
-    <div class="card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+    </div>
+  </section>
+
+  <!-- 4. TESTING Y VALIDACIÓN -->
+  <section id="testing">
+    <div class="section-label">Testing y validación <span class="count">· 1 skill</span></div>
+    <p class="section-intro">Después de testear: separar lo que se validó de lo que hay que iterar, con evidencia.</p>
+    <div class="skill-grid">
+
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <span class="priority-badge priority-alta">Prioridad alta</span>
+        </div>
+        <div>
+          <span class="card-tag tag-testing">Testing y validación</span>
+          <h3>02 · Síntesis de hallazgos post-test<span class="skill-trigger">/post-test</span></h3>
+        </div>
+        <p class="skill-desc">Toma notas de sesiones de test y las cruza contra las hipótesis originales para identificar qué se validó, qué no y qué se debe iterar.</p>
+        <p class="skill-when"><b>Cuándo usarlo:</b> inmediatamente después de terminar una ronda de testing, antes de decidir próximos pasos.</p>
+        <div class="io-grid">
+          <div class="io-box"><div class="io-label">Input</div><div class="io-text">Notas de sesiones + hipótesis originales.</div></div>
+          <div class="io-box"><div class="io-label">Output</div><div class="io-text">Reporte de validación, hallazgos priorizados y próximos pasos.</div></div>
+        </div>
+        <pre class="prompt-code">Contexto: hicimos test de usabilidad de [flujo/prototipo] con [N] usuarios.
+Objetivo: cruzar lo observado contra las hipótesis originales.
+Input: notas de sesión: [pegar notas]. Hipótesis originales: [listar hipótesis].
+Entregable esperado: por cada hipótesis, indicar si se validó, no se validó o quedó parcial, con evidencia de las sesiones; hallazgos priorizados; próximos pasos sugeridos para iterar.
+Restricciones: no ejecutes cambios de diseño, solo entrega el análisis.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+        <div class="mini-check">
+          <div class="mini-check-label">Checklist rápido</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Cada hipótesis quedó marcada como validada, no validada o parcial?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Los hallazgos están priorizados, no solo listados?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Hay próximos pasos concretos, no solo diagnóstico?</div>
+        </div>
       </div>
-      <span class="card-tag tag-nuevo">Nuevo · Rebranding</span>
-      <h2>/rebrandear</h2>
-      <p>Detecta qué elementos de una pantalla necesitan actualizarse al nuevo branding: colores, tipografía, logo y tokens.</p>
-      <div class="pattern">/rebrandear [link Figma o nombre]</div>
-      <div class="cta">Próximamente</div>
-    </div>
 
-    <div class="card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    </div>
+  </section>
+
+  <!-- 5. HANDOFF, QA Y DOCUMENTACIÓN -->
+  <section id="handoff-qa">
+    <div class="section-label">Handoff, QA y documentación <span class="count">· 1 skill</span></div>
+    <p class="section-intro">Antes de entregar a desarrollo, y después: dejar todo trazable para que nada dependa de la memoria de alguien.</p>
+    <div class="skill-grid">
+
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </div>
+          <span class="priority-badge priority-alta">Prioridad alta</span>
+        </div>
+        <div>
+          <span class="card-tag tag-handoff">Handoff, QA y documentación</span>
+          <h3>04 · Handoff a desarrollo<span class="skill-trigger">/handoff</span></h3>
+        </div>
+        <p class="skill-desc">Convierte una pantalla o flujo validado en documentación clara para devs.</p>
+        <p class="skill-when"><b>Cuándo usarlo:</b> cuando el diseño ya está validado y aprobado, justo antes de pasarlo a desarrollo.</p>
+        <div class="io-grid">
+          <div class="io-box"><div class="io-label">Input</div><div class="io-text">Pantallas finales, prototipo o link de Figma.</div></div>
+          <div class="io-box"><div class="io-label">Output</div><div class="io-text">Comportamiento, reglas responsive, estados y criterios.</div></div>
+        </div>
+        <pre class="prompt-code">Contexto: [pantalla o flujo] ya está validado y listo para pasar a desarrollo.
+Objetivo: preparar la documentación de handoff.
+Input: [link de Figma o descripción de las pantallas finales].
+Entregable esperado: comportamiento esperado por pantalla/componente; reglas responsive (breakpoints, qué cambia); estados y casos borde; criterios de aceptación; links relevantes (Figma, tokens, componentes usados).
+Restricciones: no rediseñes nada, solo documenta lo que ya está aprobado.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+        <div class="mini-check">
+          <div class="mini-check-label">Checklist rápido</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Cada estado y caso borde quedó documentado, no solo el happy path?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Las reglas responsive están explícitas, no implícitas?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Los criterios de aceptación son verificables sin ambigüedad?</div>
+        </div>
       </div>
-      <span class="card-tag tag-nuevo">Nuevo · Revisión</span>
-      <h2>/qa</h2>
-      <p>Revisión visual rápida antes de presentar internamente: contraste, jerarquía, consistencia y legibilidad.</p>
-      <div class="pattern">/qa [link Figma o nombre]</div>
-      <div class="cta">Próximamente</div>
-    </div>
 
-  </div>
+    </div>
+  </section>
+
+  <!-- 6. GESTIÓN Y SEGUIMIENTO -->
+  <section id="gestion">
+    <div class="section-label">Gestión y seguimiento <span class="count">· 1 skill</span></div>
+    <p class="section-intro">Alrededor del trabajo de diseño: ordenar reuniones antes de que se pierda el contexto.</p>
+    <div class="skill-grid">
+
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <span class="priority-badge priority-apoyo">Uso puntual</span>
+        </div>
+        <div>
+          <span class="card-tag tag-gestion">Gestión y seguimiento</span>
+          <h3>10 · Síntesis de reunión<span class="skill-trigger">/reunión</span></h3>
+        </div>
+        <p class="skill-desc">Transforma notas desordenadas de reuniones en acuerdos, pendientes, riesgos, responsables y próximos pasos.</p>
+        <p class="skill-when"><b>Cuándo usarlo:</b> justo después de una reunión, mientras las notas todavía tienen contexto fresco.</p>
+        <div class="io-grid">
+          <div class="io-box"><div class="io-label">Input</div><div class="io-text">Notas de reunión.</div></div>
+          <div class="io-box"><div class="io-label">Output</div><div class="io-text">Resumen ejecutivo, decisiones, pendientes y próximos pasos.</div></div>
+        </div>
+        <pre class="prompt-code">Contexto: acabamos de tener una reunión sobre [tema].
+Objetivo: ordenar las notas en algo accionable.
+Input: [pegar notas de la reunión, aunque estén desordenadas].
+Entregable esperado: resumen ejecutivo breve; decisiones tomadas; pendientes con responsable si se mencionó; riesgos identificados; próximos pasos.
+Restricciones: no inventes acuerdos que no se mencionaron explícitamente.</pre>
+        <button class="copy-btn" type="button" onclick="copyPrompt(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copiar prompt
+        </button>
+        <div class="mini-check">
+          <div class="mini-check-label">Checklist rápido</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Cada pendiente tiene responsable, o quedó marcado "sin asignar"?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Se separaron decisiones de simples menciones?</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>¿Los próximos pasos son accionables, no vagos?</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
   <!-- COMPARACION -->
   <div class="section-label">Cómo cambia el flujo de trabajo</div>
-  <div class="compare" style="margin-bottom:56px;">
+  <div class="compare">
     <div class="compare-col">
-      <div class="compare-label">Hoy · con el instructivo</div>
-      <div class="compare-item"><span class="compare-icon">📄</span> Vas al instructivo en el sitio</div>
-      <div class="compare-item"><span class="compare-icon">📋</span> Copias el prompt del modo que necesitas</div>
-      <div class="compare-item"><span class="compare-icon">💬</span> Abres Claude y pegas el prompt</div>
-      <div class="compare-item"><span class="compare-icon">⚙️</span> Configuras el contexto del proyecto</div>
-      <div class="compare-item"><span class="compare-icon">🔗</span> Agregas el link de Figma</div>
-      <div class="compare-item"><span class="compare-icon">✅</span> Claude ejecuta</div>
+      <div class="compare-label">Hoy · sin skills</div>
+      <div class="compare-item"><span class="compare-icon">📝</span> Sintetizas research a mano, releyendo notas varias veces</div>
+      <div class="compare-item"><span class="compare-icon">🔀</span> Cada persona ordena flujos y estados a su manera</div>
+      <div class="compare-item"><span class="compare-icon">📋</span> Escribes criterios de aceptación desde cero cada vez</div>
+      <div class="compare-item"><span class="compare-icon">🗒️</span> Las decisiones de diseño quedan solo en la memoria del equipo</div>
+      <div class="compare-item"><span class="compare-icon">⏳</span> Lo operativo compite por horas con lo estratégico</div>
     </div>
     <div class="compare-col highlight">
       <div class="compare-label">Con el agente</div>
-      <div class="compare-item"><span class="compare-icon">💬</span><span>Abres el chat del agente</span></div>
-      <div class="compare-item"><span class="compare-icon">⌨️</span><span>Escribes <b style="color:#ff8c6b;">/modo + link</b></span></div>
-      <div class="compare-item"><span class="compare-icon">✅</span><span>Claude ejecuta</span></div>
+      <div class="compare-item"><span class="compare-icon">⌨️</span><span>Escribes <b style="color:#ff8c6b;">/skill + input</b></span></div>
+      <div class="compare-item"><span class="compare-icon">⚡</span><span>El skill correcto ordena lo repetitivo en segundos</span></div>
+      <div class="compare-item"><span class="compare-icon">🧠</span><span>Tú revisas, ajustas y decides con criterio</span></div>
+      <div class="compare-item"><span class="compare-icon">✅</span><span>Más tiempo para estrategia, experiencia y análisis</span></div>
     </div>
   </div>
 
   <div class="footnote">
-    <span>Basado en el Instructivo de trabajo del equipo de diseño.</span>
+    <span>Biblioteca de skills para el agente de Product Design del equipo de diseño.</span>
     <span>cencoPrime / cencoPrime black</span>
   </div>
 
 </div>
+
+<script>
+  function copyPrompt(btn){
+    var code = btn.parentElement.querySelector('.prompt-code');
+    var text = code.textContent;
+    var fallbackOriginal = btn.innerHTML;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        btn.classList.add('copied');
+        btn.innerHTML = 'Copiado ✓';
+        setTimeout(function(){
+          btn.classList.remove('copied');
+          btn.innerHTML = fallbackOriginal;
+        }, 1800);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.classList.add('copied');
+      btn.innerHTML = 'Copiado ✓';
+      setTimeout(function(){
+        btn.classList.remove('copied');
+        btn.innerHTML = fallbackOriginal;
+      }, 1800);
+    }
+  }
+</script>
 </body>
 </html>
