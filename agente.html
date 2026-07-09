@@ -29,19 +29,23 @@
   body{margin:0;background:var(--paper);color:var(--ink-900);font-family:var(--sans);-webkit-font-smoothing:antialiased;transition:background-color .2s ease,color .2s ease;}
   @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
 
-  .wrap{max-width:1160px;margin:0 auto;padding:90px 48px 100px;}
-  @media(max-width:700px){.wrap{padding:56px 20px 70px;}}
+  .wrap{max-width:1160px;margin:0 auto;padding:56px 48px 100px;}
+  @media(max-width:700px){.wrap{padding:36px 20px 70px;}}
 
   section{scroll-margin-top:32px;}
 
-  /* NAV */
-  .nav{display:flex;align-items:center;gap:8px;margin-bottom:48px;font-family:var(--mono);font-size:12px;color:var(--ink-300);flex-wrap:wrap;}
-  .nav a{color:var(--ink-500);text-decoration:none;}
-  .nav a:hover{color:var(--accent);}
-  .nav-pages{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;align-items:center;}
-  .nav-pages a{font-family:var(--mono);font-size:11px;padding:5px 12px;border:1px solid var(--line);border-radius:99px;color:var(--ink-500);text-decoration:none;background:var(--panel);transition:border-color .15s,color .15s;}
-  .nav-pages a:hover{border-color:var(--accent);color:var(--accent);}
-  .nav-pages a.active{border-color:var(--ink-900);color:var(--ink-900);font-weight:600;}
+  /* TOPBAR */
+  .topbar{border-bottom:1px solid var(--line);background:var(--panel);}
+  .topbar-inner{max-width:1320px;margin:0 auto;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  @media(max-width:600px){.topbar-inner{padding:14px 16px;}}
+  .breadcrumb{font-family:var(--mono);font-size:12.5px;color:var(--ink-500);display:flex;align-items:center;gap:8px;}
+  .breadcrumb a{color:var(--ink-500);text-decoration:none;}
+  .breadcrumb a:hover{color:var(--accent);}
+  .breadcrumb .current{color:var(--ink-900);font-weight:600;}
+  .switcher{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .switcher a{font-family:var(--mono);font-size:12px;padding:6px 12px;border-radius:99px;text-decoration:none;color:var(--ink-500);border:1px solid var(--line);transition:all .15s ease;}
+  .switcher a:hover{border-color:var(--accent);color:var(--accent);}
+  .switcher a.active{background:var(--ink-solid);color:#fff;border-color:var(--ink-solid);}
   .theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--line);border-radius:99px;background:var(--panel);color:var(--ink-500);cursor:pointer;transition:border-color .15s ease,color .15s ease;flex-shrink:0;}
   .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
   .theme-toggle svg{width:14px;height:14px;display:block;}
@@ -164,13 +168,15 @@
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <nav class="nav">
-    <a href="index.html">Inicio</a>
-    <span>/</span>
-    <span>Agente</span>
-    <div class="nav-pages">
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a>
+      <span>/</span>
+      <span class="current">Agente</span>
+    </div>
+    <div class="switcher">
       <a href="agente.html" class="active">Agente</a>
       <a href="componentes.html">Componentes</a>
       <a href="naming.html">Naming pantallas</a>
@@ -181,7 +187,10 @@
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
     </div>
-  </nav>
+  </div>
+</div>
+
+<div class="wrap">
 
   <div class="eyebrow">Equipo de diseño · Product Design</div>
   <h1>Un agente de Product Design con skills para cada etapa del flujo.</h1>
