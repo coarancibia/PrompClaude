@@ -281,9 +281,10 @@
     <a href="#comandos-clave"><span class="tag">04</span> Comandos clave</a>
     <a href="#no-me-pierdo"><span class="tag">05</span> No me pierdo si...</a>
     <a href="#prompts"><span class="tag">06</span> Prompts para copiar</a>
+    <a href="#ejemplo-implementacion"><span class="tag">07</span> Ejemplo de implementación</a>
 
     <div class="nav-section-label">Cierre</div>
-    <a href="#regla-de-oro"><span class="tag">07</span> Regla de oro</a>
+    <a href="#regla-de-oro"><span class="tag">08</span> Regla de oro</a>
   </nav>
 
   <!-- ================= MAIN ================= -->
@@ -626,9 +627,98 @@ Luego continúa con:
       </div>
     </section>
 
-    <!-- ============ 07 REGLA DE ORO ============ -->
+    <!-- ============ 07 EJEMPLO DE IMPLEMENTACIÓN ============ -->
+    <section class="block" id="ejemplo-implementacion">
+      <div class="block-head"><span class="block-num">07</span><h2>Ejemplo de implementación</h2></div>
+      <p class="block-sub">Caso práctico completo: crear una página nueva con Claude desde la terminal de VS Code y subir el cambio a GitHub.</p>
+
+      <div class="idea-card">
+        <p>Necesitamos crear una nueva página llamada <b>comando.html</b>.</p>
+        <p class="idea-sub">Debe seguir el mismo estilo visual del sitio actual y servir como guía para documentar comandos útiles del proyecto.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step-row"><div class="step-num">1</div><div class="step-text"><b>Abrir el proyecto en VS Code</b> y luego la terminal integrada: <code>Terminal → New Terminal</code>.</div></div>
+        <div class="step-row"><div class="step-num">2</div><div class="step-text"><b>Confirmar la carpeta correcta</b> con <code>pwd</code>. Si no es la correcta, entrar con <code>cd ~/Desktop/Claude/componentes</code>.</div></div>
+        <div class="step-row"><div class="step-num">3</div><div class="step-text"><b>Llamar a Claude</b> con <code>claude</code> dentro de la carpeta del proyecto.</div></div>
+        <div class="step-row"><div class="step-num">4</div><div class="step-text"><b>Pedir la implementación</b> con una instrucción clara: qué página crear, qué debe contener y que reutilice estilos existentes.</div></div>
+        <div class="step-row"><div class="step-num">5</div><div class="step-text"><b>Revisar qué hizo Claude</b>: que haya creado el archivo, reutilizado estilos, agregado el acceso desde <code>index.html</code> y avisado qué modificó.</div></div>
+        <div class="step-row"><div class="step-num">6</div><div class="step-text">Cerrar Claude con <code>/exit</code> y revisar los cambios con <code>git status</code>.</div></div>
+        <div class="step-row"><div class="step-num">7</div><div class="step-text"><b>Ver la página en el navegador</b> con <code>open comando.html</code> o Live Server, y revisar estilo, link y responsive.</div></div>
+        <div class="step-row"><div class="step-num">8</div><div class="step-text"><b>Subir el cambio a Git</b> con <code>git add</code>, <code>git commit</code> y <code>git push</code>.</div></div>
+      </div>
+
+      <div class="promptcard" data-cat="claude">
+        <div class="promptcard-head"><div class="promptcard-title"><span class="dot"></span>Instrucción completa para Claude</div><div class="promptcard-where cat-claude">Dentro de Claude</div></div>
+        <div class="promptbody"><pre>Necesito crear una nueva página llamada comando.html.
+
+Debe seguir el mismo estilo visual del sitio actual y reutilizar la lógica, estructura, navegación y estilos existentes.
+
+Contenido de la página:
+- Introducción simple sobre el uso de comandos.
+- Sección para comandos básicos de terminal.
+- Sección para comandos de Claude.
+- Sección para cómo retomar una conversación.
+- Sección para buenas prácticas.
+
+También necesito que agregues el acceso a esta nueva página desde el index.html, como una card o link de navegación, siguiendo el mismo estilo de las cards existentes.
+
+No elimines contenido actual.
+No cambies estilos globales si no es necesario.
+Mantén la estructura responsive del sitio.
+Al finalizar, dime qué archivos modificaste.</pre></div>
+        <div class="promptcard-foot"><b>Por qué funciona.</b><span class="think">Es específica sobre el archivo, el contenido y los límites (no borrar, no romper estilos) y pide un resumen final de los cambios.</span></div>
+      </div>
+
+      <details class="acc">
+        <summary><span class="acc-summary-title">Ver secuencia completa de comandos <span class="acc-meta">para copiar</span></span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <p class="acc-intro">De principio a fin: entrar al proyecto, llamar a Claude, revisar y subir a Git.</p>
+
+          <div class="promptcard" data-cat="terminal">
+            <div class="promptcard-head"><div class="promptcard-title"><span class="dot"></span>Entrar al proyecto y abrir Claude</div><div class="promptcard-where cat-terminal">Terminal</div></div>
+            <div class="promptbody"><pre>cd ~/Desktop/Claude/componentes
+pwd
+claude</pre></div>
+          </div>
+
+          <div class="promptcard" data-cat="claude">
+            <div class="promptcard-head"><div class="promptcard-title"><span class="dot"></span>Cerrar Claude</div><div class="promptcard-where cat-claude">Dentro de Claude</div></div>
+            <div class="promptbody"><pre>/exit</pre></div>
+          </div>
+
+          <div class="promptcard" data-cat="terminal">
+            <div class="promptcard-head"><div class="promptcard-title"><span class="dot"></span>Revisar, ver y subir a Git</div><div class="promptcard-where cat-terminal">Terminal</div></div>
+            <div class="promptbody"><pre>git status
+open comando.html
+
+git add .
+git commit -m "agrega pagina de comandos"
+git push</pre></div>
+          </div>
+        </div>
+      </details>
+
+      <table class="ptable" style="margin-top:20px;">
+        <thead><tr><th>Qué revisar</th><th>Detalle</th></tr></thead>
+        <tbody>
+          <tr><td>Estilo</td><td>La página se ve correctamente y es consistente con el resto del sitio.</td></tr>
+          <tr><td>Navegación</td><td>El link desde <code>index.html</code> funciona.</td></tr>
+          <tr><td>Responsive</td><td>La página se adapta bien en mobile y desktop.</td></tr>
+          <tr><td>Contenido</td><td>Claude no eliminó contenido existente.</td></tr>
+          <tr><td><code>git status</code></td><td>Muestra solo los archivos esperados: <code>modified: index.html</code>, <code>new file: comando.html</code>.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="alert-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <p><span class="alert-badge">Regla importante</span>Antes de subir a GitHub, siempre revisar el resultado visualmente y ejecutar <code style="font-family:var(--mono);">git status</code> para confirmar qué archivos modificó Claude antes de guardar y subir los cambios.</p>
+      </div>
+    </section>
+
+    <!-- ============ 08 REGLA DE ORO ============ -->
     <section class="block" id="regla-de-oro">
-      <div class="block-head"><span class="block-num">07</span><h2>Regla de oro</h2></div>
+      <div class="block-head"><span class="block-num">08</span><h2>Regla de oro</h2></div>
 
       <div class="golden-card">
         <div class="golden-eyebrow">Antes de llamar a Claude, revisar siempre</div>
