@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ds-component-builder · Skill en revisión</title>
+<script>
+  (function(){
+    var saved = localStorage.getItem('prompclaude-theme');
+    document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+  })();
+</script>
+<style>
+  :root{
+    --ink-900:#13151a;
+    --ink-700:#3a3d46;
+    --ink-500:#6b6f7a;
+    --ink-300:#a9adb8;
+    --paper:#f6f5f2;
+    --panel:#ffffff;
+    --line:#e3e1db;
+    --accent:#ff5a36;
+    --accent-dim:#ffe7de;
+    --code-bg:#1c1d22;
+    --code-text:#e9e8e4;
+    --code-accent:#ff8a65;
+    --tint:#fbfaf8;
+    --ink-solid:#13151a;
+    --mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --serif: "Fraunces", "Georgia", serif;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  html[data-theme="dark"]{
+    --ink-900:#f3f2ee;
+    --ink-700:#c7c9d1;
+    --ink-500:#8b8f9c;
+    --ink-300:#565a66;
+    --paper:#15171d;
+    --panel:#1c1f26;
+    --line:#2b2e37;
+    --accent:#ff6b4a;
+    --accent-dim:#3a2018;
+    --code-bg:#111318;
+    --tint:#242730;
+    --ink-solid:#2e313b;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink-900);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    transition:background-color .2s ease,color .2s ease;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ---------- layout shell ---------- */
+  .shell{display:grid; grid-template-columns:272px 1fr; max-width:1320px; margin:0 auto;}
+  @media (max-width: 960px){.shell{grid-template-columns:1fr;}}
+
+  /* ---------- sidebar / nav ---------- */
+  .nav{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:32px 20px 32px 0; border-right:1px solid var(--line);}
+  @media (max-width:960px){.nav{position:relative; height:auto; border-right:none; border-bottom:1px solid var(--line); padding:24px 24px 16px;}}
+  .nav-brand{font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-500); margin-bottom:4px;}
+  .nav-title{font-family:var(--serif); font-size:21px; line-height:1.2; margin:0 0 24px; font-weight:600;}
+  .nav-title em{color:var(--accent); font-style:normal;}
+  .nav-section-label{font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-300); margin:20px 0 8px;}
+  .nav a{display:flex; gap:10px; align-items:baseline; text-decoration:none; color:var(--ink-700); font-size:13.5px; padding:7px 0; transition:color .15s ease;}
+  .nav a:hover{color:var(--accent);}
+  .nav a .tag{font-family:var(--mono); font-size:10.5px; color:var(--ink-300); flex-shrink:0; width:20px;}
+
+  /* ---------- main column ---------- */
+  main{padding:56px 48px 100px;}
+  @media (max-width:960px){main{padding:36px 22px 80px;}}
+  @media (max-width:600px){main{padding:28px 16px 64px;}}
+
+  /* ---------- hero ---------- */
+  .hero{margin-bottom:32px;}
+  .hero-eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+  .hero-eyebrow::before{content:""; width:7px;height:7px; background:var(--accent); border-radius:50%; display:inline-block;}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(30px, 4vw, 46px); line-height:1.1; letter-spacing:-0.01em; margin:0 0 16px; max-width:26ch;}
+  .hero-lede{font-size:16px; line-height:1.6; color:var(--ink-700); max-width:680px; margin:0 0 20px;}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px;}
+  .pill{font-family:var(--mono); font-size:11.5px; padding:6px 12px; border:1px solid var(--line); border-radius:99px; color:var(--ink-500); background:var(--panel);}
+  .pill b{color:var(--ink-900); font-weight:600;}
+  .inline-code{font-family:var(--mono);background:var(--tint);border:1px solid var(--line);padding:2px 8px;border-radius:6px;font-size:12px;color:var(--ink-900);}
+
+  .card-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;display:inline-block;padding:4px 11px;border-radius:99px;}
+  .tag-ds{color:var(--accent); background:var(--accent-dim);}
+
+  .status-badge{font-family:var(--mono); font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:99px; white-space:nowrap;}
+  .status-revision{background:#fdf6ed; color:#e67e22;}
+  .status-validada{background:#d7f3ef; color:#0f766e;}
+
+  .why-intro{font-size:14px;line-height:1.65;color:var(--ink-700);max-width:780px;margin:0 0 8px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;}
+  .why-intro b{color:var(--ink-900);}
+
+  /* ---------- section heading ---------- */
+  section.block{margin-bottom:56px; scroll-margin-top:24px;}
+  .block-head{display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap;}
+  .block-num{font-family:var(--mono); font-size:13px; color:var(--accent);}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:0; letter-spacing:-0.01em;}
+  .block-sub{color:var(--ink-500); font-size:14px; line-height:1.55; max-width:680px; margin:10px 0 22px;}
+  .view-label{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-300); margin:0 0 20px; padding-bottom:12px; border-bottom:1px solid var(--line);}
+
+  /* ---------- accordion ---------- */
+  details.acc{border:1px solid var(--line); border-radius:14px; background:var(--panel); overflow:hidden; margin-bottom:14px;}
+  details.acc summary{list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 20px;}
+  details.acc summary::-webkit-details-marker{display:none;}
+  .acc-summary-title{font-family:var(--serif); font-size:15px; font-weight:600; color:var(--ink-900);}
+  .acc-toggle{font-family:var(--mono); font-size:16px; color:var(--accent); transition:transform .2s ease; flex-shrink:0;}
+  details.acc[open] .acc-toggle{transform:rotate(45deg);}
+  details.acc .acc-body{padding:0 20px 20px; border-top:1px solid var(--line); padding-top:18px;}
+
+  /* ---------- checklist / checkgrid ---------- */
+  .checkgrid{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;}
+  @media (max-width:760px){.checkgrid{grid-template-columns:1fr;}}
+  .checkgrid.two{grid-template-columns:1fr 1fr;}
+  @media (max-width:760px){.checkgrid.two{grid-template-columns:1fr;}}
+  .checkcard{border:1px solid var(--line); border-radius:12px; padding:20px 20px 6px; background:var(--panel);}
+  .checkcard h3{font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); margin:0 0 14px;}
+  .checkcard ul{list-style:none; margin:0; padding:0;}
+  .checkcard li{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; line-height:1.5; color:var(--ink-700); padding:9px 0; border-top:1px solid var(--line);}
+  .checkcard li:first-child{border-top:none;}
+  .checkcard li svg{flex-shrink:0; margin-top:2px; width:14px; height:14px; color:var(--accent);}
+  .checkcard.problems li svg{color:#c1492c;}
+
+  /* ---------- do / dont ---------- */
+  .dodont{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:760px){.dodont{grid-template-columns:1fr;}}
+  .dodont .col{border-radius:12px; padding:22px 22px 14px; border:1px solid var(--line);}
+  .dodont .do{background:#f4faf2; border-color:#d7ead0;}
+  .dodont .dont{background:#fdf4f2; border-color:#f4d9d1;}
+  .dodont h3{font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; margin:0 0 14px;}
+  .dodont .do h3{color:#3f7d2c;}
+  .dodont .dont h3{color:#c1492c;}
+  .dodont ul{margin:0; padding:0; list-style:none;}
+  .dodont li{font-size:13.5px; line-height:1.5; color:var(--ink-700); padding:8px 0; display:flex; gap:9px;}
+  .dodont li::before{flex-shrink:0; margin-top:1px; font-family:var(--mono); font-size:12px;}
+  .dodont .do li::before{content:"+"; color:#3f7d2c;}
+  .dodont .dont li::before{content:"–"; color:#c1492c;}
+
+  /* ---------- steps (flujo) ---------- */
+  .steps{display:flex; flex-direction:column; gap:9px;}
+  .step-row{display:flex; gap:16px; align-items:flex-start; padding:14px 18px; background:var(--panel); border:1px solid var(--line); border-radius:12px;}
+  .step-row.step-final{border-color:var(--accent); background:var(--accent-dim);}
+  .step-num{flex-shrink:0; width:24px; height:24px; border-radius:50%; background:var(--ink-solid); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:11px; font-weight:700;}
+  .step-row.step-final .step-num{background:var(--accent);}
+  .step-text{font-size:13.5px; line-height:1.55; color:var(--ink-700); padding-top:2px;}
+  .step-text b{color:var(--ink-900);}
+
+  /* ---------- promptcard / skillmd block ---------- */
+  .promptcard{border:1px solid var(--line); border-radius:14px; background:var(--panel); overflow:hidden; margin-bottom:22px;}
+  .promptcard-head{display:flex; justify-content:space-between; align-items:center; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--tint); flex-wrap:wrap;}
+  .promptcard-title{display:flex; align-items:center; gap:10px; font-size:14px; font-weight:600; color:var(--ink-900);}
+  .promptcard-title .dot{width:8px;height:8px;border-radius:50%; background:var(--accent); flex-shrink:0;}
+  .promptcard-where{font-family:var(--mono); font-size:11px; color:var(--ink-500); background:var(--accent-dim); padding:3px 9px; border-radius:99px; white-space:nowrap;}
+  .promptbody{position:relative; background:var(--code-bg);}
+  .promptbody pre{margin:0; padding:22px 24px; font-family:var(--mono); font-size:12.6px; line-height:1.7; color:var(--code-text); white-space:pre-wrap; word-break:break-word;}
+  .promptcard-foot{padding:13px 20px; font-size:12.5px; color:var(--ink-500); border-top:1px solid var(--line); background:var(--tint); line-height:1.5;}
+  .promptcard-foot b{color:var(--ink-700);}
+  .promptcard-foot .inline-code{font-size:11px;}
+
+  .skillmd-card{border-top:3px solid var(--accent); box-shadow:0 16px 36px -20px rgba(19,21,26,.22);}
+  .skillmd-card .promptbody pre{max-height:640px; overflow-y:auto;}
+  .skillmd-card .promptbody pre::-webkit-scrollbar{width:9px;}
+  .skillmd-card .promptbody pre::-webkit-scrollbar-thumb{background:#3a3b42; border-radius:8px;}
+
+  .copybtn{display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:11.5px; letter-spacing:.02em; color:var(--ink-700); background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:7px 12px; cursor:pointer; transition:all .15s ease; flex-shrink:0;}
+  .copybtn:hover{border-color:var(--accent); color:var(--accent);}
+  .copybtn:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .copybtn.copied{background:var(--ink-solid); color:#fff; border-color:var(--ink-solid);}
+  .copybtn svg{width:13px; height:13px; flex-shrink:0;}
+
+  /* ---------- callout destacado (revisión del equipo) ---------- */
+  .golden-card{background:var(--ink-solid); border-radius:20px; padding:36px 40px;}
+  @media (max-width:600px){.golden-card{padding:26px 22px;}}
+  .golden-eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--code-accent); margin-bottom:16px;}
+  .golden-card h3{font-family:var(--serif); font-size:20px; font-weight:600; color:#fff; margin:0 0 18px;}
+  .golden-questions{display:flex; flex-direction:column; gap:10px;}
+  .golden-questions .gq{display:flex; gap:10px; font-size:13.5px; color:rgba(255,255,255,.75); line-height:1.55; padding:10px 0; border-top:1px solid rgba(255,255,255,.1);}
+  .golden-questions .gq:first-child{border-top:none;}
+  .golden-questions .gq b{color:#fff; font-family:var(--mono); flex-shrink:0;}
+
+  /* ---------- mini check (checklist de aprobación) ---------- */
+  .mini-check-card{border:1px solid var(--line); border-radius:14px; background:var(--panel); padding:24px 26px;}
+  .mini-check{display:grid; grid-template-columns:1fr 1fr; gap:10px 20px;}
+  @media (max-width:600px){.mini-check{grid-template-columns:1fr;}}
+  .mini-check-item{display:flex; gap:9px; align-items:flex-start; font-size:13.5px; color:var(--ink-700); line-height:1.5;}
+  .mini-check-item svg{flex-shrink:0; width:15px; height:15px; color:var(--accent); margin-top:2px;}
+
+  /* ---------- versionado (dentro de accordion) ---------- */
+  .template-block{border:1px solid var(--line); border-radius:14px; background:var(--panel); overflow:hidden;}
+  .template-row{display:flex; gap:14px; padding:14px 20px; border-bottom:1px solid var(--line);}
+  .template-row:last-child{border-bottom:none;}
+  .template-row:nth-child(odd){background:var(--tint);}
+  .template-row.future{opacity:.55;}
+  .template-key{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); min-width:120px; flex-shrink:0; padding-top:2px;}
+  .template-val{font-size:13px; color:var(--ink-500); line-height:1.5;}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line); margin-top:36px; padding-top:26px; font-size:12.5px; color:var(--ink-300); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  /* ---------- top bar / breadcrumb ---------- */
+  .topbar{border-bottom:1px solid var(--line); background:var(--panel);}
+  .topbar-inner{max-width:1320px; margin:0 auto; padding:16px 48px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  @media (max-width:600px){.topbar-inner{padding:14px 16px;}}
+  .breadcrumb{font-family:var(--mono); font-size:12.5px; color:var(--ink-500); display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .breadcrumb a{color:var(--ink-500); text-decoration:none;}
+  .breadcrumb a:hover{color:var(--accent);}
+  .breadcrumb .current{color:var(--ink-900); font-weight:600;}
+  .switcher{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+  .switcher a{font-family:var(--mono); font-size:12px; padding:6px 12px; border-radius:99px; text-decoration:none; color:var(--ink-500); border:1px solid var(--line); transition:all .15s ease;}
+  .switcher a:hover{border-color:var(--accent); color:var(--accent);}
+  .switcher a.active{background:var(--ink-solid); color:#fff; border-color:var(--ink-solid);}
+  .theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--line);border-radius:99px;background:var(--panel);color:var(--ink-500);cursor:pointer;transition:border-color .15s ease,color .15s ease;flex-shrink:0;}
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+  .theme-toggle svg{width:14px;height:14px;display:block;}
+  .theme-toggle .icon-sun{display:none;}
+  .theme-toggle .icon-moon{display:block;}
+  html[data-theme="dark"] .theme-toggle .icon-sun{display:block;}
+  html[data-theme="dark"] .theme-toggle .icon-moon{display:none;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a>
+      <span>/</span>
+      <a href="skills.html">Skills</a>
+      <span>/</span>
+      <span class="current">Creador de componentes de Design System</span>
+    </div>
+    <div class="switcher">
+      <a href="agente.html">Agente</a>
+      <a href="componentes.html">Componentes</a>
+      <a href="naming.html">Naming pantallas</a>
+      <a href="auditoria.html">Auditoría</a>
+      <a href="comando.html">Comandos</a>
+      <a href="skills.html" class="active">Skills</a>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema claro/oscuro">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- ================= NAV ================= -->
+  <nav class="nav" aria-label="Navegación del documento">
+    <div class="nav-brand">cencoPrime · cencoPrime black</div>
+    <h2 class="nav-title">Creador de componentes<br><em>de Design System</em></h2>
+
+    <div class="nav-section-label">Vista explicativa</div>
+    <a href="#que-hace"><span class="tag">01</span> Qué hace la skill</a>
+    <a href="#problema"><span class="tag">02</span> Qué problema resuelve</a>
+    <a href="#cuando-usar"><span class="tag">03</span> Cuándo usarla / no usarla</a>
+    <a href="#inputs"><span class="tag">04</span> Inputs necesarios</a>
+    <a href="#outputs"><span class="tag">05</span> Outputs esperados</a>
+
+    <div class="nav-section-label">Contenido para SKILL.md</div>
+    <a href="#skillmd"><span class="tag">06</span> Contenido propuesto</a>
+
+    <div class="nav-section-label">Vista explicativa</div>
+    <a href="#revision-humana"><span class="tag">07</span> Revisión humana requerida</a>
+    <a href="#estado-version"><span class="tag">08</span> Estado y versión</a>
+
+    <div class="nav-section-label">Revisión y aprobación</div>
+    <a href="#checklist-aprobacion"><span class="tag">09</span> Checklist de aprobación</a>
+  </nav>
+
+  <!-- ================= MAIN ================= -->
+  <main>
+
+    <div class="hero">
+      <div class="hero-eyebrow">Propuesta de skill · Para revisión del equipo</div>
+      <h1>Creador de componentes de Design System</h1>
+      <p class="hero-lede">Guía al diseñador en la creación, revisión y documentación de componentes reutilizables para un Design System.</p>
+      <div class="hero-meta">
+        <span class="pill">Nombre técnico <code class="inline-code">ds-component-builder</code></span>
+        <span class="card-tag tag-ds">Design System</span>
+        <span class="pill">Versión <b>0.1</b></span>
+        <span class="status-badge status-revision">En revisión</span>
+        <span class="pill">Responsable <b>Equipo Loyalty UX</b></span>
+        <span class="pill">Actualizado <b>15 de julio de 2026</b></span>
+      </div>
+      <div class="why-intro">
+        Esta página tiene <b>dos partes</b>. Primero, una vista explicativa resumida para que cualquier Product Designer entienda rápido qué hace la skill. Después, el <b>contenido completo propuesto para SKILL.md</b>: la instrucción real que Claude usaría una vez instalada. Esa segunda parte es lo que el equipo debe revisar y aprobar. El archivo <code class="inline-code">SKILL.md</code> definitivo recién se genera después de esa aprobación.
+      </div>
+    </div>
+
+    <!-- ================= VISTA EXPLICATIVA ================= -->
+    <div class="view-label">Vista explicativa</div>
+
+    <section class="block" id="que-hace">
+      <div class="block-head"><span class="block-num">01</span><h2>Qué hace la skill</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">Resumen</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <p class="block-sub" style="margin:0;">Actúa como especialista senior en Design Systems y Product Design, acompañando la creación, revisión y documentación de componentes reutilizables. No ejecuta la primera solicitud tal cual: cuestiona si el componente realmente necesita existir antes de crearlo, y prioriza reutilización, composición o variantes existentes. Pensada para Product Designers, UX/UI Designers, Design System Designers y personas nuevas en el equipo.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="block" id="problema">
+      <div class="block-head"><span class="block-num">02</span><h2>Qué problema resuelve</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">Situaciones que busca reducir</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <div class="checkcard problems" style="border:none; padding:0;">
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Crear componentes sin revisar si ya existe uno reutilizable.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Crear variantes innecesarias.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>No considerar todos los estados.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Naming inconsistente.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Falta de criterios de accesibilidad.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Documentación desigual.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Diferencias entre diseño y entrega a desarrollo.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="block" id="cuando-usar">
+      <div class="block-head"><span class="block-num">03</span><h2>Cuándo utilizarla / cuándo no</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">Rango de uso recomendado</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <div class="dodont" style="margin-top:18px;">
+            <div class="col do">
+              <h3>Usarla para</h3>
+              <ul>
+                <li>Crear un componente nuevo.</li>
+                <li>Evaluar si corresponde crear una variante.</li>
+                <li>Revisar un componente existente.</li>
+                <li>Preparar documentación.</li>
+                <li>Preparar un handoff.</li>
+                <li>Realizar una auditoría de consistencia.</li>
+              </ul>
+            </div>
+            <div class="col dont">
+              <h3>No usarla para</h3>
+              <ul>
+                <li>Diseños exploratorios muy tempranos.</li>
+                <li>Decisiones que necesitan validación directa de negocio.</li>
+                <li>Casos donde falta contexto crítico.</li>
+                <li>Reemplazar por completo la revisión humana.</li>
+                <li>Definir reglas técnicas sin participación de desarrollo.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="block" id="inputs">
+      <div class="block-head"><span class="block-num">04</span><h2>Inputs necesarios</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">Obligatorios y opcionales</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <div class="checkgrid two" style="margin-top:18px;">
+            <div class="checkcard">
+              <h3>Obligatorios</h3>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Objetivo del componente.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Problema que debe resolver.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Contexto o flujo en el que se utilizará.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Descripción, captura o enlace del componente.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Design System o librería disponible.</li>
+              </ul>
+            </div>
+            <div class="checkcard">
+              <h3>Opcionales</h3>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Link de Figma.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Tokens disponibles.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Componentes relacionados.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Restricciones técnicas.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Reglas de negocio.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Dispositivos o breakpoints.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Métricas o evidencia de uso.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="block" id="outputs">
+      <div class="block-head"><span class="block-num">05</span><h2>Outputs esperados</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">Estructura de la respuesta</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <div class="checkgrid" style="margin-top:18px;">
+            <div class="checkcard">
+              <h3>Diagnóstico y recomendación</h3>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Diagnóstico.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Recomendación (reutilizar, componer, variante o nuevo).</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Justificación.</li>
+              </ul>
+            </div>
+            <div class="checkcard">
+              <h3>Especificación del componente</h3>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Anatomía, propiedades y variantes.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Estados y comportamiento.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Responsive y accesibilidad.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Tokens sugeridos.</li>
+              </ul>
+            </div>
+            <div class="checkcard">
+              <h3>Cierre y validación</h3>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Riesgos y dependencias.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Documentación sugerida.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Checklist de validación humana.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- ================= CONTENIDO PARA SKILL.md ================= -->
+    <div class="view-label">Contenido para SKILL.md</div>
+
+    <section class="block" id="skillmd">
+      <div class="block-head"><span class="block-num">06</span><h2>Contenido propuesto para SKILL.md</h2></div>
+      <p class="block-sub">Esta es la instrucción completa que Claude utilizará cuando la skill sea instalada. Es el contenido real a revisar: si algo del flujo, las reglas o el formato de respuesta no corresponde, se corrige aquí antes de aprobar.</p>
+
+      <div class="promptcard skillmd-card">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>ds-component-builder · SKILL.md propuesto</div>
+          <div class="promptcard-where">Pendiente de aprobación</div>
+        </div>
+        <div class="promptbody">
+<pre>---
+name: ds-component-builder
+description: Ayuda a diseñadores a analizar, crear, revisar y documentar componentes reutilizables para un Design System.
+---
+
+# Rol
+
+Actúa como especialista senior en Design Systems y Product Design.
+
+Tu función es acompañar al usuario en la creación, revisión y documentación de componentes reutilizables.
+
+No debes limitarte a ejecutar la primera solicitud. Debes cuestionar si el componente realmente necesita existir, si puede resolverse mediante reutilización, composición o una variante existente.
+
+# Objetivo
+
+Ayudar a diseñadores a:
+
+- Analizar la necesidad de un componente.
+- Revisar si existe una solución reutilizable.
+- Definir anatomía, propiedades, variantes y estados.
+- Considerar comportamiento, responsive y accesibilidad.
+- Detectar riesgos e inconsistencias.
+- Generar documentación lista para revisión humana.
+
+# Principios de trabajo
+
+- Prioriza reutilizar antes de crear.
+- No propongas variantes sin una diferencia funcional real.
+- No confundas estados con variantes.
+- No inventes tokens ni reglas del Design System.
+- Distingue siempre entre recomendaciones genéricas y reglas específicas del proyecto.
+- Explica el porqué de cada recomendación.
+- Declara los supuestos cuando falte información.
+- No reemplaces la revisión humana ni las decisiones de negocio o desarrollo.
+
+# Información que debes solicitar
+
+Antes de realizar el análisis, identifica si cuentas con:
+
+## Información obligatoria
+
+- Objetivo del componente.
+- Problema que debe resolver.
+- Contexto o flujo en el que se utilizará.
+- Descripción, captura o enlace del componente.
+- Design System o librería disponible.
+
+## Información opcional
+
+- Link de Figma.
+- Tokens disponibles.
+- Componentes relacionados.
+- Restricciones técnicas.
+- Reglas de negocio.
+- Dispositivos o breakpoints.
+- Métricas o evidencia de uso.
+
+Si falta información obligatoria, solicita únicamente lo necesario antes de avanzar.
+
+Si el usuario no dispone de un Design System, indícalo y entrega recomendaciones generales claramente identificadas como supuestos.
+
+# Flujo de análisis
+
+Sigue este orden:
+
+1. Comprender la necesidad.
+2. Revisar si existe un componente reutilizable.
+3. Determinar si corresponde:
+   - reutilizar;
+   - componer;
+   - crear una variante;
+   - crear un componente nuevo.
+4. Definir el propósito del componente.
+5. Definir su anatomía.
+6. Identificar propiedades configurables.
+7. Definir variantes justificadas.
+8. Definir estados.
+9. Definir comportamiento e interacción.
+10. Revisar contenido y microcopy.
+11. Revisar uso de tokens.
+12. Revisar responsive.
+13. Revisar accesibilidad.
+14. Identificar dependencias y riesgos.
+15. Crear documentación.
+16. Entregar checklist para validación humana.
+
+# Criterios para decidir si crear un componente
+
+Recomienda crear un componente nuevo solo cuando:
+
+- Resuelva una necesidad recurrente.
+- Tenga un propósito claramente definido.
+- Pueda reutilizarse en más de un caso.
+- No pueda resolverse correctamente con un componente existente.
+- Su mantenimiento esté justificado.
+- Existan reglas de comportamiento consistentes.
+
+Si no cumple estas condiciones, recomienda reutilizar, componer o mantenerlo como solución local.
+
+# Revisión de variantes
+
+Cada variante debe representar una diferencia funcional, semántica o estructural.
+
+No recomiendes variantes basadas únicamente en:
+
+- una diferencia de texto;
+- una instancia particular;
+- cambios arbitrarios de color;
+- contenido distinto;
+- pequeñas excepciones de layout.
+
+Cuando una diferencia pueda resolverse mediante propiedades, contenido o composición, utiliza esa alternativa.
+
+# Revisión de estados
+
+Considera cuando corresponda:
+
+- Default.
+- Hover.
+- Focus.
+- Pressed.
+- Selected.
+- Disabled.
+- Loading.
+- Error.
+- Success.
+- Read-only.
+- Empty.
+
+No agregues estados que no tengan sentido para el componente analizado.
+
+# Accesibilidad
+
+Revisa:
+
+- Contraste.
+- Navegación mediante teclado.
+- Focus visible.
+- Semántica.
+- Labels.
+- Mensajes de error.
+- Tamaño de áreas interactivas.
+- Orden de lectura.
+- Uso sin depender exclusivamente del color.
+- Consideraciones para lectores de pantalla.
+
+No declares cumplimiento WCAG definitivo sin evidencia suficiente.
+
+# Responsive
+
+Analiza:
+
+- Comportamiento en mobile y desktop.
+- Cambios de distribución.
+- Contenido flexible.
+- Anchos mínimos y máximos.
+- Scroll.
+- Truncamiento.
+- Prioridad de contenido.
+- Uso táctil.
+- Casos extremos.
+
+No asumas que responsive significa únicamente reducir el tamaño.
+
+# Formato de respuesta
+
+Entrega siempre la respuesta con esta estructura:
+
+## 1. Diagnóstico
+
+Resume la necesidad y el contexto.
+
+## 2. Recomendación
+
+Indica si corresponde reutilizar, componer, crear una variante o crear un componente nuevo.
+
+## 3. Justificación
+
+Explica por qué.
+
+## 4. Anatomía
+
+Describe las partes del componente.
+
+## 5. Propiedades
+
+Lista las propiedades configurables.
+
+## 6. Variantes
+
+Incluye solo variantes justificadas.
+
+## 7. Estados
+
+Lista los estados relevantes.
+
+## 8. Comportamiento
+
+Explica interacciones y reglas.
+
+## 9. Responsive
+
+Describe el comportamiento por dispositivo o breakpoint.
+
+## 10. Accesibilidad
+
+Incluye hallazgos y recomendaciones.
+
+## 11. Tokens
+
+Indica qué tipos de tokens deberían utilizarse. No inventes nombres específicos si no fueron entregados.
+
+## 12. Riesgos y dependencias
+
+Identifica problemas, decisiones pendientes y dependencias con negocio o desarrollo.
+
+## 13. Documentación sugerida
+
+Entrega contenido listo para adaptar a Figma o al portal del Design System.
+
+## 14. Checklist de validación humana
+
+Finaliza con una lista concreta de puntos que el equipo debe revisar.
+
+# Casos fuera del alcance
+
+Advierte al usuario cuando la solicitud requiera:
+
+- Decisiones definitivas de negocio.
+- Validación técnica que no ha sido realizada por desarrollo.
+- Auditoría completa de código.
+- Certificación formal de accesibilidad.
+- Definición de tokens sin información del Design System.
+- Aprobación automática para publicación.
+
+# Criterio de cierre
+
+No presentes el componente como aprobado o listo para desarrollo.
+
+Utiliza estados como:
+
+- Propuesta inicial.
+- Requiere información.
+- Lista para revisión.
+- Lista para piloto.
+
+La aprobación final siempre corresponde al equipo responsable.</pre>
+        </div>
+        <div class="promptcard-foot">Esto es una <b>propuesta</b>. El archivo <code class="inline-code">SKILL.md</code> definitivo, la carpeta instalable y el empaquetado se generan recién <b>después de la aprobación del equipo</b>.</div>
+      </div>
+    </section>
+
+    <div class="view-label">Vista explicativa</div>
+
+    <section class="block" id="revision-humana">
+      <div class="block-head"><span class="block-num">07</span><h2>Decisiones que requieren revisión humana</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">La skill no decide esto sola</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <div class="checkcard" style="border:none; padding:0; margin-top:4px;">
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Decisiones de negocio y priorización.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Validación técnica que corresponde a desarrollo.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Aprobación final de publicación del componente.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Certificación formal de accesibilidad.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Definición de tokens cuando no hay Design System disponible.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="block" id="estado-version">
+      <div class="block-head"><span class="block-num">08</span><h2>Estado y versión</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">Dónde está hoy la propuesta</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <div class="template-block" style="margin-top:18px;">
+            <div class="template-row">
+              <div class="template-key">Versión 0.1</div>
+              <div class="template-val"><b style="color:var(--ink-700);">Estado:</b> En revisión — <b style="color:var(--ink-700);">Cambio:</b> Primera propuesta del contenido completo para SKILL.md.</div>
+            </div>
+            <div class="template-row future">
+              <div class="template-key">Versión 0.2</div>
+              <div class="template-val">Pendiente — se documentará tras incorporar los comentarios de esta revisión.</div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- ================= REVISIÓN Y APROBACIÓN ================= -->
+    <div class="view-label">Revisión y aprobación</div>
+
+    <section class="block" id="checklist-aprobacion">
+      <div class="block-head"><span class="block-num">09</span><h2>Checklist de aprobación</h2></div>
+      <p class="block-sub">Checks visuales, no interactivos por ahora. Sirven como pauta para la revisión del equipo.</p>
+
+      <div class="mini-check-card">
+        <div class="mini-check">
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Rol aprobado.</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Objetivo aprobado.</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Inputs aprobados.</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Flujo aprobado.</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Reglas aprobadas.</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Formato de respuesta aprobado.</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Límites aprobados.</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Ejemplo probado.</div>
+          <div class="mini-check-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Lista para crear <code class="inline-code">SKILL.md</code>.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span><a href="skills.html" style="color:var(--ink-500);">← Volver al catálogo de Skills</a></span>
+      <span>cencoPrime / cencoPrime black</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  function escapeForClipboard(el){
+    const clone = el.cloneNode(true);
+    return clone.textContent;
+  }
+
+  document.querySelectorAll('.promptcard').forEach(function(card){
+    const pre = card.querySelector('pre');
+    if(!pre) return;
+    const head = card.querySelector('.promptcard-head');
+
+    const btn = document.createElement('button');
+    btn.className = 'copybtn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Copiar contenido');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copiar contenido</span>';
+
+    btn.addEventListener('click', function(){
+      const text = escapeForClipboard(pre);
+      const finish = function(){
+        btn.classList.add('copied');
+        btn.querySelector('span').textContent = 'Copiado ✓';
+        setTimeout(function(){
+          btn.classList.remove('copied');
+          btn.querySelector('span').textContent = 'Copiar contenido';
+        }, 1800);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(finish).catch(function(){
+          fallbackCopy(text, finish);
+        });
+      } else {
+        fallbackCopy(text, finish);
+      }
+    });
+
+    head.appendChild(btn);
+  });
+
+  function fallbackCopy(text, cb){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    cb();
+  }
+
+  (function(){
+    var toggle = document.getElementById('theme-toggle');
+    if(!toggle) return;
+    toggle.addEventListener('click', function(){
+      var current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('prompclaude-theme', next);
+    });
+  })();
+</script>
+
+</body>
+</html>

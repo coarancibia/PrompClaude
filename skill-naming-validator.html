@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>screen-naming-validator · Skill en revisión</title>
+<script>
+  (function(){
+    var saved = localStorage.getItem('prompclaude-theme');
+    document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+  })();
+</script>
+<style>
+  :root{
+    --ink-900:#13151a;
+    --ink-700:#3a3d46;
+    --ink-500:#6b6f7a;
+    --ink-300:#a9adb8;
+    --paper:#f6f5f2;
+    --panel:#ffffff;
+    --line:#e3e1db;
+    --accent:#ff5a36;
+    --accent-dim:#ffe7de;
+    --code-bg:#1c1d22;
+    --code-text:#e9e8e4;
+    --code-accent:#ff8a65;
+    --tint:#fbfaf8;
+    --ink-solid:#13151a;
+    --mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --serif: "Fraunces", "Georgia", serif;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  html[data-theme="dark"]{
+    --ink-900:#f3f2ee;
+    --ink-700:#c7c9d1;
+    --ink-500:#8b8f9c;
+    --ink-300:#565a66;
+    --paper:#15171d;
+    --panel:#1c1f26;
+    --line:#2b2e37;
+    --accent:#ff6b4a;
+    --accent-dim:#3a2018;
+    --code-bg:#111318;
+    --tint:#242730;
+    --ink-solid:#2e313b;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink-900);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    transition:background-color .2s ease,color .2s ease;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ---------- layout shell ---------- */
+  .shell{display:grid; grid-template-columns:272px 1fr; max-width:1320px; margin:0 auto;}
+  @media (max-width: 960px){.shell{grid-template-columns:1fr;}}
+
+  /* ---------- sidebar / nav ---------- */
+  .nav{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:32px 20px 32px 0; border-right:1px solid var(--line);}
+  @media (max-width:960px){.nav{position:relative; height:auto; border-right:none; border-bottom:1px solid var(--line); padding:24px 24px 16px;}}
+  .nav-brand{font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-500); margin-bottom:4px;}
+  .nav-title{font-family:var(--serif); font-size:21px; line-height:1.2; margin:0 0 24px; font-weight:600;}
+  .nav-title em{color:var(--accent); font-style:normal;}
+  .nav-section-label{font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-300); margin:20px 0 8px;}
+  .nav a{display:flex; gap:10px; align-items:baseline; text-decoration:none; color:var(--ink-700); font-size:13.5px; padding:7px 0; transition:color .15s ease;}
+  .nav a:hover{color:var(--accent);}
+  .nav a .tag{font-family:var(--mono); font-size:10.5px; color:var(--ink-300); flex-shrink:0; width:20px;}
+
+  /* ---------- main column ---------- */
+  main{padding:56px 48px 100px;}
+  @media (max-width:960px){main{padding:36px 22px 80px;}}
+  @media (max-width:600px){main{padding:28px 16px 64px;}}
+
+  /* ---------- hero ---------- */
+  .hero{margin-bottom:32px;}
+  .hero-eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+  .hero-eyebrow::before{content:""; width:7px;height:7px; background:var(--accent); border-radius:50%; display:inline-block;}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(30px, 4vw, 46px); line-height:1.1; letter-spacing:-0.01em; margin:0 0 16px; max-width:26ch;}
+  .hero-lede{font-size:16px; line-height:1.6; color:var(--ink-700); max-width:680px; margin:0 0 20px;}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px;}
+  .pill{font-family:var(--mono); font-size:11.5px; padding:6px 12px; border:1px solid var(--line); border-radius:99px; color:var(--ink-500); background:var(--panel);}
+  .pill b{color:var(--ink-900); font-weight:600;}
+  .inline-code{font-family:var(--mono);background:var(--tint);border:1px solid var(--line);padding:2px 8px;border-radius:6px;font-size:12px;color:var(--ink-900);}
+
+  .card-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;display:inline-block;padding:4px 11px;border-radius:99px;}
+  .tag-ux{color:#1d4ed8; background:#dfe9ff;}
+
+  .status-badge{font-family:var(--mono); font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:99px; white-space:nowrap;}
+  .status-revision{background:#fdf6ed; color:#e67e22;}
+
+  .why-intro{font-size:14px;line-height:1.65;color:var(--ink-700);max-width:780px;margin:0 0 8px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;}
+  .why-intro b{color:var(--ink-900);}
+
+  /* ---------- section heading ---------- */
+  section.block{margin-bottom:56px; scroll-margin-top:24px;}
+  .block-head{display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap;}
+  .block-num{font-family:var(--mono); font-size:13px; color:var(--accent);}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:0; letter-spacing:-0.01em;}
+  .block-sub{color:var(--ink-500); font-size:14px; line-height:1.55; max-width:680px; margin:10px 0 22px;}
+  .view-label{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-300); margin:0 0 20px; padding-bottom:12px; border-bottom:1px solid var(--line);}
+
+  /* ---------- accordion ---------- */
+  details.acc{border:1px solid var(--line); border-radius:14px; background:var(--panel); overflow:hidden; margin-bottom:14px;}
+  details.acc summary{list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 20px;}
+  details.acc summary::-webkit-details-marker{display:none;}
+  .acc-summary-title{font-family:var(--serif); font-size:15px; font-weight:600; color:var(--ink-900);}
+  .acc-toggle{font-family:var(--mono); font-size:16px; color:var(--accent); transition:transform .2s ease; flex-shrink:0;}
+  details.acc[open] .acc-toggle{transform:rotate(45deg);}
+  details.acc .acc-body{padding:0 20px 20px; border-top:1px solid var(--line); padding-top:18px;}
+
+  /* ---------- audiencia ---------- */
+  .audience-row{display:flex; flex-wrap:wrap; gap:10px;}
+
+  /* ---------- checklist / checkgrid ---------- */
+  .checkgrid{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;}
+  @media (max-width:760px){.checkgrid{grid-template-columns:1fr;}}
+  .checkgrid.two{grid-template-columns:1fr 1fr;}
+  @media (max-width:760px){.checkgrid.two{grid-template-columns:1fr;}}
+  .checkcard{border:1px solid var(--line); border-radius:12px; padding:20px 20px 6px; background:var(--panel);}
+  .checkcard h3{font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); margin:0 0 14px;}
+  .checkcard ul{list-style:none; margin:0; padding:0;}
+  .checkcard li{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; line-height:1.5; color:var(--ink-700); padding:9px 0; border-top:1px solid var(--line);}
+  .checkcard li:first-child{border-top:none;}
+  .checkcard li svg{flex-shrink:0; margin-top:2px; width:14px; height:14px; color:var(--accent);}
+  .checkcard.problems li svg{color:#c1492c;}
+
+  /* ---------- do / dont ---------- */
+  .dodont{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:760px){.dodont{grid-template-columns:1fr;}}
+  .dodont .col{border-radius:12px; padding:22px 22px 14px; border:1px solid var(--line);}
+  .dodont .do{background:#f4faf2; border-color:#d7ead0;}
+  .dodont .dont{background:#fdf4f2; border-color:#f4d9d1;}
+  .dodont h3{font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; margin:0 0 14px;}
+  .dodont .do h3{color:#3f7d2c;}
+  .dodont .dont h3{color:#c1492c;}
+  .dodont ul{margin:0; padding:0; list-style:none;}
+  .dodont li{font-size:13.5px; line-height:1.5; color:var(--ink-700); padding:8px 0; display:flex; gap:9px;}
+  .dodont li::before{flex-shrink:0; margin-top:1px; font-family:var(--mono); font-size:12px;}
+  .dodont .do li::before{content:"+"; color:#3f7d2c;}
+  .dodont .dont li::before{content:"–"; color:#c1492c;}
+
+  /* ---------- steps ---------- */
+  .steps{display:flex; flex-direction:column; gap:9px;}
+  .step-row{display:flex; gap:16px; align-items:flex-start; padding:14px 18px; background:var(--panel); border:1px solid var(--line); border-radius:12px;}
+  .step-num{flex-shrink:0; width:24px; height:24px; border-radius:50%; background:var(--ink-solid); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:11px; font-weight:700;}
+  .step-text{font-size:13.5px; line-height:1.55; color:var(--ink-700); padding-top:2px;}
+  .step-text b{color:var(--ink-900);}
+
+  /* ---------- promptcard / skillmd block ---------- */
+  .promptcard{border:1px solid var(--line); border-radius:14px; background:var(--panel); overflow:hidden; margin-bottom:22px;}
+  .promptcard-head{display:flex; justify-content:space-between; align-items:center; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--tint); flex-wrap:wrap;}
+  .promptcard-title{display:flex; align-items:center; gap:10px; font-size:14px; font-weight:600; color:var(--ink-900);}
+  .promptcard-title .dot{width:8px;height:8px;border-radius:50%; background:var(--accent); flex-shrink:0;}
+  .promptcard-where{font-family:var(--mono); font-size:11px; color:var(--ink-500); background:var(--accent-dim); padding:3px 9px; border-radius:99px; white-space:nowrap;}
+  .promptbody{position:relative; background:var(--code-bg);}
+  .promptbody pre{margin:0; padding:22px 24px; font-family:var(--mono); font-size:12.6px; line-height:1.7; color:var(--code-text); white-space:pre-wrap; word-break:break-word;}
+  .promptcard-foot{padding:13px 20px; font-size:12.5px; color:var(--ink-500); border-top:1px solid var(--line); background:var(--tint); line-height:1.5;}
+  .promptcard-foot b{color:var(--ink-700);}
+  .promptcard-foot .inline-code{font-size:11px;}
+
+  .skillmd-card{border-top:3px solid var(--accent); box-shadow:0 16px 36px -20px rgba(19,21,26,.22);}
+  .skillmd-card .promptbody pre{max-height:640px; overflow-y:auto;}
+  .skillmd-card .promptbody pre::-webkit-scrollbar{width:9px;}
+  .skillmd-card .promptbody pre::-webkit-scrollbar-thumb{background:#3a3b42; border-radius:8px;}
+
+  .copybtn{display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:11.5px; letter-spacing:.02em; color:var(--ink-700); background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:7px 12px; cursor:pointer; transition:all .15s ease; flex-shrink:0;}
+  .copybtn:hover{border-color:var(--accent); color:var(--accent);}
+  .copybtn:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .copybtn.copied{background:var(--ink-solid); color:#fff; border-color:var(--ink-solid);}
+  .copybtn svg{width:13px; height:13px; flex-shrink:0;}
+
+  /* ---------- io grid (ejemplo de uso) ---------- */
+  .io-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media (max-width:600px){.io-grid{grid-template-columns:1fr;}}
+  .io-box{border:1px solid var(--line); border-radius:10px; padding:14px 16px; background:var(--tint);}
+  .io-label{font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin-bottom:6px;}
+  .io-text{font-size:12.5px; line-height:1.5; color:var(--ink-700);}
+
+  /* ---------- callout destacado (revisión del equipo) ---------- */
+  .golden-card{background:var(--ink-solid); border-radius:20px; padding:36px 40px;}
+  @media (max-width:600px){.golden-card{padding:26px 22px;}}
+  .golden-eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--code-accent); margin-bottom:16px;}
+  .golden-card h3{font-family:var(--serif); font-size:20px; font-weight:600; color:#fff; margin:0 0 18px;}
+  .golden-questions{display:flex; flex-direction:column; gap:10px;}
+  .golden-questions .gq{display:flex; gap:10px; font-size:13.5px; color:rgba(255,255,255,.75); line-height:1.55; padding:10px 0; border-top:1px solid rgba(255,255,255,.1);}
+  .golden-questions .gq:first-child{border-top:none;}
+  .golden-questions .gq b{color:#fff; font-family:var(--mono); flex-shrink:0;}
+
+  /* ---------- mini check (checklist de aprobación) ---------- */
+  .mini-check-card{border:1px solid var(--line); border-radius:14px; background:var(--panel); padding:24px 26px;}
+  .mini-check{display:grid; grid-template-columns:1fr 1fr; gap:10px 20px;}
+  @media (max-width:600px){.mini-check{grid-template-columns:1fr;}}
+  .mini-check-item{display:flex; gap:9px; align-items:flex-start; font-size:13.5px; color:var(--ink-700); line-height:1.5;}
+  .mini-check-item svg{flex-shrink:0; width:15px; height:15px; color:var(--accent); margin-top:2px;}
+
+  /* ---------- versionado ---------- */
+  .template-block{border:1px solid var(--line); border-radius:14px; background:var(--panel); overflow:hidden;}
+  .template-row{display:flex; gap:14px; padding:14px 20px; border-bottom:1px solid var(--line);}
+  .template-row:last-child{border-bottom:none;}
+  .template-row:nth-child(odd){background:var(--tint);}
+  .template-row.future{opacity:.55;}
+  .template-key{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); min-width:120px; flex-shrink:0; padding-top:2px;}
+  .template-val{font-size:13px; color:var(--ink-500); line-height:1.5;}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line); margin-top:36px; padding-top:26px; font-size:12.5px; color:var(--ink-300); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  /* ---------- top bar / breadcrumb ---------- */
+  .topbar{border-bottom:1px solid var(--line); background:var(--panel);}
+  .topbar-inner{max-width:1320px; margin:0 auto; padding:16px 48px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  @media (max-width:600px){.topbar-inner{padding:14px 16px;}}
+  .breadcrumb{font-family:var(--mono); font-size:12.5px; color:var(--ink-500); display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .breadcrumb a{color:var(--ink-500); text-decoration:none;}
+  .breadcrumb a:hover{color:var(--accent);}
+  .breadcrumb .current{color:var(--ink-900); font-weight:600;}
+  .switcher{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+  .switcher a{font-family:var(--mono); font-size:12px; padding:6px 12px; border-radius:99px; text-decoration:none; color:var(--ink-500); border:1px solid var(--line); transition:all .15s ease;}
+  .switcher a:hover{border-color:var(--accent); color:var(--accent);}
+  .switcher a.active{background:var(--ink-solid); color:#fff; border-color:var(--ink-solid);}
+  .theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--line);border-radius:99px;background:var(--panel);color:var(--ink-500);cursor:pointer;transition:border-color .15s ease,color .15s ease;flex-shrink:0;}
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+  .theme-toggle svg{width:14px;height:14px;display:block;}
+  .theme-toggle .icon-sun{display:none;}
+  .theme-toggle .icon-moon{display:block;}
+  html[data-theme="dark"] .theme-toggle .icon-sun{display:block;}
+  html[data-theme="dark"] .theme-toggle .icon-moon{display:none;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a>
+      <span>/</span>
+      <a href="skills.html">Skills</a>
+      <span>/</span>
+      <span class="current">Validador de naming de pantallas y flujos</span>
+    </div>
+    <div class="switcher">
+      <a href="agente.html">Agente</a>
+      <a href="componentes.html">Componentes</a>
+      <a href="naming.html">Naming pantallas</a>
+      <a href="auditoria.html">Auditoría</a>
+      <a href="comando.html">Comandos</a>
+      <a href="skills.html" class="active">Skills</a>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema claro/oscuro">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <!-- ================= NAV ================= -->
+  <nav class="nav" aria-label="Navegación del documento">
+    <div class="nav-brand">cencoPrime · cencoPrime black</div>
+    <h2 class="nav-title">Validador de <em>naming</em><br>de pantallas y flujos</h2>
+
+    <div class="nav-section-label">Vista explicativa</div>
+    <a href="#que-hace"><span class="tag">01</span> Qué hace la skill</a>
+    <a href="#problema"><span class="tag">02</span> Qué problema resuelve</a>
+    <a href="#usuarios"><span class="tag">03</span> Usuario objetivo</a>
+    <a href="#cuando-usar"><span class="tag">04</span> Cuándo usarla / no usarla</a>
+    <a href="#inputs"><span class="tag">05</span> Inputs necesarios</a>
+    <a href="#outputs"><span class="tag">06</span> Output esperado</a>
+
+    <div class="nav-section-label">Contenido para SKILL.md</div>
+    <a href="#skillmd"><span class="tag">07</span> Contenido propuesto</a>
+
+    <div class="nav-section-label">Ejemplo</div>
+    <a href="#ejemplo"><span class="tag">08</span> Ejemplo de uso</a>
+
+    <div class="nav-section-label">Revisión y aprobación</div>
+    <a href="#versionado"><span class="tag">09</span> Versionado</a>
+  </nav>
+
+  <!-- ================= MAIN ================= -->
+  <main>
+
+    <div class="hero">
+      <div class="hero-eyebrow">Propuesta de skill · Para revisión del equipo</div>
+      <h1>Validador de naming de pantallas y flujos</h1>
+      <p class="hero-lede">Ayuda a nombrar y validar de forma consistente las pantallas y frames de un flujo en Figma, siguiendo la convención de nomenclatura ya definida por el proyecto.</p>
+      <div class="hero-meta">
+        <span class="pill">Nombre técnico <code class="inline-code">screen-naming-validator</code></span>
+        <span class="card-tag tag-ux">UX</span>
+        <span class="pill">Versión <b>0.1</b></span>
+        <span class="status-badge status-revision">En revisión</span>
+        <span class="pill">Responsable <b>Equipo Loyalty UX</b></span>
+        <span class="pill">Actualizado <b>15 de julio de 2026</b></span>
+      </div>
+      <div class="why-intro">
+        <b>Esta skill es sobre naming de pantallas y flujos, no de Design System.</b> No cubre componentes, propiedades, variantes, estados ni tokens: eso corresponde a otra skill (<a href="skill-component-builder.html" style="color:var(--accent);">ds-component-builder</a>). Su único foco es ayudar a nombrar y validar pantallas/frames dentro de un flujo, usando como fuente principal la convención ya documentada en <a href="naming.html" style="color:var(--accent);">naming.html</a>.
+      </div>
+    </div>
+
+    <!-- ================= VISTA EXPLICATIVA ================= -->
+    <div class="view-label">Vista explicativa</div>
+
+    <section class="block" id="que-hace">
+      <div class="block-head"><span class="block-num">01</span><h2>Qué hace la skill</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">Resumen ejecutivo</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <p class="block-sub" style="margin:0;">Actúa como especialista en arquitectura de información y organización de archivos de Figma, ayudando a nombrar, revisar y validar pantallas y frames dentro de un flujo. Aplica primero la convención de naming ya definida por el proyecto (documentada en naming.html) antes de proponer una estructura nueva. No cubre naming de Design System: componentes, propiedades, variantes, estados y tokens quedan explícitamente fuera de su alcance.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="block" id="problema">
+      <div class="block-head"><span class="block-num">02</span><h2>Qué problema resuelve</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">Situaciones que busca reducir</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <div class="checkcard problems" style="border:none; padding:0;">
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Nombres de pantallas ambiguos o difíciles de comprender.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Uso inconsistente de mayúsculas, espacios, guiones o separadores entre pantallas del mismo flujo.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Pantallas nombradas por una instancia puntual ("final", "copia", "propuesta 3") en vez del flujo y estado real.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Falta de consistencia entre proyecto, dispositivo, flujo y estado dentro de un mismo flujo.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Nombres técnicos de Figma (node_123) que no aportan contexto.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Pantallas y frames difíciles de encontrar sin abrirlos.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Confusión entre el nombre técnico del frame y el Accessibility Label que debería anunciarse.</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>Diferencias de naming de pantallas entre diseño y documentación de desarrollo.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="block" id="usuarios">
+      <div class="block-head"><span class="block-num">03</span><h2>Usuario objetivo</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">A quién está dirigida</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <div class="audience-row" style="margin-top:16px;">
+            <span class="pill">Product Designers</span>
+            <span class="pill">UX/UI Designers</span>
+            <span class="pill">Diseñadores nuevos en el equipo</span>
+            <span class="pill">Quienes documentan o auditan archivos de Figma</span>
+            <span class="pill">Quienes preparan handoff con desarrollo</span>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="block" id="cuando-usar">
+      <div class="block-head"><span class="block-num">04</span><h2>Cuándo utilizarla / cuándo no</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">Rango de uso recomendado</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <div class="dodont" style="margin-top:18px;">
+            <div class="col do">
+              <h3>Usarla para</h3>
+              <ul>
+                <li>Nombrar una pantalla o frame nuevo dentro de un flujo.</li>
+                <li>Revisar consistencia de naming entre pantallas de un mismo flujo.</li>
+                <li>Auditar un archivo existente.</li>
+                <li>Preparar documentación o handoff.</li>
+                <li>Migrar o reorganizar las pantallas de un flujo.</li>
+                <li>Definir el Accessibility Label de una pantalla, cuando corresponda.</li>
+              </ul>
+            </div>
+            <div class="col dont">
+              <h3>No usarla para</h3>
+              <ul>
+                <li>Nombrar componentes, propiedades, variantes, estados o tokens de un Design System.</li>
+                <li>Decidir automáticamente cuando el proyecto no tiene convención definida.</li>
+                <li>Reemplazar acuerdos entre diseño y desarrollo.</li>
+                <li>Renombrar masivamente pantallas ya documentadas sin validar impacto.</li>
+                <li>Decidir por sí sola el nombre de negocio de un flujo.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="block" id="inputs">
+      <div class="block-head"><span class="block-num">05</span><h2>Inputs necesarios</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">Obligatorios y opcionales</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <div class="checkgrid two" style="margin-top:18px;">
+            <div class="checkcard">
+              <h3>Obligatorios</h3>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Pantalla o frame que se desea nombrar.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Proyecto o marca.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Dispositivo (desktop / mobile).</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Flujo al que pertenece.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Pantalla, paso o estado que representa.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Convención actual del proyecto, si existe.</li>
+              </ul>
+            </div>
+            <div class="checkcard">
+              <h3>Opcionales</h3>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Foco o ajuste específico de la pantalla.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Captura o enlace de Figma.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Nombres ya usados en otras pantallas del mismo flujo.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Idioma oficial del proyecto.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Si el nombre también se usará como Accessibility Label.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <section class="block" id="outputs">
+      <div class="block-head"><span class="block-num">06</span><h2>Output esperado</h2></div>
+      <details class="acc" open>
+        <summary><span class="acc-summary-title">Qué entrega la skill</span><span class="acc-toggle">+</span></summary>
+        <div class="acc-body">
+          <div class="checkgrid" style="margin-top:18px;">
+            <div class="checkcard">
+              <h3>Diagnóstico</h3>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Diagnóstico del nombre actual.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Convención detectada (o propuesta, si no existe).</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Riesgos del cambio.</li>
+              </ul>
+            </div>
+            <div class="checkcard">
+              <h3>Recomendación</h3>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Nombre recomendado.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Estructura del nombre (qué representa cada segmento).</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Accessibility Label sugerido, cuando corresponda.</li>
+              </ul>
+            </div>
+            <div class="checkcard">
+              <h3>Cierre y validación</h3>
+              <ul>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Consistencia con otras pantallas del flujo.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Checklist de validación.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- ================= CONTENIDO PARA SKILL.md ================= -->
+    <div class="view-label">Contenido para SKILL.md</div>
+
+    <section class="block" id="skillmd">
+      <div class="block-head"><span class="block-num">07</span><h2>Contenido propuesto para SKILL.md</h2></div>
+      <p class="block-sub">Instrucción completa que Claude utilizará cuando la skill sea instalada. Se reenfocó por completo en naming de <b>pantallas y flujos</b> —tomando <code class="inline-code">naming.html</code> como fuente principal—, quitando todo el contenido que antes trataba naming de Design System.</p>
+
+      <div class="promptcard skillmd-card">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>screen-naming-validator · SKILL.md propuesto</div>
+          <div class="promptcard-where">Pendiente de aprobación</div>
+        </div>
+        <div class="promptbody">
+<pre>---
+name: screen-naming-validator
+description: Ayuda a nombrar y validar de forma consistente las pantallas y frames de un flujo en Figma, siguiendo la convención de nomenclatura ya definida por el proyecto.
+---
+
+# Rol
+
+Actúa como especialista en arquitectura de información y organización de archivos de Figma.
+
+Tu función es ayudar a nombrar, revisar y validar el naming de pantallas y frames dentro de un flujo, no de componentes de Design System.
+
+No debes limitarte a corregir formato. Debes analizar si el nombre:
+
+- identifica correctamente el proyecto, dispositivo, flujo, pantalla o estado, y el foco del ajuste;
+- es consistente con el resto de pantallas del mismo flujo;
+- permite encontrar la pantalla sin necesidad de abrirla;
+- evita nombres técnicos o genéricos que no aportan contexto.
+
+# Objetivo
+
+Ayudar a equipos de Product Design a:
+
+- Nombrar pantallas y frames de forma clara y consistente dentro de un flujo.
+- Aplicar la convención de naming ya definida por el proyecto.
+- Detectar inconsistencias entre pantallas de un mismo flujo.
+- Distinguir el nombre técnico del frame de otros textos (como un Accessibility Label) que puedan requerirse aparte.
+- Facilitar la ubicación y el handoff de pantallas dentro de archivos grandes.
+
+# Principios de trabajo
+
+- Esta skill es sobre naming de pantallas y flujos, no sobre Design System: componentes, propiedades, variantes, estados y tokens no forman parte de su alcance.
+- Prioriza la convención ya definida del proyecto antes de proponer una nueva.
+- No inventes niveles o segmentos que el proyecto no haya definido.
+- Mantén consistencia dentro del mismo flujo: mismo proyecto, mismo dispositivo, mismo idioma, mismo nivel de detalle.
+- Evita nombres dependientes de una instancia puntual o de trabajo ("final", "copia", "propuesta 3").
+- Declara supuestos cuando falte contexto del flujo.
+- No reemplaces la revisión humana ni las decisiones de producto sobre cómo se llama un flujo.
+
+# Información que debes solicitar
+
+Antes de recomendar un nombre, identifica si cuentas con:
+
+## Información obligatoria
+
+- Pantalla o frame que se desea nombrar.
+- Proyecto o marca.
+- Dispositivo (desktop / mobile, u otro definido por el proyecto).
+- Flujo al que pertenece.
+- Pantalla, paso o estado que representa.
+- Convención actual del proyecto, si existe.
+
+## Información opcional
+
+- Foco o ajuste específico dentro de la pantalla.
+- Captura o enlace de Figma.
+- Nombres ya usados en otras pantallas del mismo flujo.
+- Idioma oficial del proyecto.
+- Si el nombre además se usará como Accessibility Label.
+
+Si falta información obligatoria, solicita únicamente lo necesario antes de avanzar.
+
+Si el proyecto no tiene una convención de naming de pantallas definida, propone una estructura genérica (producto/dispositivo/flujo/pantalla_o_estado) y decláralo como recomendación preliminar.
+
+# Flujo de análisis
+
+Sigue este orden:
+
+1. Identificar el flujo y el contexto de la pantalla.
+2. Revisar si el proyecto ya tiene una convención de naming de pantallas definida.
+3. Aplicar esa convención o, si no existe, proponer una estructura clara y jerárquica.
+4. Revisar consistencia con otras pantallas del mismo flujo.
+5. Detectar nombres ambiguos, genéricos o dependientes de una instancia puntual.
+6. Proponer el nombre recomendado.
+7. Explicar la estructura y el criterio.
+8. Distinguir el nombre técnico del frame de un eventual Accessibility Label.
+9. Identificar riesgos del cambio (documentación, handoff, comunicación del equipo).
+10. Entregar checklist para validación humana.
+
+# Convención de naming de pantallas
+
+Cuando el proyecto sea cencoPrime / cencoPrime black, usa la convención ya definida (documentada en naming.html) como estándar por defecto, sin necesidad de volver a solicitarla:
+
+proyecto/dispositivo/flujo/pantalla_o_estado/foco_ajuste
+
+- proyecto: marca o iniciativa. Ejemplo: cencoprimeblack.
+- dispositivo: formato de pantalla. Ejemplo: desktop / mobile.
+- flujo: flujo principal. Ejemplo: gestion_cuenta.
+- pantalla_o_estado: pantalla, paso o estado. Ejemplo: skeleton / error / detalle.
+- foco_ajuste: contexto específico del ajuste. Ejemplo: carga_inicial / usuario_inactivo.
+
+Reglas de escritura:
+
+- Usa minúsculas.
+- No uses tildes.
+- Usa snake_case.
+- Separa cada nivel con "/".
+- Evita nombres técnicos tipo node_123.
+- Nombra según flujo, pantalla y estado, nunca según una instancia puntual o de trabajo (evita "pantalla nueva", "desktop final", "propuesta 3", "final final", "listo", "corregido").
+
+Si el proyecto entregado no es cencoPrime / cencoPrime black, confirma primero si aplica esta misma convención o si corresponde otra ya definida antes de asumirla; si no existe ninguna, propone una versión genérica equivalente (producto/dispositivo/flujo/pantalla_o_estado) y decláralo como recomendación preliminar.
+
+# Accessibility Label
+
+El nombre estructurado (proyecto/dispositivo/flujo/pantalla_o_estado/foco_ajuste) organiza el archivo, pero no reemplaza el Accessibility Label de la pantalla.
+
+Cuando el naming de una pantalla se use como Accessibility Label (el texto que anuncian los lectores de pantalla al enfocar la pantalla o el frame), entrega además:
+
+- una etiqueta legible en lenguaje natural, distinta del nombre técnico con "/" y snake_case;
+- una etiqueta que describa el propósito de la pantalla para una persona que no la ve, no su ubicación en el archivo;
+- una etiqueta corta, sin abreviaciones ambiguas ni jerga técnica;
+- consistencia entre pantallas del mismo flujo, con el mismo nivel de detalle y tono.
+
+No propongas el nombre técnico completo como Accessibility Label: no es legible al leerse en voz alta.
+
+Ejemplo:
+- Nombre técnico: cencoprimeblack/mobile/gestion_cuenta/skeleton/carga_inicial
+- Accessibility Label sugerido: "Cargando gestión de cuenta"
+
+# Consistencia entre pantallas de un mismo flujo
+
+Todas las pantallas de un mismo flujo deben compartir:
+
+- el mismo proyecto y dispositivo, salvo que el caso indique lo contrario;
+- el mismo criterio para nombrar pantalla_o_estado (por ejemplo, usar siempre el estado como skeleton/error/detalle, sin mezclarlo con nombres de pantalla);
+- el mismo idioma;
+- el mismo nivel de detalle en foco_ajuste.
+
+Si detectas que una pantalla del flujo no sigue el mismo criterio que las demás, señálalo como inconsistencia aunque el nombre individual sea válido.
+
+# Archivos y páginas de Figma
+
+Ayuda a separar claramente, cuando exista esa organización:
+
+- exploración;
+- trabajo activo;
+- documentación;
+- handoff;
+- archivo histórico.
+
+No asumas que todo debe vivir en un único archivo.
+
+Propón nombres de página que permitan comprender el contenido sin abrirlo.
+
+# Idioma y abreviaciones
+
+Utiliza el idioma definido por el proyecto (cencoPrime usa español, ver ejemplos en naming.html).
+
+No mezcles idiomas salvo que exista una convención explícita.
+
+Las abreviaciones deben estar documentadas, ser conocidas por el equipo, aportar una reducción real y no generar ambigüedad.
+
+# Impacto de renombrar
+
+Antes de recomendar un cambio de nombre a una pantalla ya existente, considera:
+
+- documentación existente que la referencia;
+- handoff ya entregado a desarrollo;
+- comunicación previa del equipo sobre esa pantalla;
+- archivos históricos o capturas ya compartidas.
+
+Distingue entre corregir un nombre recién creado y renombrar una pantalla que ya fue documentada o comunicada.
+
+# Formato de respuesta
+
+Entrega la respuesta con esta estructura:
+
+## 1. Diagnóstico
+
+Resume qué pantalla se está nombrando y el contexto del flujo.
+
+## 2. Convención detectada
+
+Indica si el proyecto ya tiene una convención de naming de pantallas o si se está proponiendo una.
+
+## 3. Nombre recomendado
+
+Entrega el nombre siguiendo la convención aplicable.
+
+## 4. Estructura del nombre
+
+Explica qué representa cada segmento del nombre.
+
+## 5. Consistencia con el flujo
+
+Confirma que el nombre es coherente con el resto de pantallas del mismo flujo, o señala la inconsistencia detectada.
+
+## 6. Accessibility Label
+
+Si corresponde, entrega una etiqueta separada en lenguaje natural.
+
+## 7. Riesgos del cambio
+
+Indica qué podría verse afectado si se trata de un renombre.
+
+## 8. Checklist de validación humana
+
+Finaliza con preguntas concretas para revisar la propuesta.
+
+# Casos fuera del alcance
+
+Advierte al usuario cuando la solicitud requiera:
+
+- Nombrar componentes, propiedades, variantes, estados o tokens de un Design System (esta skill no cubre naming de Design System).
+- Definir un estándar organizacional sin participación del equipo.
+- Renombrar masivamente pantallas ya documentadas o entregadas a desarrollo sin validar impacto.
+- Decidir por sí sola el nombre de negocio de un flujo.
+- Aprobar automáticamente una nomenclatura.
+
+# Criterio de cierre
+
+No presentes una recomendación como estándar aprobado.
+
+Utiliza estados como:
+
+- Recomendación preliminar.
+- Requiere contexto del flujo.
+- Lista para revisión.
+- Lista para prueba piloto.
+
+La aprobación final corresponde al equipo responsable.</pre>
+        </div>
+        <div class="promptcard-foot">Esto es una <b>propuesta</b>. El archivo <code class="inline-code">SKILL.md</code> definitivo, la carpeta instalable y el empaquetado se generan recién <b>después de la aprobación del equipo</b>.</div>
+      </div>
+    </section>
+
+    <!-- ================= EJEMPLO ================= -->
+    <div class="view-label">Ejemplo</div>
+
+    <section class="block" id="ejemplo">
+      <div class="block-head"><span class="block-num">08</span><h2>Ejemplo de uso</h2></div>
+      <p class="block-sub">Ejemplo de estructura, no una resolución definitiva del caso. El naming que resuelve esta skill en el proyecto cencoPrime es de <b>pantallas y frames de un flujo</b> (ver <code class="inline-code">naming.html</code>), no de componentes de Design System.</p>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Ejemplo de solicitud</div>
+          <div class="promptcard-where">Input del diseñador</div>
+        </div>
+        <div class="promptbody">
+          <pre>Necesito nombrar el frame de la pantalla de carga (skeleton) del flujo de gestión de cuenta, en desktop. ¿Cómo debería llamarse?</pre>
+        </div>
+      </div>
+
+      <div class="promptcard">
+        <div class="promptcard-head">
+          <div class="promptcard-title"><span class="dot"></span>Ejemplo de respuesta esperada</div>
+          <div class="promptcard-where">Estructura, no resultado final</div>
+        </div>
+        <div style="padding:20px;">
+          <div class="io-grid">
+            <div class="io-box"><div class="io-label">Diagnóstico</div><div class="io-text">No hay un problema de fondo: falta aplicar la convención de naming de pantallas ya definida por el proyecto.</div></div>
+            <div class="io-box"><div class="io-label">Convención detectada</div><div class="io-text"><code class="inline-code">naming.html</code> define <code class="inline-code">proyecto/dispositivo/flujo/pantalla_o_estado/foco_ajuste</code> para este flujo.</div></div>
+            <div class="io-box"><div class="io-label">Nombre recomendado</div><div class="io-text"><code class="inline-code">cencoprimeblack/desktop/gestion_cuenta/skeleton/carga_inicial</code></div></div>
+            <div class="io-box"><div class="io-label">Estructura del nombre</div><div class="io-text">proyecto = cencoprimeblack · dispositivo = desktop · flujo = gestion_cuenta · pantalla_o_estado = skeleton · foco_ajuste = carga_inicial.</div></div>
+            <div class="io-box"><div class="io-label">Consistencia con el flujo</div><div class="io-text">Mantiene la misma lógica que el resto de pantallas de gestión de cuenta y permite encontrar el frame sin necesidad de abrirlo.</div></div>
+            <div class="io-box"><div class="io-label">Accessibility Label</div><div class="io-text">El nombre técnico organiza el archivo. Si además se necesita como Accessibility Label, no debe usarse tal cual: requiere una etiqueta separada en lenguaje natural, por ejemplo "Cargando gestión de cuenta".</div></div>
+          </div>
+        </div>
+        <div class="promptcard-foot">Esto es un <b>ejemplo de estructura</b>, no una propuesta definitiva ni un estándar aprobado.</div>
+      </div>
+    </section>
+
+    <!-- ================= REVISIÓN Y APROBACIÓN ================= -->
+    <div class="view-label">Revisión y aprobación</div>
+
+    <section class="block" id="versionado">
+      <div class="block-head"><span class="block-num">09</span><h2>Versionado</h2></div>
+
+      <div class="template-block">
+        <div class="template-row">
+          <div class="template-key">Versión 0.1</div>
+          <div class="template-val"><b style="color:var(--ink-700);">Estado:</b> En revisión — <b style="color:var(--ink-700);">Cambio:</b> Se reenfocó la propuesta en naming de pantallas y flujos, quitando todo el contenido de Design System.</div>
+        </div>
+        <div class="template-row future">
+          <div class="template-key">Versión 0.2</div>
+          <div class="template-val">Pendiente — se documentará tras incorporar los comentarios de esta revisión.</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span><a href="skills.html" style="color:var(--ink-500);">← Volver al catálogo de Skills</a></span>
+      <span>cencoPrime / cencoPrime black</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  function escapeForClipboard(el){
+    const clone = el.cloneNode(true);
+    return clone.textContent;
+  }
+
+  document.querySelectorAll('.promptcard').forEach(function(card){
+    const pre = card.querySelector('pre');
+    if(!pre) return;
+    const head = card.querySelector('.promptcard-head');
+
+    const btn = document.createElement('button');
+    btn.className = 'copybtn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Copiar contenido');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copiar contenido</span>';
+
+    btn.addEventListener('click', function(){
+      const text = escapeForClipboard(pre);
+      const finish = function(){
+        btn.classList.add('copied');
+        btn.querySelector('span').textContent = 'Copiado ✓';
+        setTimeout(function(){
+          btn.classList.remove('copied');
+          btn.querySelector('span').textContent = 'Copiar contenido';
+        }, 1800);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(finish).catch(function(){
+          fallbackCopy(text, finish);
+        });
+      } else {
+        fallbackCopy(text, finish);
+      }
+    });
+
+    head.appendChild(btn);
+  });
+
+  function fallbackCopy(text, cb){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    cb();
+  }
+
+  (function(){
+    var toggle = document.getElementById('theme-toggle');
+    if(!toggle) return;
+    toggle.addEventListener('click', function(){
+      var current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('prompclaude-theme', next);
+    });
+  })();
+</script>
+
+</body>
+</html>
