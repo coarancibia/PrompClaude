@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>screen-naming-validator · Skill en revisión</title>
+<title>screen-naming-validator · Skill descargable</title>
 <script>
   (function(){
     var saved = localStorage.getItem('prompclaude-theme');
@@ -95,6 +95,14 @@
 
   .status-badge{font-family:var(--mono); font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:99px; white-space:nowrap;}
   .status-revision{background:#fdf6ed; color:#e67e22;}
+  .status-publicada{background:#d6f5e6; color:#1d7a4e;}
+
+  .download-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 26px;border:1px solid var(--line);border-radius:14px;background:var(--panel);flex-wrap:wrap;}
+  .download-card h3{font-family:var(--serif);font-size:19px;margin:0 0 7px;}
+  .download-card p{font-size:13.5px;line-height:1.55;color:var(--ink-500);margin:0;max-width:600px;}
+  .download-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:9px;background:var(--accent);color:#fff;text-decoration:none;font-family:var(--mono);font-size:12px;font-weight:700;}
+  .download-btn:hover{filter:brightness(.94);}
+  .download-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
 
   .why-intro{font-size:14px;line-height:1.65;color:var(--ink-700);max-width:780px;margin:0 0 8px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;}
   .why-intro b{color:var(--ink-900);}
@@ -276,29 +284,29 @@
     <a href="#outputs"><span class="tag">06</span> Output esperado</a>
 
     <div class="nav-section-label">Contenido para SKILL.md</div>
-    <a href="#skillmd"><span class="tag">07</span> Contenido propuesto</a>
+    <a href="#skillmd"><span class="tag">07</span> Contenido base</a>
 
     <div class="nav-section-label">Ejemplo</div>
     <a href="#ejemplo"><span class="tag">08</span> Ejemplo de uso</a>
 
-    <div class="nav-section-label">Revisión y aprobación</div>
+    <div class="nav-section-label">Estado</div>
     <a href="#versionado"><span class="tag">09</span> Versionado</a>
+    <a href="#descargar"><span class="tag">10</span> Descargar skill</a>
   </nav>
 
   <!-- ================= MAIN ================= -->
   <main>
 
     <div class="hero">
-      <div class="hero-eyebrow">Propuesta de skill · Para revisión del equipo</div>
+      <div class="hero-eyebrow">Skill publicada · Instalable</div>
       <h1>Validador de naming de pantallas y flujos</h1>
       <p class="hero-lede">Ayuda a nombrar y validar de forma consistente las pantallas y frames de un flujo en Figma, siguiendo la convención de nomenclatura ya definida por el proyecto.</p>
       <div class="hero-meta">
         <span class="pill">Nombre técnico <code class="inline-code">screen-naming-validator</code></span>
         <span class="card-tag tag-ux">UX</span>
-        <span class="pill">Versión <b>0.1</b></span>
-        <span class="status-badge status-revision">En revisión</span>
+        <span class="pill">Versión <b>1.0</b></span>
+        <span class="status-badge status-publicada">Publicada</span>
         <span class="pill">Responsable <b>Equipo Loyalty UX</b></span>
-        <span class="pill">Actualizado <b>15 de julio de 2026</b></span>
       </div>
       <div class="why-intro">
         <b>Esta skill es sobre naming de pantallas y flujos, no de Design System.</b> No cubre componentes, propiedades, variantes, estados ni tokens: eso corresponde a otra skill (<a href="skill-component-builder.html" style="color:var(--accent);">ds-component-builder</a>). Su único foco es ayudar a nombrar y validar pantallas/frames dentro de un flujo, usando como fuente principal la convención ya documentada en <a href="naming.html" style="color:var(--accent);">naming.html</a>.
@@ -457,13 +465,13 @@
     <div class="view-label">Contenido para SKILL.md</div>
 
     <section class="block" id="skillmd">
-      <div class="block-head"><span class="block-num">07</span><h2>Contenido propuesto para SKILL.md</h2></div>
-      <p class="block-sub">Instrucción completa que Claude utilizará cuando la skill sea instalada. Se reenfocó por completo en naming de <b>pantallas y flujos</b> —tomando <code class="inline-code">naming.html</code> como fuente principal—, quitando todo el contenido que antes trataba naming de Design System.</p>
+      <div class="block-head"><span class="block-num">07</span><h2>Contenido base del SKILL.md</h2></div>
+      <p class="block-sub">La descarga incluye la versión instalable y una referencia con la convención específica de cencoPrime. Para otros proyectos, la skill utiliza la convención que se le entregue.</p>
 
       <div class="promptcard skillmd-card">
         <div class="promptcard-head">
-          <div class="promptcard-title"><span class="dot"></span>screen-naming-validator · SKILL.md propuesto</div>
-          <div class="promptcard-where">Pendiente de aprobación</div>
+          <div class="promptcard-title"><span class="dot"></span>screen-naming-validator · Base de la skill</div>
+          <div class="promptcard-where">Versión base</div>
         </div>
         <div class="promptbody">
 <pre>---
@@ -687,7 +695,7 @@ Utiliza estados como:
 
 La aprobación final corresponde al equipo responsable.</pre>
         </div>
-        <div class="promptcard-foot">Esto es una <b>propuesta</b>. El archivo <code class="inline-code">SKILL.md</code> definitivo, la carpeta instalable y el empaquetado se generan recién <b>después de la aprobación del equipo</b>.</div>
+        <div class="promptcard-foot">La versión completa y autocontenida se encuentra en el archivo descargable.</div>
       </div>
     </section>
 
@@ -727,21 +735,32 @@ La aprobación final corresponde al equipo responsable.</pre>
       </div>
     </section>
 
-    <!-- ================= REVISIÓN Y APROBACIÓN ================= -->
-    <div class="view-label">Revisión y aprobación</div>
+    <!-- ================= ESTADO ================= -->
+    <div class="view-label">Estado</div>
 
     <section class="block" id="versionado">
       <div class="block-head"><span class="block-num">09</span><h2>Versionado</h2></div>
 
       <div class="template-block">
         <div class="template-row">
-          <div class="template-key">Versión 0.1</div>
-          <div class="template-val"><b style="color:var(--ink-700);">Estado:</b> En revisión — <b style="color:var(--ink-700);">Cambio:</b> Se reenfocó la propuesta en naming de pantallas y flujos, quitando todo el contenido de Design System.</div>
+          <div class="template-key">Versión 1.0</div>
+          <div class="template-val"><b style="color:var(--ink-700);">Estado:</b> Publicada — <b style="color:var(--ink-700);">Cambio:</b> Skill instalable para naming de pantallas y flujos, con validación previa a cualquier cambio en Figma.</div>
         </div>
         <div class="template-row future">
-          <div class="template-key">Versión 0.2</div>
-          <div class="template-val">Pendiente — se documentará tras incorporar los comentarios de esta revisión.</div>
+          <div class="template-key">Próxima versión</div>
+          <div class="template-val">Se actualizará a partir de pruebas reales y aprendizajes del equipo.</div>
         </div>
+      </div>
+    </section>
+
+    <section class="block" id="descargar">
+      <div class="block-head"><span class="block-num">10</span><h2>Descargar skill</h2></div>
+      <div class="download-card">
+        <div>
+          <h3>screen-naming-validator · v1.0</h3>
+          <p>Incluye el archivo SKILL.md y la convención de naming de pantallas para cencoPrime.</p>
+        </div>
+        <a class="download-btn" href="assets/downloads/screen-naming-validator-v1.zip" download>Descargar skill (.zip)</a>
       </div>
     </section>
 
