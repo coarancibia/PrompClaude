@@ -240,6 +240,11 @@
   .theme-toggle .icon-moon{display:block;}
   html[data-theme="dark"] .theme-toggle .icon-sun{display:block;}
   html[data-theme="dark"] .theme-toggle .icon-moon{display:none;}
+.prompt-group{display:inline-flex;align-items:center;gap:3px;padding:3px 4px 3px 9px;border:1px solid var(--line);border-radius:99px;background:var(--tint)}
+.prompt-group-label{font-family:var(--mono);font-size:10px;color:var(--ink-300);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+.prompt-group a{border:0!important;padding:3px 8px!important;background:transparent!important}
+.prompt-group a.active{background:var(--ink-solid)!important;color:#fff!important}
+.prompt-group:has(a.active){border-color:var(--ink-solid)}
 </style>
 </head>
 <body>
@@ -254,13 +259,15 @@
       <span class="current">Validador de naming de pantallas y flujos</span>
     </div>
     <div class="switcher">
-      <a href="agente.html">Agente</a>
-      <a href="componentes.html">Componentes</a>
-      <a href="naming.html">Naming pantallas</a>
-      <a href="auditoria.html">Auditoría</a>
-      <a href="comando.html">Comandos</a>
       <a href="diccionario-claude.html">Diccionario</a>
+      <a href="comando.html">Comandos</a>
+      <span class="prompt-group"><span class="prompt-group-label">Prompts</span>
+      <a href="componentes.html">Componentes</a>
+      <a href="naming.html">Naming</a>
+      <a href="auditoria.html">Auditoría</a>
+      </span>
       <a href="skills.html" class="active">Skills</a>
+      <a href="agente.html">Agente</a>
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema claro/oscuro">
         <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
         <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
