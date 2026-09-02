@@ -98,14 +98,6 @@
   .hero-meta{display:flex;flex-wrap:wrap;gap:10px;}
   .pill{font-family:var(--mono);font-size:11.5px;padding:6px 12px;border:1px solid var(--line);border-radius:99px;color:var(--ink-500);background:var(--panel);}
   .pill b{color:var(--ink-900);font-weight:600;}
-  .status-badge{font-family:var(--mono);font-size:10.5px;font-weight:700;padding:4px 11px;border-radius:99px;white-space:nowrap;}
-  .status-publicada{background:#d6f5e6;color:#1d7a4e;}
-  .download-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 26px;border:1px solid var(--line);border-radius:14px;background:var(--panel);flex-wrap:wrap;}
-  .download-card h3{font-family:var(--serif);font-size:19px;margin:0 0 7px;}
-  .download-card p{font-size:13.5px;line-height:1.55;color:var(--ink-500);margin:0;max-width:600px;}
-  .download-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:9px;background:var(--accent);color:#fff;text-decoration:none;font-family:var(--mono);font-size:12px;font-weight:700;}
-  .download-btn:hover{filter:brightness(.94);}
-  .download-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
 
   /* priority strip */
   .pstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:72px;}
@@ -252,13 +244,12 @@
 
     <div class="nav-section-label">Calidad</div>
     <a class="navlink" href="#buenas-practicas"><span class="tag">08</span> Buenas prácticas</a>
-    <a class="navlink" href="#descargar"><span class="tag">09</span> Descargar skill</a>
   </nav>
 
   <main>
 
     <div class="hero">
-      <div class="hero-eyebrow">Skill publicada · Instalable</div>
+      <div class="hero-eyebrow">Instructivo de equipo · Editable</div>
       <h1>Detectar inconsistencias antes de que lleguen a producción.</h1>
       <p class="hero-lede">
         Este mapa traduce el instructivo de auditoría en prompts listos para copiar a Claude. Sirve para
@@ -266,11 +257,10 @@
         hallazgos priorizados y accionables para mejorar consistencia, accesibilidad y handoff.
       </p>
       <div class="hero-meta">
-        <span class="pill">Design System <b>del proyecto</b></span>
+        <span class="pill">Design System <b>cencoPrime</b></span>
         <span class="pill">Herramienta <b>Claude + Figma</b></span>
         <span class="pill">Accesibilidad <b>AA</b></span>
-        <span class="pill">Versión <b>1.0</b></span>
-        <span class="status-badge status-publicada">Publicada</span>
+        <span class="pill">8 bloques de prompts</span>
       </div>
     </div>
 
@@ -677,17 +667,6 @@ No rediseñar el flujo. Solo ajustar inconsistencias detectadas en la auditoría
             <li>Repetir todo el contexto del DS si ya está en el proyecto.</li>
           </ul>
         </div>
-      </div>
-    </section>
-
-    <section class="block" id="descargar">
-      <div class="block-head"><span class="block-num">09</span><h2>Descargar skill</h2></div>
-      <div class="download-card">
-        <div>
-          <h3>figma-ux-ds-auditor · v1.0</h3>
-          <p>Incluye el SKILL.md instalable y una referencia para accesibilidad, responsive y priorización de hallazgos.</p>
-        </div>
-        <a class="download-btn" href="assets/downloads/figma-ux-ds-auditor-v1.zip" download>Descargar skill (.zip)</a>
       </div>
     </section>
 
