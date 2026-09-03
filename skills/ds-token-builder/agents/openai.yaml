@@ -1,0 +1,4 @@
+interface:
+  display_name: "DS Token Builder"
+  short_description: "Crea y organiza tokens reutilizables para un Design System"
+  default_prompt: "Usa $ds-token-builder para crear las fundaciones de este Design System con la información que te entregue. Identifica los datos existentes y los faltantes, propón variables primitivas y semánticas, valida accesibilidad y espera mi aprobación antes de modificar Figma."
