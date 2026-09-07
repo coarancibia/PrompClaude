@@ -2,15 +2,18 @@
 name: minuta-reunion
 description: >-
   Genera minutas/actas de reunión en español a partir de una transcripción
-  (archivo .vtt de Teams/Stream, chat de Teams, o texto pegado directamente)
-  con el formato fijo Fecha / Asistentes / Temas tratados / Acuerdos / Tareas.
-  Usa esta skill SIEMPRE que el usuario suba un archivo .vtt, mencione
-  "minuta", "acta de reunión", "resumen de la reunión", "transcripción de
-  Teams/Stream", o pegue el chat/transcripción de una llamada y pida un
-  resumen o documento formal de lo tratado, incluso si no usa la palabra
-  exacta "minuta". No usar para resumir videos o audios directamente,
-  ya que Claude no puede procesarlos. Si el usuario solo tiene el video,
-  pídele la transcripción .vtt o el chat de la reunión primero.
+  (.vtt de Teams/Stream, chat de Teams, o texto pegado), con formato fijo
+  y detallado: encabezado proyecto/fecha/duración/fuente/alcance, nota de
+  trazabilidad sobre hablantes no identificados, participantes con rol,
+  objetivo de la sesión, temas en sub-secciones numeradas (2.1, 2.2...)
+  con hallazgos/decisiones/acuerdos/riesgos/pendientes, tabla resumen de
+  decisiones, pendientes abiertos, próximos pasos, y búsqueda de minutas
+  relacionadas en el historial de chats. Usa esta skill SIEMPRE que el
+  usuario suba un .vtt, mencione "minuta", "acta de reunión", "resumen de
+  la reunión", "transcripción de Teams/Stream", o pegue el chat de una
+  llamada y pida un resumen formal de lo tratado, incluso sin decir
+  "minuta". No usar para resumir video/audio directamente (Claude no
+  puede procesarlos): pide primero la transcripción .vtt o el chat.
 ---
 
 # Minuta de Reunión
@@ -24,6 +27,86 @@ Skill para transformar transcripciones de reuniones (Teams/Stream .vtt, chats, o
 - El usuario pide explícitamente generar/actualizar una minuta.
 
 **No aplica** si el usuario solo tiene el archivo de video/audio (.mp4, .wav, etc.) sin transcripción — Claude no puede ver ni escuchar video/audio. En ese caso, pide la transcripción `.vtt` (se descarga desde la misma página de SharePoint/Stream del video, opción "Transcripción") o el chat de la reunión.
+
+## Formato de salida (obligatorio, no simplificar)
+
+La minuta sigue esta estructura exacta. No la reduzcas a un formato más simple aunque la reunión sea corta — adapta el nivel de detalle dentro de cada sección, pero conserva todas las secciones.
+
+```
+# Minuta — [Título descriptivo corto de la sesión]
+
+**Proyecto:** [nombre del proyecto/producto]  **Fecha:** [fecha completa, ej. 26 de agosto de 2026]  **Duración aproximada:** ~[N] minutos
+**Fuente:** [nombre del archivo .vtt o de la transcripción usada]  **Alcance:** [país/equipo/producto al que aplica lo discutido]
+
+> Nota de trazabilidad: la transcripción automática no etiquetó a todos los hablantes; las intervenciones marcadas como @1, @2, etc. corresponden a una voz recurrente no identificada por nombre (por el contenido, parece ser [rol/equipo] — inferencia tentativa). No se infiere identidad para no atribuir erróneamente decisiones.
+
+**Participantes identificados:**
+- [Nombre completo] ([apodo usado en la reunión, si aplica] — [rol, ej. PD, TL Frontend, BA] [agregar "rol no confirmado" si es una inferencia])
+- [...]
+- @1 — participante sin identificar en la transcripción
+
+---
+
+## 1. Objetivo de la sesión
+
+[Párrafo breve: qué se vino a revisar/decidir en esta sesión y contra qué se contrastó (ej. legado, otro país, otra landing).]
+
+## 2. Temas tratados y acuerdos
+
+### 2.1 [Nombre del sub-tema]
+- **Hallazgo:** [algo que se descubrió/observó durante la revisión]
+- **Decisión:** [algo que el grupo decidió zanjar]
+- **Acuerdo:** [algo en lo que todos coincidieron]
+  - [sub-bullet con detalle o condición asociada]
+- **Riesgo:** [algo que se identificó como riesgo, si aplica]
+- **Propuesta:** [algo que alguien propuso, aclarando si quedó aceptado o abierto]
+- **Pendiente:** [algo que quedó sin cerrar — indicar quién debe resolverlo]
+
+### 2.2 [Siguiente sub-tema]
+- ...
+
+(Repite un bloque `2.N` por cada sub-tema/feature/flujo distinto que se haya tratado. No mezcles temas distintos en un mismo bloque. Usa las etiquetas en negrita (**Hallazgo/Decisión/Acuerdo/Riesgo/Propuesta/Pendiente**) solo cuando apliquen — no fuerces las seis en cada bullet, usa la que describe mejor la naturaleza de ese punto.)
+
+## 3. Decisiones / acuerdos (resumen)
+
+| Tema | Decisión |
+|---|---|
+| [tema corto] | [decisión tomada, en una línea] |
+
+## 4. Pendientes / preguntas abiertas
+
+- [Pregunta o definición que quedó sin resolver, con contexto suficiente para retomarla sin releer toda la minuta]
+
+## 5. Próximos pasos
+
+- [Acción concreta] — [responsable] [fecha si se mencionó]
+
+---
+
+## Minutas relacionadas encontradas (búsqueda en historial de conversaciones)
+
+[Ver sección "Buscar minutas relacionadas" más abajo. Si no se encuentra nada o no hay herramienta de búsqueda de conversaciones pasadas disponible, omite esta sección completa en vez de dejarla vacía o disculparte por ello.]
+
+[Cierra con una línea breve notando cualquier vacío de información relevante detectado, ej.: "No se encontraron minutas previas que traten X — ese dato parece nuevo."]
+```
+
+### Notas sobre el formato
+
+- El encabezado de metadatos (Proyecto/Fecha/Duración/Fuente/Alcance) va siempre en dos líneas como en la plantilla, con los labels en negrita.
+- **Duración aproximada**: si el input es un `.vtt`, calcúlala restando el primer timestamp de inicio al último timestamp de fin (formato `HH:MM:SS.mmm`). Redondea a minutos.
+- **Alcance**: infiérelo del contenido (país, producto, storefront mencionado). Si no es evidente, pregunta al usuario en vez de adivinar.
+- La nota de trazabilidad sobre hablantes sin identificar (@1, @2...) va **solo si existen** ese tipo de etiquetas en la transcripción; si todos los hablantes están identificados por nombre, omite la nota completa.
+- Para el rol de cada participante: solo escríbelo si se puede inferir razonablemente del contenido (lo que dice, lo que se le pregunta) o si el usuario lo confirma. Si es una inferencia, márcalo explícitamente como "rol no confirmado" — nunca presentes un rol inferido como un hecho.
+- Las etiquetas en negrita dentro de "Temas tratados" (**Hallazgo**, **Decisión**, **Acuerdo**, **Riesgo**, **Propuesta**, **Pendiente**) son las categorías estándar; puedes usar otras si la conversación lo pide (ej. **Regla de negocio**), pero mantén el mismo estilo (negrita + dos puntos).
+- La tabla de la sección 3 es un resumen ejecutivo — cada fila debe poder leerse sola, sin necesitar el detalle de la sección 2.
+
+## Buscar minutas relacionadas
+
+Antes de cerrar la minuta, si tienes disponible alguna herramienta de búsqueda sobre el historial de conversaciones (revisa tu lista de herramientas por si existe una capacidad de "buscar chats pasados"), búscala usando palabras clave del proyecto/feature tratado en esta sesión (nombres de flujos, features, o el nombre del proyecto). Si encuentras minutas anteriores relacionadas:
+- Lístalas con: título breve, fecha, y enlace si el resultado de búsqueda incluye uno.
+- No repitas el contenido de esas minutas, solo indica de qué trataban en una línea.
+
+Si no tienes esa herramienta disponible en la sesión actual, omite la sección "Minutas relacionadas encontradas" por completo — no la deje como placeholder vacío ni menciones que "no se pudo buscar".
 
 ## Flujo de trabajo
 
@@ -75,41 +158,15 @@ Mientras lees, identifica:
 
 ### 3. Redactar la minuta
 
-Usa siempre esta estructura exacta:
+Usa la plantilla exacta definida arriba en "Formato de salida (obligatorio, no simplificar)". No la sustituyas por una versión resumida tipo Fecha/Asistentes/Temas/Acuerdos/Tareas plana — esa versión simple ya no es el estándar; el estándar es la plantilla con encabezado de metadatos, nota de trazabilidad, objetivo de la sesión, sub-temas numerados (2.1, 2.2...) con etiquetas en negrita, tabla resumen de decisiones, pendientes y próximos pasos.
 
-```
-**MINUTA DE REUNIÓN**
-
-**Fecha:** [fecha o "No especificada"]
-
-**Asistentes:**
-- [Nombre 1]
-- [Nombre 2]
-- [etc.]
-
-**Temas tratados:**
-- [Tema 1]: resumen breve de qué se discutió, en prosa, sin transcribir literalmente.
-- [Tema 2]: ...
-
-**Acuerdos:**
-- [Acuerdo 1]
-- [Acuerdo 2]
-
-**Tareas / Próximos pasos:**
-
-| Tarea | Responsable | Fecha límite |
-|---|---|---|
-| [descripción] | [nombre] | [fecha o "No especificada"] |
-```
-
-### Reglas de redacción
-
-- Usa solo información explícita en la transcripción; no inventes acuerdos, tareas, fechas ni responsables.
-- Si un dato no está disponible, escribe "No especificado" — no lo omitas ni lo rellenes con una suposición.
+Reglas de redacción, válidas para toda la minuta:
+- Usa solo información explícita en la transcripción; no inventes acuerdos, tareas, fechas, responsables ni roles.
+- Si un dato no está disponible, escríbelo como tal (ej. "no especificada", "rol no confirmado") — no lo omitas ni lo rellenes con una suposición.
 - Tono profesional, conciso, en español.
-- No incluyas comentarios fuera de tema, chistes internos, ni saludos de apertura/cierre.
-- Redacta los temas y acuerdos en tus propias palabras (resumen), nunca como cita textual larga de la transcripción.
-- Si la reunión trató varios sub-flujos o features distintos (común en critiques de UX/producto), usa un sub-bullet o tema separado por cada uno en vez de mezclarlos en un solo párrafo genérico.
+- No incluyas comentarios fuera de tema, chistes internos, ni saludos de apertura/cierre ni problemas técnicos de la llamada (audio, conexión, etc.).
+- Redacta cada punto en tus propias palabras (resumen), nunca como cita textual larga de la transcripción.
+- Cada sub-tema de la sección 2 debe corresponder a un flujo/feature/decisión de negocio distinto — no mezcles dos temas en un mismo bloque 2.N.
 
 ### 4. Entrega
 
