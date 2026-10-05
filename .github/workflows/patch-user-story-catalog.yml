@@ -1,0 +1,76 @@
+name: Patch user-story-builder catalog
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/patch-user-story-catalog.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore catalog base and add user-story-builder
+        run: |
+          git show 24958da1b690d71a243b5550d00ee3d319a41ebf:skills.html > skills.html
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('skills.html')
+          html = path.read_text(encoding='utf-8')
+
+          html = html.replace(
+              '<span class="pill">2 skills <b>en piloto</b></span>',
+              '<span class="pill">3 skills <b>en piloto</b></span>',
+              1,
+          )
+
+          card = '''
+        <a class="card" href="skill-user-story-builder.html">
+          <div class="skill-card-top">
+            <div class="card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h6M8 16h4"/></svg>
+            </div>
+            <span class="status-badge status-piloto">En piloto</span>
+          </div>
+          <span class="card-tag tag-ux">UX · Documentación</span>
+          <h2>Creador de Historias de Usuario</h2>
+          <code class="inline-code">user-story-builder</code>
+          <p>Convierte requerimientos, reglas, flujos y diseños en Historias de Usuario claras, trazables y accionables para Producto, UX, Desarrollo y QA.</p>
+          <div class="skill-card-meta">
+            <span class="pill">Versión <b>1.0</b></span>
+          </div>
+          <div class="cta">Ver y descargar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
+        </a>
+
+'''
+
+          marker = '        <div class="card ghost-card">'
+          if 'skill-user-story-builder.html' not in html:
+              if marker not in html:
+                  raise SystemExit('No se encontró el punto de inserción del catálogo')
+              html = html.replace(marker, card + marker, 1)
+
+          path.write_text(html, encoding='utf-8')
+          PY
+
+      - name: Commit catalog update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add skills.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Add user-story-builder to skills catalog"
+            git push origin main
+          fi
