@@ -87,6 +87,19 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
  </aside>
 </section>
 
+<section class="section" style="margin-top:40px">
+ <div class="label">Mapa rápido del DS en Figma</div>
+ <div class="handoff">
+  <strong>Lo ordenamos en dos fuentes principales y plugins de apoyo</strong>
+  <div class="handoff-grid">
+   <div class="hand"><small>Fuente 1</small><b>DS Token · Prime</b><span>Foundations + variables + tokens.</span></div>
+   <div class="hand"><small>Fuente 2</small><b>DS Components · Prime</b><span>Componentes + variantes + estados.</span></div>
+   <div class="hand"><small>Plugins Figma</small><b>Construcción + documentación</b><span>DS Token Builder, CVA, Instancer, Variant Organiser y Stark.</span></div>
+   <div class="hand"><small>Regla</small><b>Plugin ≠ criterio</b><span>El plugin ayudaba a ejecutar; la decisión seguía siendo del equipo.</span></div>
+  </div>
+ </div>
+</section>
+
 <section class="section" id="por-que">
  <div class="label">01 · Por qué necesitábamos homologar</div>
  <h2>¿Por qué era importante tener un DS homologado?</h2>
@@ -126,29 +139,40 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 </section>
 
 <section class="section" id="figma">
- <div class="label">03 · Cómo organizamos Figma</div>
- <h2>Figma también necesitaba una estructura clara para que el DS no se volviera inmanejable.</h2>
- <p class="intro">A medida que el sistema fue creciendo, nos sirvió separar responsabilidades dentro del archivo y apoyarnos en plugins para tareas más operativas de construcción, revisión y documentación.</p>
+ <div class="label">03 · Figma: organización + plugins</div>
+ <h2>En Figma separamos el DS y nos apoyamos en plugins para construir y documentar mejor.</h2>
+ <p class="intro">Esta parte fue clave y la dejamos bien explícita: por un lado separamos <b>Tokens</b> y <b>Componentes</b>; por otro, usamos y probamos plugins de Figma para acelerar tareas de construcción, orden, accesibilidad y documentación.</p>
 
  <div class="dev-grid">
   <div class="dev-card">
-   <h3>Buena práctica: separar Tokens y Componentes</h3>
+   <h3>Buena práctica que nos funcionó: separar Tokens y Componentes</h3>
    <ul>
-    <li><b>Archivo / página de Tokens:</b> foundations, variables, colores, tipografía, spacing, iconografía y decisiones semánticas.</li>
-    <li><b>Archivo / página de Componentes:</b> componentes, variantes, estados, propiedades y ejemplos de uso.</li>
+    <li><b>DS Token · Prime:</b> archivo fuente para foundations, variables, colores, tipografía, spacing, bordes, radios, elevaciones y tokens semánticos.</li>
+    <li><b>DS Components · Prime:</b> archivo fuente para componentes, variantes, estados, propiedades, anatomía, comportamiento y ejemplos de uso.</li>
     <li>Esto nos ayudó a no mezclar decisiones base con piezas de interfaz.</li>
     <li>También hace más fácil encontrar qué se debe editar y reduce el riesgo de tocar algo que no corresponde.</li>
    </ul>
   </div>
 
   <div class="dev-card">
-   <h3>Plugins como apoyo</h3>
+   <h3>Plugins que usamos / probamos en Figma</h3>
    <ul>
-    <li>Usamos plugins para acelerar tareas repetitivas dentro de Figma.</li>
-    <li>Nos ayudaron en parte de la construcción y también en la documentación del sistema.</li>
-    <li>Sirvieron para ordenar información, revisar consistencia y reducir trabajo manual.</li>
-    <li>La regla fue usarlos como apoyo: el criterio del DS seguía siendo del equipo.</li>
+    <li><b>DS Token Builder:</b> apoyo para construir y ordenar tokens, variables y foundations.</li>
+    <li><b>CVA · Component Variants Automator:</b> apoyo para generar y ordenar variantes de componentes.</li>
+    <li><b>Instancer:</b> nos ayudó a visualizar combinaciones de variantes y documentarlas de una forma más clara.</li>
+    <li><b>Variant Organiser:</b> útil para ordenar variantes cuando el set empezaba a crecer.</li>
+    <li><b>Stark:</b> apoyo para revisar accesibilidad, especialmente contraste y criterios AA.</li>
    </ul>
+  </div>
+ </div>
+
+ <div class="handoff" style="margin-top:18px">
+  <strong>Qué nos aportaba cada plugin</strong>
+  <div class="handoff-grid">
+   <div class="hand"><small>DS Token Builder</small><b>Tokens + variables</b><span>Foundations, primitivas, semántica y documentación base.</span></div>
+   <div class="hand"><small>CVA</small><b>Variantes</b><span>Reducir trabajo manual al estructurar combinaciones de componentes.</span></div>
+   <div class="hand"><small>Instancer</small><b>Documentación</b><span>Mostrar combinaciones y estados del componente de forma más entendible.</span></div>
+   <div class="hand"><small>Stark</small><b>Accesibilidad</b><span>Validar contraste y apoyar la revisión AA.</span></div>
   </div>
  </div>
 
