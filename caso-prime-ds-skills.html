@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Caso Prime · Del Design System a Skills</title>
+<title>Caso Prime · Cómo construimos el Design System</title>
 <script>
 (function(){
   var saved=localStorage.getItem('prompclaude-theme');
@@ -61,9 +61,9 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,72px);line-height:.98;lette
 </head>
 <body>
 <div class="topbar"><div class="topbar-inner">
-  <div class="breadcrumb"><a href="index.html">Inicio</a> / Caso Prime · DS + Skills</div>
+  <div class="breadcrumb"><a href="index.html">Inicio</a> / Caso Prime · Cómo construimos el DS</div>
   <div class="navlinks">
-    <a href="#proceso">Proceso</a><a href="#dev">Dev</a><a href="#skills">Skills</a><a href="#ff">Replicar en FF</a>
+    <a href="#origen">Origen</a><a href="#proceso">Flujo DS</a><a href="#buenas-practicas">Buenas prácticas</a><a href="#dev">Dev</a><a href="#skills">Skills</a><a href="#ff">Replicar en FF</a>
     <button id="theme-toggle" class="theme-toggle">◐</button>
   </div>
 </div></div>
@@ -72,64 +72,90 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,72px);line-height:.98;lette
 <section class="hero">
   <div>
     <div class="eyebrow">Caso real · Jumbo Prime</div>
-    <h1>Del Design System a una forma de trabajar.</h1>
-    <p class="lede">Esta página no muestra solo un UI Kit. Cuenta cómo fuimos conectando <b>Figma, reglas del DS, acuerdos con desarrollo, QA UX y Skills de Claude</b> para reducir trabajo repetitivo y mantener criterio compartido.</p>
+    <h1>Cómo construimos el Design System de Prime.</h1>
+    <p class="lede">El foco de esta página es contar <b>cómo fuimos creando el DS de Prime</b>: qué orden seguimos, qué decisiones tomamos, qué buenas prácticas aparecieron en el camino y cómo lo fuimos alineando con desarrollo. Las Skills llegaron después, como apoyo para sostener y escalar ese trabajo.</p>
   </div>
   <aside class="hero-card">
     <div class="small">La idea central</div>
-    <strong>El DS no termina cuando publicamos componentes.</strong>
-    <p>Funciona cuando diseño y desarrollo pueden usar las mismas reglas, detectar desvíos y volver a alimentar el sistema.</p>
+    <strong>Primero construimos una base confiable. Después la automatizamos.</strong>
+    <p>El valor estuvo en ordenar foundations, componentes, reglas, estados, accesibilidad y handoff antes de pensar en acelerar tareas con IA.</p>
   </aside>
 </section>
 
-<section class="section" id="historia">
-  <div class="section-label">01 · Qué cambió</div>
-  <h2>De revisar todo a mano, a sistematizar decisiones repetidas.</h2>
-  <p class="section-intro">Usa el switch para contar el antes y después. No es “IA reemplazando diseño”; es conocimiento de diseño pasando de estar solo en la cabeza del equipo a quedar reutilizable.</p>
-  <div class="story-toggle">
-    <button class="active" data-story="antes">Antes</button>
-    <button data-story="despues">Después</button>
-  </div>
-  <div id="antes" class="story-panel before-after active">
-    <div class="ba-card"><h3>El conocimiento estaba disperso</h3><ul><li>El PD recordaba qué componente correspondía.</li><li>Los criterios se explicaban nuevamente en cada handoff.</li><li>QA dependía mucho de revisión manual.</li><li>Los hallazgos se resolvían caso a caso.</li></ul></div>
-    <div class="ba-card"><h3>El costo era retrabajo</h3><ul><li>Más vueltas entre diseño y desarrollo.</li><li>Inconsistencias de tokens, estados o componentes.</li><li>Decisiones válidas que no quedaban convertidas en regla.</li><li>Más tiempo para revisar tareas repetitivas.</li></ul></div>
-  </div>
-  <div id="despues" class="story-panel before-after">
-    <div class="ba-card"><h3>El DS se vuelve operativo</h3><ul><li>Tokens, componentes, estados y accesibilidad son la referencia.</li><li>Los acuerdos con dev se documentan y reutilizan.</li><li>Las Skills toman tareas repetibles de revisión.</li><li>El PD mantiene las decisiones que requieren criterio.</li></ul></div>
-    <div class="ba-card"><h3>La conversación cambia</h3><ul><li>Menos “¿cómo era esto?” y más validación.</li><li>Menos rediseño accidental.</li><li>Más problemas encontrados antes del handoff.</li><li>QA retroalimenta al DS en vez de quedar como parche aislado.</li></ul></div>
+<section class="section" id="origen">
+  <div class="section-label">01 · Punto de partida</div>
+  <h2>Antes de crear componentes, ordenamos el problema.</h2>
+  <p class="section-intro">El DS de Prime no nació como una biblioteca de botones. Partimos entendiendo qué necesitábamos estandarizar para que el producto pudiera crecer sin sumar inconsistencias.</p>
+  <div class="before-after story-panel active" style="display:grid">
+    <div class="ba-card"><h3>Qué revisamos primero</h3><ul><li>Patrones que se repetían entre flujos.</li><li>Colores, tipografías, espaciados e iconografía existentes.</li><li>Componentes duplicados o resueltos de formas distintas.</li><li>Estados faltantes: loading, error, disabled, empty, éxito.</li><li>Necesidades de desktop y mobile.</li></ul></div>
+    <div class="ba-card"><h3>Qué queríamos evitar</h3><ul><li>Crear componentes desde una pantalla aislada.</li><li>Resolver cada caso con una excepción nueva.</li><li>Diseñar sin considerar cómo se implementaría.</li><li>Documentar el DS recién al final.</li><li>Depender de la memoria de una sola persona.</li></ul></div>
   </div>
 </section>
 
 <section class="section" id="proceso">
-  <div class="section-label">02 · Proceso end to end</div>
-  <h2>Lo que realmente implementamos.</h2>
-  <p class="section-intro">No fue Figma → Dev. Hubo una cadena de definición, negociación, implementación, validación y aprendizaje.</p>
+  <div class="section-label">02 · Flujo para crear el DS de Prime</div>
+  <h2>Fuimos de lo más base a lo más específico.</h2>
+  <p class="section-intro">Este fue el orden que mejor nos funcionó para no terminar construyendo componentes antes de tener reglas claras.</p>
   <div class="pipeline">
-    <div class="pipe"><div class="pipe-num">01</div><b>Definir DS</b><span>Tokens, componentes, variantes, estados y accesibilidad.</span></div>
-    <div class="pipe"><div class="pipe-num">02</div><b>Diseñar</b><span>Aplicar el sistema en flujos reales de Prime.</span></div>
-    <div class="pipe"><div class="pipe-num">03</div><b>Alinear con Dev</b><span>Qué debe respetarse, qué es viable y qué falta.</span></div>
-    <div class="pipe"><div class="pipe-num">04</div><b>Handoff</b><span>Entregar componentes, estados, reglas y comportamiento.</span></div>
-    <div class="pipe"><div class="pipe-num">05</div><b>Implementar</b><span>Construcción del UI Kit y experiencia en código.</span></div>
-    <div class="pipe"><div class="pipe-num">06</div><b>QA UX</b><span>Comparar implementación, experiencia y consistencia.</span></div>
-    <div class="pipe"><div class="pipe-num">07</div><b>Retroalimentar</b><span>Convertir decisiones repetidas en reglas o Skills.</span></div>
+    <div class="pipe"><div class="pipe-num">01</div><b>Auditar</b><span>Detectar repeticiones, inconsistencias, patrones y gaps del producto.</span></div>
+    <div class="pipe"><div class="pipe-num">02</div><b>Foundations</b><span>Definir color, tipografía, espaciado, iconografía y principios base.</span></div>
+    <div class="pipe"><div class="pipe-num">03</div><b>Tokens</b><span>Nombrar variables por función, no por pantalla o valor puntual.</span></div>
+    <div class="pipe"><div class="pipe-num">04</div><b>Componentes base</b><span>Botones, inputs, selects, chips, feedback y elementos reutilizables.</span></div>
+    <div class="pipe"><div class="pipe-num">05</div><b>Estados y variantes</b><span>Default, hover, focus, disabled, error, éxito, loading y responsive.</span></div>
+    <div class="pipe"><div class="pipe-num">06</div><b>Validar en flujos reales</b><span>Probar el sistema en pantallas de Prime antes de darlo por cerrado.</span></div>
+    <div class="pipe"><div class="pipe-num">07</div><b>Documentar + gobernar</b><span>Dejar reglas de uso, límites, naming y criterios de evolución.</span></div>
+  </div>
+</section>
+
+<section class="section" id="buenas-practicas">
+  <div class="section-label">03 · Buenas prácticas que nos funcionaron</div>
+  <h2>El sistema se construía con reglas, no con pantallas.</h2>
+  <p class="section-intro">Estas decisiones fueron importantes para que el DS se mantuviera consistente y pudiera conversar mejor con desarrollo.</p>
+  <div class="lesson-grid">
+    <div class="lesson"><div class="lesson-num">01</div><b>Partir por foundations.</b><p>Antes de crear componentes dejamos definidos color, tipografía, espaciado, iconografía y criterios de accesibilidad.</p></div>
+    <div class="lesson"><div class="lesson-num">02</div><b>Nombrar tokens por función.</b><p>Evitar nombres amarrados a una pantalla o color puntual. El token debe explicar para qué sirve, no solo qué valor tiene.</p></div>
+    <div class="lesson"><div class="lesson-num">03</div><b>Crear componentes desde patrones reales.</b><p>No sumar un componente porque “podría servir”. Primero debía existir una necesidad repetida en producto.</p></div>
+    <div class="lesson"><div class="lesson-num">04</div><b>Diseñar todos los estados desde el inicio.</b><p>Default, focus, hover, disabled, error, loading y éxito eran parte del componente, no un pendiente posterior.</p></div>
+    <div class="lesson"><div class="lesson-num">05</div><b>Accesibilidad como definición, no como QA final.</b><p>Contraste, tamaños, foco, labels y affordance se revisaban durante la construcción del sistema.</p></div>
+    <div class="lesson"><div class="lesson-num">06</div><b>Probar componentes dentro de flujos reales.</b><p>Una variante podía verse correcta aislada y fallar cuando entraba a registro, login, suscripción o cuenta.</p></div>
+    <div class="lesson"><div class="lesson-num">07</div><b>No romper componentes por resolver una excepción.</b><p>Si aparecía un caso nuevo, primero revisábamos si era una variante válida o un problema puntual del flujo.</p></div>
+    <div class="lesson"><div class="lesson-num">08</div><b>Documentar mientras se construía.</b><p>Uso, restricciones, estados y decisiones quedaban registradas para que diseño y desarrollo compartieran la misma referencia.</p></div>
+  </div>
+</section>
+
+<section class="section" id="foundations">
+  <div class="section-label">Detalle · Cómo bajábamos una decisión al sistema</div>
+  <h2>De una necesidad de pantalla a una regla reusable.</h2>
+  <p class="section-intro">Una pantalla podía gatillar una mejora, pero no definía por sí sola el sistema. La decisión pasaba por una revisión antes de convertirse en token, variante o componente.</p>
+  <div class="transfer">
+    <strong>Ejemplo de razonamiento</strong>
+    <div class="transfer-steps">
+      <div class="transfer-step"><small>01</small><b>Aparece una necesidad</b></div>
+      <div class="transfer-step"><small>02</small><b>Buscamos patrón repetido</b></div>
+      <div class="transfer-step"><small>03</small><b>Validamos si ya existe solución</b></div>
+      <div class="transfer-step"><small>04</small><b>Definimos token / variante</b></div>
+      <div class="transfer-step"><small>05</small><b>Probamos en más de un flujo</b></div>
+      <div class="transfer-step"><small>06</small><b>Alineamos con Dev</b></div>
+      <div class="transfer-step"><small>07</small><b>Documentamos uso</b></div>
+    </div>
   </div>
 </section>
 
 <section class="section" id="dev">
-  <div class="section-label">03 · Qué negociábamos con desarrollo</div>
-  <h2>No todo tenía el mismo nivel de flexibilidad.</h2>
-  <p class="section-intro">Una parte clave de la implementación fue separar lo estructural de lo que sí podía adaptarse técnicamente.</p>
+  <div class="section-label">04 · Trabajo con desarrollo</div>
+  <h2>Desarrollo participaba antes del handoff final.</h2>
+  <p class="section-intro">El objetivo era evitar llegar al final con un DS perfecto en Figma pero difícil de implementar. Las conversaciones con Dev ayudaban a validar factibilidad, reutilización y límites del sistema.</p>
   <div class="negotiation">
-    <div class="neg-card"><div class="tag">Debe respetarse</div><h3>Reglas del sistema</h3><p>Tokens, jerarquía, uso correcto de componentes, estados, accesibilidad y comportamientos que afectan la experiencia.</p></div>
-    <div class="neg-card"><div class="tag">Se conversa</div><h3>Solución técnica</h3><p>Cómo se construye internamente, limitaciones reales del front, reutilización y decisiones que no cambian la experiencia.</p></div>
-    <div class="neg-card"><div class="tag">Vuelve al DS</div><h3>Gaps y aprendizajes</h3><p>Si el caso real muestra que falta una variante, estado o patrón, no se parchea silenciosamente: se evalúa como evolución del sistema.</p></div>
+    <div class="neg-card"><div class="tag">Diseño define</div><h3>Reglas y experiencia</h3><p>Tokens, jerarquía, estados, comportamiento, accesibilidad y criterio de uso de los componentes.</p></div>
+    <div class="neg-card"><div class="tag">Diseño + Dev</div><h3>Factibilidad y arquitectura</h3><p>Qué se reutiliza, cómo se estructura en código, qué limitaciones existen y si una variante realmente conviene incorporarla al kit.</p></div>
+    <div class="neg-card"><div class="tag">Gobernanza</div><h3>Gaps y evolución</h3><p>Si aparece un caso nuevo, se decide si debe vivir en el sistema o solo en el producto. Evitamos sumar excepciones sin revisar su impacto global.</p></div>
   </div>
 </section>
 
 <section class="section" id="skills">
-  <div class="section-label">04 · Skills en el proceso</div>
-  <h2>Convertimos tareas repetitivas en pequeñas herramientas.</h2>
-  <p class="section-intro">Pincha cada Skill para mostrar qué problema vino a resolver y en qué parte del proceso aporta.</p>
+  <div class="section-label">05 · Después vino la automatización</div>
+  <h2>Las Skills llegaron cuando el DS ya tenía reglas claras.</h2>
+  <p class="section-intro">No usamos las Skills para inventar el sistema. Las usamos después para reutilizar criterios que ya habíamos definido: naming, auditoría, migración y construcción de componentes.</p>
   <div class="skill-lab">
     <div class="skill-menu">
       <button class="active" data-skill="audit">Auditoría UX + DS<span>Antes del handoff / QA</span></button>
@@ -142,8 +168,8 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,72px);line-height:.98;lette
 </section>
 
 <section class="section">
-  <div class="section-label">05 · Lo que aprendimos usando IA</div>
-  <h2>Automatizar no significa soltar el control.</h2>
+  <div class="section-label">06 · Buenas prácticas al usar IA sobre el DS</div>
+  <h2>La IA funciona mejor cuando el sistema ya está bien definido.</h2>
   <div class="lesson-grid">
     <div class="lesson"><div class="lesson-num">01</div><b>Primero leer, después proponer.</b><p>Las Skills funcionan mejor cuando parten del DS real del proyecto y no de supuestos genéricos.</p></div>
     <div class="lesson"><div class="lesson-num">02</div><b>Análisis y ejecución deben separarse.</b><p>Primero queremos entender qué cambiaría y por qué. La ejecución viene después de revisar.</p></div>
@@ -153,37 +179,37 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,72px);line-height:.98;lette
 </section>
 
 <section class="section" id="ff">
-  <div class="section-label">06 · Cómo lo llevaría a FF</div>
-  <h2>No copiaría solamente el UI Kit de Prime.</h2>
-  <p class="section-intro">Replicaría el proceso que permitió implementarlo. Los componentes cambian; la forma de ordenar las decisiones puede mantenerse.</p>
+  <div class="section-label">07 · Cómo replicaría el proceso en FF</div>
+  <h2>Replicaría el método antes que los componentes.</h2>
+  <p class="section-intro">Prime puede servir como referencia, pero FF necesita validar sus propios patrones. Lo reutilizable es el orden de trabajo y las buenas prácticas.</p>
   <div class="transfer">
     <strong>Framework reutilizable para un nuevo kit</strong>
     <div class="transfer-steps">
-      <div class="transfer-step"><small>01</small><b>Definir reglas</b></div>
-      <div class="transfer-step"><small>02</small><b>Mapear componentes</b></div>
-      <div class="transfer-step"><small>03</small><b>Alinear con Dev</b></div>
-      <div class="transfer-step"><small>04</small><b>Documentar gaps</b></div>
-      <div class="transfer-step"><small>05</small><b>Auditar handoff</b></div>
-      <div class="transfer-step"><small>06</small><b>QA implementación</b></div>
-      <div class="transfer-step"><small>07</small><b>Crear Skills útiles</b></div>
+      <div class="transfer-step"><small>01</small><b>Auditar producto</b></div>
+      <div class="transfer-step"><small>02</small><b>Definir foundations</b></div>
+      <div class="transfer-step"><small>03</small><b>Crear tokens</b></div>
+      <div class="transfer-step"><small>04</small><b>Priorizar componentes</b></div>
+      <div class="transfer-step"><small>05</small><b>Validar con Dev</b></div>
+      <div class="transfer-step"><small>06</small><b>Probar en flujos reales</b></div>
+      <div class="transfer-step"><small>07</small><b>Documentar y gobernar</b></div>
     </div>
   </div>
 </section>
 
 <section class="section">
-  <div class="section-label">07 · Próxima evolución</div>
-  <h2>Medir el impacto, no contar Skills.</h2>
-  <p class="section-intro">El siguiente paso es saber si esta forma de trabajar realmente ahorra tiempo y reduce retrabajo.</p>
+  <div class="section-label">08 · Qué nos llevaríamos de Prime</div>
+  <h2>El mayor aprendizaje fue el proceso, no la librería.</h2>
+  <p class="section-intro">Un DS sano se construye con decisiones repetibles, validación temprana y gobernanza. La librería visible es solo una parte del trabajo.</p>
   <div class="metric-grid">
-    <div class="metric"><div class="icon">⏱</div><b>Tiempo por tarea</b><span>Comparar cuánto demora una revisión manual versus asistida.</span></div>
-    <div class="metric"><div class="icon">↺</div><b>Iteraciones</b><span>Cuántas vueltas necesita una tarea antes de quedar lista.</span></div>
-    <div class="metric"><div class="icon">◎</div><b>Hallazgos tempranos</b><span>Errores o inconsistencias detectadas antes de llegar a desarrollo.</span></div>
-    <div class="metric"><div class="icon">✓</div><b>Consistencia</b><span>Cuánto del producto implementado respeta tokens, componentes y estados definidos.</span></div>
+    <div class="metric"><div class="icon">◫</div><b>Base antes que componente</b><span>Foundations y tokens claros reducen decisiones arbitrarias más adelante.</span></div>
+    <div class="metric"><div class="icon">↔</div><b>Diseño + Dev temprano</b><span>La factibilidad se conversa mientras se construye el sistema, no al final.</span></div>
+    <div class="metric"><div class="icon">◎</div><b>Probar en contexto</b><span>Un componente se valida en flujos reales antes de considerarlo estable.</span></div>
+    <div class="metric"><div class="icon">✓</div><b>Gobernar</b><span>Cada nueva variante debe justificar por qué pertenece al sistema y no solo a una pantalla.</span></div>
   </div>
 </section>
 
-<div class="quote"><p>“La Skill no reemplaza al Design System. Convierte sus reglas en algo reutilizable y repetible.”</p><span>Idea para llevarse de esta conversación</span></div>
-<div class="footer"><span>Caso Prime · Implementación DS + Skills</span><span>Material de conversación · no presentación</span></div>
+<div class="quote"><p>“Primero construimos el criterio. Después construimos los componentes. Recién ahí automatizamos lo repetitivo.”</p><span>Idea para llevarse de esta conversación</span></div>
+<div class="footer"><span>Caso Prime · Cómo construimos el Design System</span><span>Material de conversación · no presentación</span></div>
 </main>
 
 <script>
@@ -200,10 +226,7 @@ function renderSkill(key){
 document.querySelectorAll('[data-skill]').forEach(btn=>btn.addEventListener('click',()=>{
  document.querySelectorAll('[data-skill]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderSkill(btn.dataset.skill);
 }));
-document.querySelectorAll('[data-story]').forEach(btn=>btn.addEventListener('click',()=>{
- document.querySelectorAll('[data-story]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
- document.querySelectorAll('.story-panel').forEach(p=>p.classList.remove('active'));document.getElementById(btn.dataset.story).classList.add('active');
-}));
+
 renderSkill('audit');
 document.getElementById('theme-toggle').addEventListener('click',()=>{
  const next=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';
