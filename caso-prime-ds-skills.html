@@ -77,20 +77,20 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 <section class="hero">
  <div>
   <div class="eyebrow">Caso real · Jumbo Prime</div>
-  <h1>Nuestro flujo para construir el Design System de Prime.</h1>
-  <p class="lede">No fue “armar una librería en Figma”. Fue un proceso completo: <b>homologar criterios, crear foundations y tokens, construir componentes, probarlos en flujos reales, entender cómo desarrollo necesitaba recibirlos, equivocarnos, corregir, documentar y después apoyarnos en Skills para mantener el sistema.</b></p>
+  <h1>Cómo fuimos armando el Design System de Prime.</h1>
+  <p class="lede">No fue solo armar una librería en Figma. Fuimos ordenando criterios, creando foundations y tokens, armando componentes, probándolos en flujos reales, conversando con los devs para entender cómo necesitaban recibir el DS, corrigiendo cosas que no funcionaron y después usando Skills para ayudarnos a mantener todo más ordenado.</p>
  </div>
  <aside class="hero-note">
   <small>Lo importante para contar mañana</small>
-  <strong>El DS fue un trabajo de producto entre Diseño + Dev.</strong>
-  <p>La librería visual fue el resultado. El verdadero valor estuvo en acordar una forma común de diseñar, construir y evolucionar Prime.</p>
+  <strong>El DS lo fuimos armando entre Diseño y Dev.</strong>
+  <p>La librería fue una parte. Lo más importante fue ponernos de acuerdo en cómo queríamos diseñar, construir y mantener Prime sin que cada flujo resolviera las cosas distinto.</p>
  </aside>
 </section>
 
 <section class="section" id="por-que">
  <div class="label">01 · Por qué necesitábamos homologar</div>
- <h2>Un DS homologado evita que cada flujo invente su propia solución.</h2>
- <p class="intro">Prime iba creciendo en pantallas, estados y funcionalidades. Sin una fuente común, el riesgo era terminar con soluciones visualmente parecidas pero construidas con reglas distintas.</p>
+ <h2>¿Por qué era importante tener un DS homologado?</h2>
+ <p class="intro">Prime empezó a crecer harto en pantallas, estados y funcionalidades. Si no ordenábamos una base común, era muy fácil terminar haciendo lo mismo de formas distintas según el flujo.</p>
  <div class="why-grid">
   <div class="card"><div class="num">01</div><b>Consistencia</b><p>Mismo componente, mismo comportamiento y mismas reglas en todos los flujos.</p></div>
   <div class="card"><div class="num">02</div><b>Escalabilidad</b><p>Crear nuevas pantallas sin volver a definir color, spacing, inputs, modales o estados desde cero.</p></div>
@@ -101,8 +101,8 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 
 <section class="section" id="flujo">
  <div class="label">02 · Nuestro flujo completo</div>
- <h2>Así fuimos construyendo el DS durante el proyecto.</h2>
- <p class="intro">No fue lineal. Volvíamos atrás cada vez que un flujo real o una conversación con Dev mostraba que una regla no estaba suficientemente resuelta.</p>
+ <h2>Así fue nuestro proceso de verdad.</h2>
+ <p class="intro">No fue un proceso perfecto ni lineal. Varias veces tuvimos que volver atrás porque al probar algo en un flujo real, o al conversarlo con Dev, nos dábamos cuenta de que faltaba definir mejor una regla.</p>
  <div class="flow">
   <div class="step"><small>01</small><b>Auditar</b><span>Revisar lo que ya existía, duplicados, inconsistencias y necesidades reales.</span></div>
   <div class="step"><small>02</small><b>Foundations</b><span>Color, tipografía, spacing, iconografía, superficies y accesibilidad.</span></div>
@@ -127,8 +127,8 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 
 <section class="section" id="tokens">
  <div class="label">03 · De valores visuales a tokens</div>
- <h2>El cambio importante fue dejar de pensar “qué color uso” y empezar a pensar “qué función cumple”.</h2>
- <p class="intro">El token permite que Diseño y Desarrollo hablen el mismo idioma y que un cambio visual pueda propagarse sin editar pantalla por pantalla.</p>
+ <h2>Acá uno de los cambios más importantes fue dejar de pensar solo en el color y empezar a pensar para qué sirve.</h2>
+ <p class="intro">Los tokens nos ayudaron a que Diseño y Dev hablaran el mismo idioma. En vez de decir “usa este gris”, empezamos a hablar de la función que cumplía ese color dentro del sistema.</p>
  <div class="token-demo">
   <div class="token-box">
    <h3>Antes: decisión visual suelta</h3>
@@ -155,8 +155,8 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 
 <section class="section" id="componentes">
  <div class="label">04 · Cómo construimos componentes</div>
- <h2>Un componente no era solo “cómo se ve”.</h2>
- <p class="intro">Para que realmente sirviera como parte del sistema necesitaba estructura, variantes, estados, reglas de uso y una forma clara de mapearlo a desarrollo.</p>
+ <h2>Un componente no era solo hacerlo bonito y listo.</h2>
+ <p class="intro">Para que de verdad funcionara dentro del DS teníamos que pensar su estructura, variantes, estados, cuándo se usa, cuándo no y cómo lo iba a entender desarrollo.</p>
  <div class="component-grid">
   <div class="component"><small>01 · Estructura</small><b>Anatomía clara</b><span>Qué elementos son obligatorios, opcionales y qué parte puede cambiar.</span></div>
   <div class="component"><small>02 · Propiedades</small><b>Variantes controladas</b><span>Tipo, tamaño, estado, icono, contenido y comportamiento sin duplicar componentes.</span></div>
@@ -183,8 +183,8 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 
 <section class="section" id="buenas-practicas">
  <div class="label">05 · Buenas prácticas de uso del DS</div>
- <h2>La librería se rompe cuando cada pantalla empieza a “adaptarla un poquito”.</h2>
- <p class="intro">Además de construir componentes, tuvimos que acordar cómo usarlos para no volver a caer en inconsistencias.</p>
+ <h2>Acá aprendimos algo importante: si cada pantalla empieza a adaptar el DS a su pinta, se termina rompiendo.</h2>
+ <p class="intro">Por eso no bastaba con crear componentes. También tuvimos que definir buenas prácticas para usarlos sin empezar a meter excepciones por todos lados.</p>
  <div class="practice-grid">
   <div class="practice"><span class="tag">Uso</span><strong>Buscar antes de crear.</strong><p>Antes de dibujar algo nuevo, revisar si ya existe un componente o una variante que resuelva el caso.</p></div>
   <div class="practice"><span class="tag">Uso</span><strong>No detach como solución rápida.</strong><p>Si un componente no sirve, el problema se conversa. Desvincularlo para salir del paso genera deuda y pierde trazabilidad.</p></div>
@@ -197,8 +197,8 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 
 <section class="section" id="dev">
  <div class="label">06 · Cómo trabajamos con los Devs</div>
- <h2>Una parte clave fue entender cómo necesitaban que representáramos el DS.</h2>
- <p class="intro">No bastaba con que Figma estuviera ordenado para diseño. El sistema tenía que ser legible y trasladable para quienes iban a construirlo.</p>
+ <h2>Una parte súper importante fue entender cómo los Devs necesitaban que les mostráramos el DS.</h2>
+ <p class="intro">Nos podía quedar perfecto para Diseño, pero si después los Devs no entendían bien las propiedades, los estados o cómo mapearlo, igual íbamos a tener problemas. Esa conversación nos hizo cambiar varias cosas de cómo entregábamos.</p>
  <div class="dev-grid">
   <div class="dev-card">
    <h3>Lo que necesitábamos aprender de Dev</h3>
@@ -236,11 +236,11 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 
 <section class="section" id="aprendizajes">
  <div class="label">07 · Lo que salió bien y lo que nos dio problemas</div>
- <h2>Los errores también terminaron definiendo buenas prácticas.</h2>
+ <h2>Lo que nos salió mal también nos ayudó a definir mejores prácticas.</h2>
  <div class="matrix">
   <div class="result good">
    <div class="tag">Funcionó bien</div>
-   <h3>Lo que nos ayudó a avanzar</h3>
+   <h3>Lo que sí nos funcionó</h3>
    <ul>
     <li>Crear foundations antes de llenar la librería de componentes.</li>
     <li>Usar tokens semánticos para separar intención de valor visual.</li>
@@ -252,7 +252,7 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
   </div>
   <div class="result bad">
    <div class="tag">Nos dio problemas</div>
-   <h3>Lo que aprendimos a evitar</h3>
+   <h3>Lo que nos dio problemas</h3>
    <ul>
     <li>Migrar o modificar componentes automáticamente sin revisar el impacto: podía romper instancias.</li>
     <li>Crear variantes para resolver una pantalla puntual y después cargar el sistema con excepciones.</li>
@@ -267,8 +267,8 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 
 <section class="section" id="skills">
  <div class="label">08 · Dónde entraron las Skills</div>
- <h2>Las Skills aparecieron para mantener y acelerar el DS, no para inventarlo.</h2>
- <p class="intro">Una vez que las reglas estaban claras, empezamos a convertir tareas repetitivas en instrucciones reutilizables. Eso ayudó a revisar más rápido y a no depender tanto de recordar cada criterio manualmente.</p>
+ <h2>Las Skills aparecieron después, para ayudarnos con todo lo repetitivo.</h2>
+ <p class="intro">Cuando ya teníamos las reglas más claras, empezamos a crear Skills para no estar repitiendo siempre las mismas revisiones. Nos ayudaron con naming, auditorías, migraciones y construcción de componentes, pero siempre con revisión humana.</p>
  <div class="skill-lab">
   <div class="skill-menu">
    <button class="active" data-skill="audit">Auditoría UX + DS<span>Consistencia antes de handoff / QA</span></button>
@@ -282,8 +282,8 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 
 <section class="section" id="ff">
  <div class="label">09 · Lo que Dany podría reutilizar para FF</div>
- <h2>Más que copiar Prime, reutilizaría este proceso.</h2>
- <p class="intro">FF puede tener otra identidad o componentes distintos, pero puede evitar muchos problemas si parte con las mismas preguntas y acuerdos.</p>
+ <h2>Para FF no copiaría Prime tal cual: reutilizaría el proceso.</h2>
+ <p class="intro">FF puede tener otros componentes, otra identidad o incluso otra forma de trabajar. Pero todo este camino sirve para no partir de cero y, sobre todo, para evitar varios errores que nosotros ya tuvimos.</p>
  <div class="flow">
   <div class="step"><small>01</small><b>Auditar FF</b><span>Qué existe y qué realmente se repite.</span></div>
   <div class="step"><small>02</small><b>Homologar foundations</b><span>Base visual y accesibilidad.</span></div>
@@ -297,7 +297,7 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 </section>
 
 <div class="quote">
- <p>“El Design System no fue solo el resultado en Figma: fue el acuerdo entre Diseño y Desarrollo sobre cómo Prime se iba a construir y mantener.”</p>
+ <p>“Al final, el DS no fue solo lo que dejamos en Figma. Fue ponernos de acuerdo entre Diseño y Dev en cómo queríamos construir y mantener Prime.”</p>
  <span>Idea principal para la conversación</span>
 </div>
 <div class="footer"><span>Caso Prime · Flujo real de construcción del Design System</span><span>Material de conversación · no presentación</span></div>
