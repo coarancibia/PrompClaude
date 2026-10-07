@@ -13,28 +13,28 @@ table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.6}th,td{p
 .copy-btn{margin-left:12px}.copy-content{border-left:3px solid var(--accent);padding:1px 20px;background:var(--panel);border-radius:0 12px 12px 0}a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.copy-status{color:var(--ink-700);font-size:14px}pre{max-height:none}main{min-width:0}.skip{position:absolute;left:-10000px}.skip:focus{left:20px;top:10px;background:var(--panel);padding:10px;z-index:10}
 @media(max-width:600px){.copy-btn{margin:8px 0;display:block}.table-scroll table{min-width:520px}}
 </style></head><body><a class="skip" href="#contenido">Saltar al contenido</a><div class="topbar"><div class="topbar-inner"><div class="breadcrumb"><a href="index.html">Inicio</a><span>/</span><a href="skills.html">Skills</a><span>/</span><span class="current">Cómo crear skills</span></div><div class="switcher"><a href="diccionario-claude.html">Diccionario</a><a href="comando.html">Comandos</a><span class="prompt-group"><span class="prompt-group-label">Prompts</span><a href="componentes.html">Componentes</a><a href="naming.html">Naming</a><a href="auditoria.html">Auditoría</a></span><a href="skills.html" class="active">Skills</a><a href="agente.html">Agente</a><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema"><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button></div></div></div>
-<div class="shell"><nav class="nav" aria-label="Pasos del instructivo"><div class="nav-brand">Instructivo · Claude</div><h2>Crea tu primera<br><em>skill</em></h2><a href="#paso-1"><span class="tag">01</span>¿Para qué necesito una skill?</a><a href="#paso-2"><span class="tag">02</span>¿Qué dejo fijo y qué cambia?</a><a href="#paso-3"><span class="tag">03</span>¿Cómo se la pido a Claude?</a><a href="#paso-4"><span class="tag">04</span>¿Qué reviso en el archivo?</a><a href="#paso-5"><span class="tag">05</span>¿Cómo la cargo y la uso?</a><a href="#paso-6"><span class="tag">06</span>¿Cómo sé si funciona?</a><a href="#paso-7"><span class="tag">07</span>¿Cómo la guardo y la comparto?</a><a href="skills.html">← Volver al catálogo</a></nav><main id="contenido"><header class="hero"><div class="eyebrow">Mis apuntes · Para volver cuando lo necesite</div><h1>Cómo crear una skill sin perderme en el intento</h1><p class="lede">Qué tengo que definir, qué le pido a Claude y qué reviso antes de empezar a usarla.</p><div class="actions"><a class="download-btn" href="assets/guias/Instructivo_crear_skills_Claude.pdf" download>Descargar PDF</a><a class="secondary-btn" href="assets/guias/Instructivo_crear_skills_Claude.docx" download>Descargar Word editable</a></div><p class="block-sub">Las descargas corresponden al instructivo base para compartir. En esta página están mis apuntes y recordatorios para crear una skill.</p></header>
+<div class="shell"><nav class="nav" aria-label="Pasos del instructivo"><div class="nav-brand">Instructivo · Claude</div><h2>Crea tu primera<br><em>skill</em></h2><a href="#paso-1"><span class="tag">01</span>¿Para qué necesito una skill?</a><a href="#paso-2"><span class="tag">02</span>¿Qué dejo fijo y qué cambia?</a><a href="#paso-3"><span class="tag">03</span>¿Cómo se la pido a Claude?</a><a href="#paso-4"><span class="tag">04</span>¿Qué reviso en el archivo?</a><a href="#paso-5"><span class="tag">05</span>¿Cómo la cargo y la uso?</a><a href="#paso-6"><span class="tag">06</span>¿Cómo sé si funciona?</a><a href="#paso-7"><span class="tag">07</span>¿Cómo la guardo y la comparto?</a><a href="skills.html">← Volver al catálogo</a></nav><main id="contenido"><header class="hero"><div class="eyebrow">Mis apuntes · Para volver cuando lo necesite</div><h1>Cómo crear una skill sin perderme en el intento</h1><p class="lede">Qué tengo que definir, qué le pido a Claude y qué reviso antes de empezar a usarla.</p><div class="actions"><a class="download-btn" href="assets/guias/Instructivo_crear_skills_Claude.pdf" download>Descargar PDF</a></div><p class="block-sub">Descarga esta guía en PDF para tener los pasos, el ejemplo y el checklist a mano.</p></header>
 <p>Este espacio también es para mí: para volver cuando quiera crear una skill y no acordarme de todo de memoria. Ya sé usar Claude y hacer prompts; acá ordeno cómo pasar de una tarea que repito a una skill que me sirva en el día a día.</p>
 <p>La idea es ir paso a paso: definir qué necesito, darle mis criterios a Claude, revisar lo que armó y probarlo con otro caso. Si después quiero compartirla, también dejo cómo usarla. Para partir con una skill de instrucciones no necesito programar.</p>
 <section class="block guide-section" id="paso-1"><div class="block-head"><span class="block-num">01</span><h2>¿Para qué necesito una skill?</h2></div>
 <p>Una skill reúne instrucciones y, cuando hacen falta, archivos de apoyo para realizar una tarea. El archivo principal se llama SKILL.md. Ahí dejas el procedimiento que quieres reutilizar; en cada conversación entregas los datos del caso. [1]</p>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Elemento</th><th scope="col">Qué aporta</th><th scope="col">Ejemplo</th></tr></thead><tbody><tr><td>Prompt del caso</td><td>El encargo y los datos de esta ocasión.</td><td>“Redacta una HU para el flujo de recuperación de contraseña”.</td></tr><tr><td>Skill</td><td>El método y los criterios que quieres repetir.</td><td>Cómo ordenar la HU, tratar vacíos y redactar criterios verificables.</td></tr><tr><td>Archivo de referencia</td><td>El material que el método debe consultar.</td><td>Una plantilla del equipo o una guía de tono.</td></tr></tbody></table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Elemento</th><th scope="col">Qué aporta</th><th scope="col">Ejemplo</th></tr></thead><tbody><tr><td>Prompt del caso</td><td>El encargo y los datos de esta ocasión.</td><td>“Organiza una escapada de dos días a Valparaíso”.</td></tr><tr><td>Skill</td><td>El método y los criterios que quieres repetir.</td><td>Cómo ordenar los días, respetar el presupuesto y dejar visibles los datos por confirmar.</td></tr><tr><td>Archivo de referencia</td><td>El material que el método debe consultar.</td><td>Una plantilla de itinerario o una lista de preferencias.</td></tr></tbody></table></div>
 <h3>Elige una tarea que realmente repites</h3>
-<p>Buenos puntos de partida para nuestro trabajo: transformar notas en una minuta, estructurar historias de usuario, revisar textos de una interfaz o documentar hallazgos de QA UX. Empieza con una sola tarea y un resultado claro.</p>
+<p>Por ejemplo: organizar escapadas, ordenar una lista de lecturas o transformar notas en una minuta. Empieza con una sola tarea y un resultado claro.</p>
 <p>Si el pedido es puntual y no tiene reglas que quieras reutilizar, un prompt puede ser suficiente. Si vuelves a explicar el mismo formato o corregir los mismos errores, ya tienes material para una skill.</p>
-<div class="intro"><strong>Para no enredarme:</strong> parto con algo acotado, como redactar una HU o revisar textos. Si la idea mezcla auditoría, diseño de pantallas y publicación, primero separo qué problema quiero resolver.</div>
+<div class="intro"><strong>Para no enredarme:</strong> parto con algo acotado, como organizar una escapada de fin de semana. Si la idea mezcla auditoría, diseño de pantallas y publicación, primero separo qué problema quiero resolver.</div>
 <h3>Qué esperar del resultado</h3>
 <p>La skill ayuda a mantener un criterio consistente. Sigue siendo necesario aportar contexto y revisar lo que Claude produce. Tampoco garantiza un ahorro fijo de tokens: las instrucciones utilizadas consumen contexto. [3]</p>
 </section>
 <section class="block guide-section" id="paso-2"><div class="block-head"><span class="block-num">02</span><h2>¿Qué dejo fijo y qué cambia?</h2></div>
 <p>Antes de pedirle a Claude que escriba el archivo, reúne un prompt que ya te funcione, un resultado que consideres bueno y las correcciones que sueles hacerle. Si no tienes ejemplos, describe cómo reconocerías un resultado aceptable.</p>
 <h3>Antes de partir, respondo estas seis preguntas</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Decisión</th><th scope="col">Ejemplo para una skill de historias de usuario</th></tr></thead><tbody><tr><td>¿Qué quiero resolver?</td><td>Convertir un requerimiento en una HU revisable por el equipo.</td></tr><tr><td>¿Cuándo la voy a usar?</td><td>Al pedir redactar o estructurar una historia de usuario.</td></tr><tr><td>¿Qué información le tengo que dar?</td><td>Actor, necesidad, alcance y reglas confirmadas del flujo.</td></tr><tr><td>¿Qué pasos debe seguir?</td><td>Revisar insumos, identificar vacíos, redactar y comprobar coherencia.</td></tr><tr><td>¿Qué quiero recibir?</td><td>Título, historia, alcance, reglas, criterios y pendientes.</td></tr><tr><td>¿Qué no debe hacer?</td><td>No inventar reglas de negocio ni declarar aprobada la HU.</td></tr></tbody></table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Decisión</th><th scope="col">Ejemplo: una skill para organizar escapadas</th></tr></thead><tbody><tr><td>¿Qué quiero resolver?</td><td>Armar un itinerario de dos días que pueda revisar antes de viajar.</td></tr><tr><td>¿Cuándo la voy a usar?</td><td>Al pedir organizar una escapada de fin de semana.</td></tr><tr><td>¿Qué información le tengo que dar?</td><td>Destino, fechas, cantidad de personas, presupuesto, transporte y preferencias.</td></tr><tr><td>¿Qué pasos debe seguir?</td><td>Revisar los datos, ordenar actividades y comprobar tiempos y presupuesto.</td></tr><tr><td>¿Qué quiero recibir?</td><td>Resumen, itinerario, presupuesto, alternativa por lluvia y pendientes.</td></tr><tr><td>¿Qué no debe hacer?</td><td>No inventar precios ni horarios, ni hacer reservas.</td></tr></tbody></table></div>
 <h3>Qué queda guardado y qué debes entregar cada vez</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Guarda en la skill</th><th scope="col">Entrega en el prompt de cada caso</th></tr></thead><tbody><tr><td>La estructura que debe respetar la HU.</td><td>El flujo que necesitas documentar.</td></tr><tr><td>Cómo redactar criterios de aceptación.</td><td>Las reglas confirmadas para ese flujo.</td></tr><tr><td>Qué hacer si falta información.</td><td>El país, producto, marca o DS que aplica.</td></tr><tr><td>Qué validar antes de entregar.</td><td>Los enlaces, capturas y documentos del caso.</td></tr></tbody></table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Guarda en la skill</th><th scope="col">Entrega en el prompt de cada caso</th></tr></thead><tbody><tr><td>El formato del itinerario.</td><td>El destino y las fechas de la escapada.</td></tr><tr><td>Cómo distribuir actividades y descansos.</td><td>El presupuesto y el transporte de ese viaje.</td></tr><tr><td>Qué hacer si falta información.</td><td>Las personas que viajan y sus preferencias.</td></tr><tr><td>Qué validar antes de entregar.</td><td>Los enlaces o reservas que ya tienes.</td></tr></tbody></table></div>
 <p>Ejemplo: “Usa siempre el DS Prisma” solo corresponde si la skill es exclusiva de ese sistema. Si debe servir para distintos productos, indica “Usa el DS informado en el encargo; si no está definido y es necesario, solicítalo”.</p>
 <h3>¿Cómo le explico qué significa “que quede bien”?</h3>
-<p>“Que quede bien explicado” deja demasiado a interpretación. Una regla más útil sería: “Incluye una acción y un resultado observable en cada criterio; separa las dudas en Pendientes y no las presentes como reglas confirmadas”.</p>
+<p>“Que quede bien explicado” deja demasiado a interpretación. Una regla más útil sería: “Ordena cada día por mañana y tarde, deja tiempo para traslados y marca como pendiente cualquier precio que no pudiste verificar”.</p>
 <p>Define también el comportamiento ante vacíos: pregunta cuando falta algo que cambia la solución; avanza con pendientes explícitos cuando la información disponible permite un borrador útil.</p>
 <h3>Buenas prácticas que quiero tener a mano</h3>
 <ul>
@@ -60,56 +60,55 @@ table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.6}th,td{p
 </section>
 <section class="block guide-section" id="paso-4"><div class="block-head"><span class="block-num">04</span><h2>¿Qué reviso en el archivo?</h2></div>
 <p>SKILL.md es un archivo de texto con formato Markdown: # indica un título, ## una sección y - un elemento de lista. El bloque inicial entre líneas --- es la cabecera YAML; contiene el nombre y la descripción que ayudan a identificar la skill. [1, 3]</p>
-<p>Usa un name corto, sin espacios ni tildes, con minúsculas y guiones; por ejemplo, redactar-hu. La description debe explicar la tarea y cuándo corresponde usarla. Evita descripciones genéricas como “Ayuda al equipo”. [3]</p>
+<p>Usa un name corto, sin espacios ni tildes, con minúsculas y guiones; por ejemplo, organizar-escapadas. La description debe explicar la tarea y cuándo corresponde usarla. Evita descripciones genéricas como “Ayuda al equipo”. [3]</p>
 <h3>Un ejemplo completo para entender el archivo</h3>
-<p>Este ejemplo propone una estructura de HU para practicar. Adáptala a los acuerdos de tu equipo antes de usarla en trabajo real.</p>
+<p>Vamos con un ejemplo cotidiano: una skill para organizar escapadas de dos días. El destino cambia en cada pedido; la forma de armar y revisar el plan se mantiene.</p>
 <div class="promptcard"><div class="prompt-head">Ejemplo de SKILL.md <button class="copy-btn" data-copy="skill-example">Copiar ejemplo</button></div><pre id="skill-example"><code>---
-name: redactar-hu
+name: organizar-escapadas
 description: &gt;-
-  Redacta historias de usuario desde requerimientos y notas.
-  Se usa al pedir crear o estructurar una HU con alcance,
-  reglas y criterios de aceptación. No estima esfuerzo.
+  Organiza escapadas de dos días según destino, fechas,
+  presupuesto y preferencias. Se usa al pedir un itinerario
+  de fin de semana. No realiza reservas ni compras.
 ---
-# Redactar historias de usuario
+# Organizar escapadas
 ## Entradas
-- Requerimiento o notas, actor y objetivo del flujo.
-- Alcance y reglas confirmadas; referencias si existen.
+- Destino, fechas y cantidad de personas.
+- Presupuesto total, moneda y qué debe incluir.
+- Transporte, intereses y restricciones.
 ## Procedimiento
-1. Lee los insumos y distingue hechos, propuestas y dudas.
-2. Si no se identifica el actor o su necesidad, pregunta
-   antes de redactar. Para otros vacíos, evalúa si impiden
-   definir el comportamiento; si no, avanza como borrador.
-3. Si hay reglas contradictorias, muestra el conflicto y
-   pide resolverlo antes de redactar criterios afectados.
-4. Redacta la HU con las secciones de salida.
-5. Revisa que cada criterio esté respaldado por los insumos.
+1. Revisa los datos. Si faltan destino, fechas, transporte
+   o presupuesto, pregunta antes de armar el plan concreto.
+2. Si hay preferencias contradictorias, pide aclararlas.
+3. Distribuye cada día en mañana y tarde, con descansos
+   y tiempo para trasladarse. Explica las estimaciones.
+4. Si hay búsqueda web disponible, verifica precios y
+   horarios en fuentes oficiales e indica fuente y fecha.
+   Si no puedes verificarlos, déjalos por confirmar.
+5. Suma los importes conocidos sin presentar un subtotal
+   incompleto como el costo total. Señala lo que falta.
+6. Propón una alternativa por lluvia y revisa el plan.
 ## Reglas
-- No inventes condiciones, plazos ni reglas de negocio.
-- Si no puedes abrir una referencia necesaria, pide su
-  contenido. No afirmes haberla revisado.
-- No agregues estados o errores como requisitos confirmados
-  si no están definidos; propón validarlos en Pendientes.
-- No publiques ni marques la HU como aprobada.
+- No inventes precios, horarios ni disponibilidad.
+- No hagas reservas ni compras.
+- No arrastres destinos o preferencias de otros ejemplos.
 ## Salida
-1. Título.
-2. Historia: Como [actor], quiero [acción], para [beneficio].
-3. Alcance incluido y excluido, cuando esté informado.
-4. Reglas confirmadas.
-5. Criterios numerados: Dado / Cuando / Entonces.
-6. Pendientes y referencias consultadas.
+1. Resumen del viaje y restricciones.
+2. Itinerario por día: mañana y tarde.
+3. Presupuesto conocido y gastos por confirmar.
+4. Alternativa por lluvia.
+5. Pendientes y fuentes consultadas.
 ## Comprobación final
-Verifica que cada criterio tenga un resultado observable,
-que no contradiga las reglas y que los vacíos sean visibles.</code></pre></div>
+Revisa que los tiempos no se superpongan, que se respeten
+las preferencias y que los costos pendientes sean visibles.</code></pre></div>
 </section>
 <section class="block guide-section" id="paso-5"><div class="block-head"><span class="block-num">05</span><h2>¿Cómo la cargo y la uso?</h2></div>
 <h3>Prepara el archivo para cargarlo</h3>
-<p>Si Claude generó el ZIP, descárgalo y revisa su contenido. Si entregó solo texto, guárdalo en un editor de texto plano con el nombre exacto SKILL.md dentro de una carpeta llamada redactar-hu. Comprime esa carpeta como redactar-hu.zip. [1, 2]</p>
-<p>El ZIP debe contener redactar-hu/SKILL.md. Revisa que el archivo no haya quedado como SKILL.md.txt y que no se hayan agregado carpetas intermedias. No guardes un Word o PDF y simplemente le cambies la extensión.</p>
+<p>Si Claude generó el ZIP, descárgalo y revisa su contenido. Si entregó solo texto, guárdalo en un editor de texto plano con el nombre exacto SKILL.md dentro de una carpeta llamada organizar-escapadas. Comprime esa carpeta como organizar-escapadas.zip. [1, 2]</p>
+<p>El ZIP debe contener organizar-escapadas/SKILL.md. Revisa que el archivo no haya quedado como SKILL.md.txt y que no se hayan agregado carpetas intermedias. No guardes un Word o PDF y simplemente le cambies la extensión.</p>
 <h3>Instálala en Claude</h3>
 <ol><li>Entra a Customize &gt; Skills (Personalizar &gt; Skills, según el idioma).</li><li>Usa + &gt; Create skill &gt; Upload a skill y selecciona el ZIP.</li><li>Verifica que aparezca en la lista y déjala activada.</li><li>Abre un chat nuevo para probarla con información que no dependa de la conversación donde la creaste.</li></ol>
 <p>Si no aparece la opción, revisa con el administrador de tu organización la habilitación de Skills, la ejecución de código y creación de archivos, y los permisos de tu rol. Los nombres de los controles pueden cambiar. [2]</p>
-<h3>Prompt de uso para el ejemplo<button class="copy-btn" data-copy="usage-prompt" type="button">Copiar prompt</button></h3><div class="copy-content" id="usage-prompt">
-<p>Usa la skill redactar-hu para estructurar esta historia de usuario.<br><br>Actor: persona con sesión iniciada.<br>Necesidad: consultar los cupones disponibles para su cuenta.<br>Alcance: mostrar nombre y vigencia de cada cupón.<br>Reglas confirmadas: si no hay cupones, mostrar el mensaje “Aún no tienes cupones disponibles”.<br>Fuera de alcance: canje de cupones.<br>Por definir: comportamiento cuando falla el servicio.<br><br>Entrega la HU con su estructura y deja las definiciones faltantes en Pendientes.</p></div>
+<h3>Prompt de uso para el ejemplo<button class="copy-btn" data-copy="usage-prompt" type="button">Copiar prompt</button></h3><div class="copy-content" id="usage-prompt"><p>Usa la skill organizar-escapadas para este caso de práctica.<br><br>Destino: Valparaíso.<br>Fechas ficticias: 14 y 15 de noviembre de 2026.<br>Personas: 2 adultas.<br>Presupuesto total: $180.000 CLP para ambas, incluyendo alojamiento, comidas, transporte local y actividades. El viaje de ida y vuelta ya está pagado y queda fuera del presupuesto.<br>Transporte local: caminatas y transporte público, sin auto.<br>Preferencias: paseos tranquilos, fotografía y cafés; sin tours exigentes.<br><br>Organiza los dos días y una alternativa por lluvia. Verifica los datos actuales si tienes búsqueda disponible; si no, deja los precios y horarios por confirmar. No hagas reservas.</p></div>
 <p>Este es un caso de práctica. No necesitas volver a pegar el procedimiento completo: aporta el contexto, los datos y las excepciones de ese encargo. Nombrar la skill ayuda a dejar clara tu intención; también debes comprobar el resultado.</p>
 <div class="intro"><strong>Ojo con esto:</strong> pedirle a Claude que cree una skill y pedirle que la use son dos cosas distintas. El prompt del paso 3 sirve para construirla. El de este paso sirve para trabajar con ella una vez instalada.</div>
 <h3>Si necesita Figma u otra herramienta</h3>
@@ -117,7 +116,7 @@ que no contradiga las reglas y que los vacíos sean visibles.</code></pre></div>
 </section>
 <section class="block guide-section" id="paso-6"><div class="block-head"><span class="block-num">06</span><h2>¿Cómo sé si funciona?</h2></div>
 <p>Una respuesta bien redactada no basta para dar la skill por lista. La siguiente pauta propuesta comprueba si conserva el método cuando cambian los datos o aparece un problema. Haz las pruebas en chats nuevos y con el modelo que vas a usar habitualmente.</p>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Caso</th><th scope="col">Pedido de prueba</th><th scope="col">Qué deberías observar</th></tr></thead><tbody><tr><td>Completo</td><td>Usa el caso de cupones del paso 5.</td><td>Respeta las seis secciones y deja el fallo de servicio como pendiente.</td></tr><tr><td>Falta crítica</td><td>“Haz una HU”. No entregues actor ni necesidad.</td><td>Solicita esos datos antes de redactar una historia inventada.</td></tr><tr><td>Contradicción</td><td>Indica a la vez que los cupones vencidos se muestran y se ocultan.</td><td>Expone el conflicto y pregunta qué regla corresponde.</td></tr><tr><td>Otro contexto</td><td>Cambia cupones por direcciones guardadas y entrega nuevas reglas.</td><td>Mantiene el método sin arrastrar textos o reglas del primer caso.</td></tr><tr><td>Fuera del alcance</td><td>Pide estimar la HU en puntos y publicarla en Jira.</td><td>Explicita el límite de la skill; no afirma haber estimado o publicado como parte de ella.</td></tr></tbody></table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Caso</th><th scope="col">Pedido de prueba</th><th scope="col">Qué deberías observar</th></tr></thead><tbody><tr><td>Completo</td><td>Usa el viaje ficticio del paso 5.</td><td>Respeta las cinco secciones y deja los precios no verificados como pendientes.</td></tr><tr><td>Falta crítica</td><td>“Organiza mi escapada”. No entregues destino ni fechas.</td><td>Pregunta los datos necesarios antes de armar un itinerario concreto.</td></tr><tr><td>Contradicción</td><td>Indica que viajas sin auto y que solo quieres traslados en tu auto.</td><td>Detecta la contradicción y pregunta qué transporte considerar.</td></tr><tr><td>Otro contexto</td><td>Cambia Valparaíso por otra ciudad y entrega nuevas fechas y preferencias.</td><td>Mantiene el formato sin arrastrar lugares ni preferencias del viaje anterior.</td></tr><tr><td>Fuera del alcance</td><td>Pide reservar y pagar el alojamiento.</td><td>Explica que la skill planifica; no realiza ni afirma haber hecho reservas.</td></tr></tbody></table></div>
 <h3>¿Me sirve más que el prompt que ya usaba?</h3>
 <p>Repite un caso con tu prompt habitual y con la skill, manteniendo los mismos insumos. Revisa cuánto corregiste en cada respuesta: secciones omitidas, reglas inventadas, preguntas innecesarias o criterios que no se pueden comprobar. Guarda esos hallazgos para ajustar el método.</p>
 <h3>¿Y si no hace lo que esperaba?</h3>
@@ -128,7 +127,7 @@ que no contradiga las reglas y que los vacíos sean visibles.</code></pre></div>
 </section>
 <section class="block guide-section" id="paso-7"><div class="block-head"><span class="block-num">07</span><h2>¿Cómo la guardo y la comparto?</h2></div>
 <p>Guarda una versión que puedas reconocer después, junto con un ejemplo de cómo pedirla. Esta ficha me sirve para retomarla sin tener que abrir el chat donde la creé y también para pasársela a otra persona.</p>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Campo</th><th scope="col">Qué escribir</th></tr></thead><tbody><tr><td>Nombre y propósito</td><td>redactar-hu: convierte requerimientos en una HU estructurada.</td></tr><tr><td>Cuándo usarla</td><td>Al crear una HU desde notas y reglas confirmadas.</td></tr><tr><td>Qué entregar</td><td>Actor, necesidad, alcance, reglas y referencias pertinentes.</td></tr><tr><td>Qué devuelve</td><td>Una HU con criterios verificables y pendientes separados.</td></tr><tr><td>Cómo pedirla</td><td>Incluye un prompt de uso completo, como el del paso 5.</td></tr><tr><td>Estado y responsable</td><td>Piloto o validada; versión y persona que mantiene el archivo.</td></tr></tbody></table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Campo</th><th scope="col">Qué escribir</th></tr></thead><tbody><tr><td>Nombre y propósito</td><td>organizar-escapadas: arma un plan de dos días con pendientes visibles.</td></tr><tr><td>Cuándo usarla</td><td>Cuando quiera organizar una escapada de fin de semana.</td></tr><tr><td>Qué entregar</td><td>Destino, fechas, personas, presupuesto, transporte y preferencias.</td></tr><tr><td>Qué devuelve</td><td>Un itinerario, presupuesto, alternativa por lluvia y pendientes.</td></tr><tr><td>Cómo pedirla</td><td>Incluye un prompt de uso completo, como el del paso 5.</td></tr><tr><td>Estado y responsable</td><td>Piloto o validada; versión y persona que mantiene el archivo.</td></tr></tbody></table></div>
 <p>En Team y Enterprise, si tu organización lo permite, también puedes compartirla desde su menú Share. Si entregas copias del ZIP, acuerda cómo avisarás de nuevas versiones: reenviar el archivo no actualiza las copias que ya instalaron otros. [2]</p>
 <h3>Mi checklist antes de darla por lista</h3>
 <ul><li>El nombre y la descripción permiten reconocer su propósito.</li><li>El archivo explica entradas, pasos, reglas, salida y validación.</li><li>No depende del historial del chat donde se creó.</li><li>Los ejemplos no dejaron datos del caso como reglas permanentes.</li><li>Las referencias incluidas están disponibles y se indica cuándo leerlas.</li><li>Se probaron casos completos, incompletos y contradictorios.</li><li>El paquete incluye solo el material necesario y apto para compartir.</li><li>La ficha identifica su versión, responsable y estado de validación.</li></ul>
