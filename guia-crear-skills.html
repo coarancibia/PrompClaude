@@ -18,23 +18,23 @@ table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.6}th,td{p
 <p>La idea es ir paso a paso: definir qué necesito, darle mis criterios a Claude, revisar lo que armó y probarlo con otro caso. Si después quiero compartirla, también dejo cómo usarla. Para partir con una skill de instrucciones no necesito programar.</p>
 <section class="block guide-section" id="paso-1"><div class="block-head"><span class="block-num">01</span><h2>¿Para qué necesito una skill?</h2></div>
 <p>Una skill reúne instrucciones y, cuando hacen falta, archivos de apoyo para realizar una tarea. El archivo principal se llama SKILL.md. Ahí dejas el procedimiento que quieres reutilizar; en cada conversación entregas los datos del caso. [1]</p>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Elemento</th><th scope="col">Qué aporta</th><th scope="col">Ejemplo</th></tr></thead><tbody><tr><td>Prompt del caso</td><td>El encargo y los datos de esta ocasión.</td><td>“Organiza una escapada de dos días a Valparaíso”.</td></tr><tr><td>Skill</td><td>El método y los criterios que quieres repetir.</td><td>Cómo ordenar los días, respetar el presupuesto y dejar visibles los datos por confirmar.</td></tr><tr><td>Archivo de referencia</td><td>El material que el método debe consultar.</td><td>Una plantilla de itinerario o una lista de preferencias.</td></tr></tbody></table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Elemento</th><th scope="col">Qué aporta</th><th scope="col">Ejemplo</th></tr></thead><tbody><tr><td>Prompt del caso</td><td>El encargo y los datos de esta ocasión.</td><td>“Revisa los textos de esta pantalla para guardar una dirección”.</td></tr><tr><td>Skill</td><td>El método y los criterios que quieres repetir.</td><td>Cómo revisar claridad, consistencia y acciones sin cambiar las reglas del flujo.</td></tr><tr><td>Archivo de referencia</td><td>El material que el método debe consultar.</td><td>La guía de tono y voz del producto y su glosario.</td></tr></tbody></table></div>
 <h3>Elige una tarea que realmente repites</h3>
-<p>Por ejemplo: organizar escapadas, ordenar una lista de lecturas o transformar notas en una minuta. Empieza con una sola tarea y un resultado claro.</p>
+<p>Por ejemplo: revisar textos de una pantalla, documentar hallazgos de QA UX o transformar notas en una minuta. Empieza con una sola tarea y un resultado claro.</p>
 <p>Si el pedido es puntual y no tiene reglas que quieras reutilizar, un prompt puede ser suficiente. Si vuelves a explicar el mismo formato o corregir los mismos errores, ya tienes material para una skill.</p>
-<div class="intro"><strong>Para no enredarme:</strong> parto con algo acotado, como organizar una escapada de fin de semana. Si la idea mezcla auditoría, diseño de pantallas y publicación, primero separo qué problema quiero resolver.</div>
+<div class="intro"><strong>Para no enredarme:</strong> parto con algo acotado, como revisar los textos de una pantalla. Si la idea mezcla auditoría, diseño de pantallas y publicación, primero separo qué problema quiero resolver.</div>
 <h3>Qué esperar del resultado</h3>
 <p>La skill ayuda a mantener un criterio consistente. Sigue siendo necesario aportar contexto y revisar lo que Claude produce. Tampoco garantiza un ahorro fijo de tokens: las instrucciones utilizadas consumen contexto. [3]</p>
 </section>
 <section class="block guide-section" id="paso-2"><div class="block-head"><span class="block-num">02</span><h2>¿Qué dejo fijo y qué cambia?</h2></div>
 <p>Antes de pedirle a Claude que escriba el archivo, reúne un prompt que ya te funcione, un resultado que consideres bueno y las correcciones que sueles hacerle. Si no tienes ejemplos, describe cómo reconocerías un resultado aceptable.</p>
 <h3>Antes de partir, respondo estas seis preguntas</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Decisión</th><th scope="col">Ejemplo: una skill para organizar escapadas</th></tr></thead><tbody><tr><td>¿Qué quiero resolver?</td><td>Armar un itinerario de dos días que pueda revisar antes de viajar.</td></tr><tr><td>¿Cuándo la voy a usar?</td><td>Al pedir organizar una escapada de fin de semana.</td></tr><tr><td>¿Qué información le tengo que dar?</td><td>Destino, fechas, cantidad de personas, presupuesto, transporte y preferencias.</td></tr><tr><td>¿Qué pasos debe seguir?</td><td>Revisar los datos, ordenar actividades y comprobar tiempos y presupuesto.</td></tr><tr><td>¿Qué quiero recibir?</td><td>Resumen, itinerario, presupuesto, alternativa por lluvia y pendientes.</td></tr><tr><td>¿Qué no debe hacer?</td><td>No inventar precios ni horarios, ni hacer reservas.</td></tr></tbody></table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Decisión</th><th scope="col">Ejemplo PD: una skill para revisar textos de interfaz</th></tr></thead><tbody><tr><td>¿Qué quiero resolver?</td><td>Detectar textos confusos y proponer ajustes antes del handoff.</td></tr><tr><td>¿Cuándo la voy a usar?</td><td>Al pedir revisar los textos de una pantalla.</td></tr><tr><td>¿Qué información le tengo que dar?</td><td>Textos o captura, objetivo de la pantalla, acciones reales, país y guía de tono si existe.</td></tr><tr><td>¿Qué pasos debe seguir?</td><td>Leer el contexto, detectar problemas y proponer cambios con su motivo.</td></tr><tr><td>¿Qué quiero recibir?</td><td>Resumen, tabla de textos revisados y dudas pendientes.</td></tr><tr><td>¿Qué no debe hacer?</td><td>No inventar funciones, promesas ni reglas de negocio; no editar Figma.</td></tr></tbody></table></div>
 <h3>Qué queda guardado y qué debes entregar cada vez</h3>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Guarda en la skill</th><th scope="col">Entrega en el prompt de cada caso</th></tr></thead><tbody><tr><td>El formato del itinerario.</td><td>El destino y las fechas de la escapada.</td></tr><tr><td>Cómo distribuir actividades y descansos.</td><td>El presupuesto y el transporte de ese viaje.</td></tr><tr><td>Qué hacer si falta información.</td><td>Las personas que viajan y sus preferencias.</td></tr><tr><td>Qué validar antes de entregar.</td><td>Los enlaces o reservas que ya tienes.</td></tr></tbody></table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Guarda en la skill</th><th scope="col">Entrega en el prompt de cada caso</th></tr></thead><tbody><tr><td>Los criterios de claridad y el formato de revisión.</td><td>La pantalla que necesito revisar y su objetivo.</td></tr><tr><td>Cómo revisar títulos, botones, ayudas y errores.</td><td>Qué hace cada botón y qué ocurre en cada estado.</td></tr><tr><td>Qué hacer si falta información.</td><td>El país, público y tono del producto.</td></tr><tr><td>Qué validar antes de entregar.</td><td>Los textos, capturas o enlaces que debe consultar.</td></tr></tbody></table></div>
 <p>Ejemplo: “Usa siempre el DS Prisma” solo corresponde si la skill es exclusiva de ese sistema. Si debe servir para distintos productos, indica “Usa el DS informado en el encargo; si no está definido y es necesario, solicítalo”.</p>
 <h3>¿Cómo le explico qué significa “que quede bien”?</h3>
-<p>“Que quede bien explicado” deja demasiado a interpretación. Una regla más útil sería: “Ordena cada día por mañana y tarde, deja tiempo para traslados y marca como pendiente cualquier precio que no pudiste verificar”.</p>
+<p>“Que quede bien explicado” deja demasiado a interpretación. Una regla más útil sería: “Para cada texto que cambiarías, muestra el original, la propuesta y el motivo. Si no sabes qué hace un botón, pregunta antes de renombrarlo”.</p>
 <p>Define también el comportamiento ante vacíos: pregunta cuando falta algo que cambia la solución; avanza con pendientes explícitos cuando la información disponible permite un borrador útil.</p>
 <h3>Buenas prácticas que quiero tener a mano</h3>
 <ul>
@@ -60,55 +60,58 @@ table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.6}th,td{p
 </section>
 <section class="block guide-section" id="paso-4"><div class="block-head"><span class="block-num">04</span><h2>¿Qué reviso en el archivo?</h2></div>
 <p>SKILL.md es un archivo de texto con formato Markdown: # indica un título, ## una sección y - un elemento de lista. El bloque inicial entre líneas --- es la cabecera YAML; contiene el nombre y la descripción que ayudan a identificar la skill. [1, 3]</p>
-<p>Usa un name corto, sin espacios ni tildes, con minúsculas y guiones; por ejemplo, organizar-escapadas. La description debe explicar la tarea y cuándo corresponde usarla. Evita descripciones genéricas como “Ayuda al equipo”. [3]</p>
+<p>Usa un name corto, sin espacios ni tildes, con minúsculas y guiones; por ejemplo, revisar-textos-ui. La description debe explicar la tarea y cuándo corresponde usarla. Evita descripciones genéricas como “Ayuda al equipo”. [3]</p>
 <h3>Un ejemplo completo para entender el archivo</h3>
-<p>Vamos con un ejemplo cotidiano: una skill para organizar escapadas de dos días. El destino cambia en cada pedido; la forma de armar y revisar el plan se mantiene.</p>
+<p>Vamos con una tarea de PD: revisar los textos de una pantalla antes de pasarla a desarrollo. La pantalla y el producto cambian; los criterios de revisión se mantienen. Es un ejemplo para aprender a crear la skill, no una auditoría completa de UX.</p>
 <div class="promptcard"><div class="prompt-head">Ejemplo de SKILL.md <button class="copy-btn" data-copy="skill-example">Copiar ejemplo</button></div><pre id="skill-example"><code>---
-name: organizar-escapadas
+name: revisar-textos-ui
 description: &gt;-
-  Organiza escapadas de dos días según destino, fechas,
-  presupuesto y preferencias. Se usa al pedir un itinerario
-  de fin de semana. No realiza reservas ni compras.
+  Revisa textos de interfaz y propone mejoras de claridad
+  y consistencia. Se usa al revisar títulos, botones,
+  ayudas y errores de una pantalla. No edita Figma.
 ---
-# Organizar escapadas
+# Revisar textos de interfaz
 ## Entradas
-- Destino, fechas y cantidad de personas.
-- Presupuesto total, moneda y qué debe incluir.
-- Transporte, intereses y restricciones.
+- Textos o captura legible de la pantalla y su objetivo.
+- Qué hace cada acción y cuándo aparece cada estado.
+- País, público y guía de tono, si están disponibles.
 ## Procedimiento
-1. Revisa los datos. Si faltan destino, fechas, transporte
-   o presupuesto, pregunta antes de armar el plan concreto.
-2. Si hay preferencias contradictorias, pide aclararlas.
-3. Distribuye cada día en mañana y tarde, con descansos
-   y tiempo para trasladarse. Explica las estimaciones.
-4. Si hay búsqueda web disponible, verifica precios y
-   horarios en fuentes oficiales e indica fuente y fecha.
-   Si no puedes verificarlos, déjalos por confirmar.
-5. Suma los importes conocidos sin presentar un subtotal
-   incompleto como el costo total. Señala lo que falta.
-6. Propón una alternativa por lluvia y revisa el plan.
+1. Lee los insumos. Si no puedes leer una captura o abrir
+   un enlace, pide los textos; no inventes su contenido.
+2. Si falta la acción real de un botón, pregunta antes
+   de renombrarlo. Revisa los demás textos si es posible.
+3. Si hay reglas contradictorias, señala el conflicto
+   y deja pendientes las propuestas afectadas.
+4. Revisa claridad, consistencia de términos y si cada
+   texto explica la acción o ayuda a resolver el problema.
+5. Propón cambios solo cuando aporten una mejora concreta.
+   Conserva el sentido y el tono informado.
+6. Comprueba que no agregaste funciones ni promesas.
 ## Reglas
-- No inventes precios, horarios ni disponibilidad.
-- No hagas reservas ni compras.
-- No arrastres destinos o preferencias de otros ejemplos.
+- No inventes plazos, beneficios ni reglas de negocio.
+- No cambies textos legales sin señalar revisión necesaria.
+- No afirmes haber editado Figma ni validado todo el flujo.
+- Separa las propuestas de las decisiones confirmadas.
 ## Salida
-1. Resumen del viaje y restricciones.
-2. Itinerario por día: mañana y tarde.
-3. Presupuesto conocido y gastos por confirmar.
-4. Alternativa por lluvia.
-5. Pendientes y fuentes consultadas.
+1. Resumen breve de lo revisado.
+2. Tabla: elemento, texto actual, propuesta y motivo.
+   Si un texto funciona, indica mantener y explica por qué.
+3. Pendientes: dudas que requieren confirmar contexto.
 ## Comprobación final
-Revisa que los tiempos no se superpongan, que se respeten
-las preferencias y que los costos pendientes sean visibles.</code></pre></div>
+Verifica que cada propuesta conserve el comportamiento
+informado y que ninguna duda aparezca como un hecho.</code></pre></div>
 </section>
 <section class="block guide-section" id="paso-5"><div class="block-head"><span class="block-num">05</span><h2>¿Cómo la cargo y la uso?</h2></div>
 <h3>Prepara el archivo para cargarlo</h3>
-<p>Si Claude generó el ZIP, descárgalo y revisa su contenido. Si entregó solo texto, guárdalo en un editor de texto plano con el nombre exacto SKILL.md dentro de una carpeta llamada organizar-escapadas. Comprime esa carpeta como organizar-escapadas.zip. [1, 2]</p>
-<p>El ZIP debe contener organizar-escapadas/SKILL.md. Revisa que el archivo no haya quedado como SKILL.md.txt y que no se hayan agregado carpetas intermedias. No guardes un Word o PDF y simplemente le cambies la extensión.</p>
+<p>Si Claude generó el ZIP, descárgalo y revisa su contenido. Si entregó solo texto, guárdalo en un editor de texto plano con el nombre exacto SKILL.md dentro de una carpeta llamada revisar-textos-ui. Comprime esa carpeta como revisar-textos-ui.zip. [1, 2]</p>
+<p>El ZIP debe contener revisar-textos-ui/SKILL.md. Revisa que el archivo no haya quedado como SKILL.md.txt y que no se hayan agregado carpetas intermedias. No guardes un Word o PDF y simplemente le cambies la extensión.</p>
 <h3>Instálala en Claude</h3>
 <ol><li>Entra a Customize &gt; Skills (Personalizar &gt; Skills, según el idioma).</li><li>Usa + &gt; Create skill &gt; Upload a skill y selecciona el ZIP.</li><li>Verifica que aparezca en la lista y déjala activada.</li><li>Abre un chat nuevo para probarla con información que no dependa de la conversación donde la creaste.</li></ol>
 <p>Si no aparece la opción, revisa con el administrador de tu organización la habilitación de Skills, la ejecución de código y creación de archivos, y los permisos de tu rol. Los nombres de los controles pueden cambiar. [2]</p>
-<h3>Prompt de uso para el ejemplo<button class="copy-btn" data-copy="usage-prompt" type="button">Copiar prompt</button></h3><div class="copy-content" id="usage-prompt"><p>Usa la skill organizar-escapadas para este caso de práctica.<br><br>Destino: Valparaíso.<br>Fechas ficticias: 14 y 15 de noviembre de 2026.<br>Personas: 2 adultas.<br>Presupuesto total: $180.000 CLP para ambas, incluyendo alojamiento, comidas, transporte local y actividades. El viaje de ida y vuelta ya está pagado y queda fuera del presupuesto.<br>Transporte local: caminatas y transporte público, sin auto.<br>Preferencias: paseos tranquilos, fotografía y cafés; sin tours exigentes.<br><br>Organiza los dos días y una alternativa por lluvia. Verifica los datos actuales si tienes búsqueda disponible; si no, deja los precios y horarios por confirmar. No hagas reservas.</p></div>
+<h3>Prompt de uso para el ejemplo<button class="copy-btn" data-copy="usage-prompt" type="button">Copiar prompt</button></h3><div class="copy-content" id="usage-prompt"><p>Usa la skill revisar-textos-ui para revisar esta pantalla antes del handoff.<br><br>Caso ficticio: guardar una nueva dirección de entrega.<br>Objetivo: que la persona guarde su dirección en la cuenta.<br>País y tono: Chile, trato de tú, cercano y directo.<br><br>Textos actuales:<br>- Título: “Ingresa tus datos”.<br>- Label: “Dirección”.<br>- Ayuda: “Pon la información aquí”.<br>- Botón principal: “Aceptar”.<br>- Error: “Algo salió mal”.<br><br>Comportamiento confirmado: el campo pide calle y número. El botón guarda la dirección sin hacer una compra. Si falla el servicio, se conservan los datos ingresados y la persona puede volver a intentar con el mismo botón. No hay un botón adicional de reintento.<br><br>Devuelve el resumen, la tabla de revisión y los pendientes. No agregues funciones ni edites Figma.</p></div>
+<h3>¿Cómo debería verse una parte del resultado?</h3>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Ejemplo de revisión de textos"><table><thead><tr><th>Texto actual</th><th>Propuesta</th><th>Por qué</th></tr></thead><tbody><tr><td>Ingresa tus datos</td><td>Agrega una dirección</td><td>Aclara qué se está agregando.</td></tr><tr><td>Aceptar</td><td>Guardar dirección</td><td>Describe lo que hace el botón.</td></tr><tr><td>Algo salió mal</td><td>No pudimos guardar tu dirección. Tus datos siguen aquí. Intenta guardarla nuevamente.</td><td>Explica el problema y el siguiente paso sin inventar otra acción.</td></tr></tbody></table></div>
+<p>Son propuestas para este caso ficticio, no textos obligatorios para todas las pantallas. Como PD, reviso que calcen con el flujo, el tono y el espacio disponible.</p>
 <p>Este es un caso de práctica. No necesitas volver a pegar el procedimiento completo: aporta el contexto, los datos y las excepciones de ese encargo. Nombrar la skill ayuda a dejar clara tu intención; también debes comprobar el resultado.</p>
 <div class="intro"><strong>Ojo con esto:</strong> pedirle a Claude que cree una skill y pedirle que la use son dos cosas distintas. El prompt del paso 3 sirve para construirla. El de este paso sirve para trabajar con ella una vez instalada.</div>
 <h3>Si necesita Figma u otra herramienta</h3>
@@ -116,7 +119,7 @@ las preferencias y que los costos pendientes sean visibles.</code></pre></div>
 </section>
 <section class="block guide-section" id="paso-6"><div class="block-head"><span class="block-num">06</span><h2>¿Cómo sé si funciona?</h2></div>
 <p>Una respuesta bien redactada no basta para dar la skill por lista. La siguiente pauta propuesta comprueba si conserva el método cuando cambian los datos o aparece un problema. Haz las pruebas en chats nuevos y con el modelo que vas a usar habitualmente.</p>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Caso</th><th scope="col">Pedido de prueba</th><th scope="col">Qué deberías observar</th></tr></thead><tbody><tr><td>Completo</td><td>Usa el viaje ficticio del paso 5.</td><td>Respeta las cinco secciones y deja los precios no verificados como pendientes.</td></tr><tr><td>Falta crítica</td><td>“Organiza mi escapada”. No entregues destino ni fechas.</td><td>Pregunta los datos necesarios antes de armar un itinerario concreto.</td></tr><tr><td>Contradicción</td><td>Indica que viajas sin auto y que solo quieres traslados en tu auto.</td><td>Detecta la contradicción y pregunta qué transporte considerar.</td></tr><tr><td>Otro contexto</td><td>Cambia Valparaíso por otra ciudad y entrega nuevas fechas y preferencias.</td><td>Mantiene el formato sin arrastrar lugares ni preferencias del viaje anterior.</td></tr><tr><td>Fuera del alcance</td><td>Pide reservar y pagar el alojamiento.</td><td>Explica que la skill planifica; no realiza ni afirma haber hecho reservas.</td></tr></tbody></table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Caso</th><th scope="col">Pedido de prueba</th><th scope="col">Qué deberías observar</th></tr></thead><tbody><tr><td>Completo</td><td>Usa la pantalla de dirección del paso 5.</td><td>Entrega resumen, tabla y pendientes; propone “Guardar dirección” sin inventar nuevas acciones.</td></tr><tr><td>Falta crítica</td><td>Pide cambiar un botón “Continuar” sin explicar qué hace.</td><td>Pregunta qué sucede al presionarlo antes de proponer otro nombre.</td></tr><tr><td>Contradicción</td><td>Indica que “Guardar” guarda los cambios y, a la vez, que los descarta.</td><td>Señala el conflicto y pide confirmar la acción real.</td></tr><tr><td>Otro contexto</td><td>Entrega una pantalla de recuperación de contraseña con sus propias reglas.</td><td>Mantiene los criterios sin arrastrar textos sobre direcciones.</td></tr><tr><td>Fuera del alcance</td><td>Pide aplicar los cambios directamente en Figma.</td><td>Entrega propuestas para revisar; aclara que esta skill no edita Figma.</td></tr></tbody></table></div>
 <h3>¿Me sirve más que el prompt que ya usaba?</h3>
 <p>Repite un caso con tu prompt habitual y con la skill, manteniendo los mismos insumos. Revisa cuánto corregiste en cada respuesta: secciones omitidas, reglas inventadas, preguntas innecesarias o criterios que no se pueden comprobar. Guarda esos hallazgos para ajustar el método.</p>
 <h3>¿Y si no hace lo que esperaba?</h3>
@@ -127,7 +130,7 @@ las preferencias y que los costos pendientes sean visibles.</code></pre></div>
 </section>
 <section class="block guide-section" id="paso-7"><div class="block-head"><span class="block-num">07</span><h2>¿Cómo la guardo y la comparto?</h2></div>
 <p>Guarda una versión que puedas reconocer después, junto con un ejemplo de cómo pedirla. Esta ficha me sirve para retomarla sin tener que abrir el chat donde la creé y también para pasársela a otra persona.</p>
-<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Campo</th><th scope="col">Qué escribir</th></tr></thead><tbody><tr><td>Nombre y propósito</td><td>organizar-escapadas: arma un plan de dos días con pendientes visibles.</td></tr><tr><td>Cuándo usarla</td><td>Cuando quiera organizar una escapada de fin de semana.</td></tr><tr><td>Qué entregar</td><td>Destino, fechas, personas, presupuesto, transporte y preferencias.</td></tr><tr><td>Qué devuelve</td><td>Un itinerario, presupuesto, alternativa por lluvia y pendientes.</td></tr><tr><td>Cómo pedirla</td><td>Incluye un prompt de uso completo, como el del paso 5.</td></tr><tr><td>Estado y responsable</td><td>Piloto o validada; versión y persona que mantiene el archivo.</td></tr></tbody></table></div>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de referencia"><table><thead><tr><th scope="col">Campo</th><th scope="col">Qué escribir</th></tr></thead><tbody><tr><td>Nombre y propósito</td><td>revisar-textos-ui: revisa textos de interfaz y propone mejoras justificadas.</td></tr><tr><td>Cuándo usarla</td><td>Cuando quiera revisar los textos de una pantalla.</td></tr><tr><td>Qué entregar</td><td>Textos, objetivo de la pantalla, acciones, país y tono.</td></tr><tr><td>Qué devuelve</td><td>Resumen, tabla con original / propuesta / motivo y pendientes.</td></tr><tr><td>Cómo pedirla</td><td>Incluye un prompt de uso completo, como el del paso 5.</td></tr><tr><td>Estado y responsable</td><td>Piloto o validada; versión y persona que mantiene el archivo.</td></tr></tbody></table></div>
 <p>En Team y Enterprise, si tu organización lo permite, también puedes compartirla desde su menú Share. Si entregas copias del ZIP, acuerda cómo avisarás de nuevas versiones: reenviar el archivo no actualiza las copias que ya instalaron otros. [2]</p>
 <h3>Mi checklist antes de darla por lista</h3>
 <ul><li>El nombre y la descripción permiten reconocer su propósito.</li><li>El archivo explica entradas, pasos, reglas, salida y validación.</li><li>No depende del historial del chat donde se creó.</li><li>Los ejemplos no dejaron datos del caso como reglas permanentes.</li><li>Las referencias incluidas están disponibles y se indica cuándo leerlas.</li><li>Se probaron casos completos, incompletos y contradictorios.</li><li>El paquete incluye solo el material necesario y apto para compartir.</li><li>La ficha identifica su versión, responsable y estado de validación.</li></ul>
