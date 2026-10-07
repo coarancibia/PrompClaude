@@ -68,7 +68,7 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 <div class="topbar"><div class="topbar-inner">
  <div class="breadcrumb"><a href="index.html">Inicio</a> / Caso Prime · Flujo DS</div>
  <div class="nav">
-  <a href="#por-que">Por qué</a><a href="#flujo">Flujo</a><a href="#tokens">Tokens</a><a href="#componentes">Componentes</a><a href="#dev">Devs</a><a href="#aprendizajes">Aprendizajes</a><a href="#skills">Skills</a>
+  <a href="#por-que">Por qué</a><a href="#flujo">Flujo</a><a href="#figma">Figma</a><a href="#tokens">Tokens</a><a href="#componentes">Componentes</a><a href="#dev">Devs</a><a href="#aprendizajes">Aprendizajes</a><a href="#skills">Skills</a>
   <button id="theme-toggle" class="theme">◐</button>
  </div>
 </div></div>
@@ -125,8 +125,46 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
  <div id="stage-detail" class="stage-detail"></div>
 </section>
 
+<section class="section" id="figma">
+ <div class="label">03 · Cómo organizamos Figma</div>
+ <h2>Figma también necesitaba una estructura clara para que el DS no se volviera inmanejable.</h2>
+ <p class="intro">A medida que el sistema fue creciendo, nos sirvió separar responsabilidades dentro del archivo y apoyarnos en plugins para tareas más operativas de construcción, revisión y documentación.</p>
+
+ <div class="dev-grid">
+  <div class="dev-card">
+   <h3>Buena práctica: separar Tokens y Componentes</h3>
+   <ul>
+    <li><b>Archivo / página de Tokens:</b> foundations, variables, colores, tipografía, spacing, iconografía y decisiones semánticas.</li>
+    <li><b>Archivo / página de Componentes:</b> componentes, variantes, estados, propiedades y ejemplos de uso.</li>
+    <li>Esto nos ayudó a no mezclar decisiones base con piezas de interfaz.</li>
+    <li>También hace más fácil encontrar qué se debe editar y reduce el riesgo de tocar algo que no corresponde.</li>
+   </ul>
+  </div>
+
+  <div class="dev-card">
+   <h3>Plugins como apoyo</h3>
+   <ul>
+    <li>Usamos plugins para acelerar tareas repetitivas dentro de Figma.</li>
+    <li>Nos ayudaron en parte de la construcción y también en la documentación del sistema.</li>
+    <li>Sirvieron para ordenar información, revisar consistencia y reducir trabajo manual.</li>
+    <li>La regla fue usarlos como apoyo: el criterio del DS seguía siendo del equipo.</li>
+   </ul>
+  </div>
+ </div>
+
+ <div class="handoff" style="margin-top:18px">
+  <strong>Una forma simple de pensarlo</strong>
+  <div class="handoff-grid">
+   <div class="hand"><small>Tokens</small><b>Qué reglas tenemos</b><span>Foundations, variables y semántica.</span></div>
+   <div class="hand"><small>Componentes</small><b>Cómo se materializan</b><span>Variantes, estados y propiedades.</span></div>
+   <div class="hand"><small>Plugins</small><b>Qué podemos acelerar</b><span>Construcción, revisión y documentación.</span></div>
+   <div class="hand"><small>Equipo</small><b>Qué decidimos nosotros</b><span>Uso, criterio, excepciones y evolución.</span></div>
+  </div>
+ </div>
+</section>
+
 <section class="section" id="tokens">
- <div class="label">03 · De valores visuales a tokens</div>
+ <div class="label">04 · De valores visuales a tokens</div>
  <h2>Acá uno de los cambios más importantes fue dejar de pensar solo en el color y empezar a pensar para qué sirve.</h2>
  <p class="intro">Los tokens nos ayudaron a que Diseño y Dev hablaran el mismo idioma. En vez de decir “usa este gris”, empezamos a hablar de la función que cumplía ese color dentro del sistema.</p>
  <div class="token-demo">
@@ -154,7 +192,7 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 </section>
 
 <section class="section" id="componentes">
- <div class="label">04 · Cómo construimos componentes</div>
+ <div class="label">05 · Cómo construimos componentes</div>
  <h2>Un componente no era solo hacerlo bonito y listo.</h2>
  <p class="intro">Para que de verdad funcionara dentro del DS teníamos que pensar su estructura, variantes, estados, cuándo se usa, cuándo no y cómo lo iba a entender desarrollo.</p>
  <div class="component-grid">
@@ -182,10 +220,11 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 </section>
 
 <section class="section" id="buenas-practicas">
- <div class="label">05 · Buenas prácticas de uso del DS</div>
+ <div class="label">06 · Buenas prácticas de uso del DS</div>
  <h2>Acá aprendimos algo importante: si cada pantalla empieza a adaptar el DS a su pinta, se termina rompiendo.</h2>
  <p class="intro">Por eso no bastaba con crear componentes. También tuvimos que definir buenas prácticas para usarlos sin empezar a meter excepciones por todos lados.</p>
  <div class="practice-grid">
+  <div class="practice"><span class="tag">Organización</span><strong>Separar Tokens y Componentes.</strong><p>Nos funcionó mucho mejor tener las reglas base por un lado y los componentes por otro. Hace más fácil mantener, buscar y escalar el DS.</p></div>
   <div class="practice"><span class="tag">Uso</span><strong>Buscar antes de crear.</strong><p>Antes de dibujar algo nuevo, revisar si ya existe un componente o una variante que resuelva el caso.</p></div>
   <div class="practice"><span class="tag">Uso</span><strong>No detach como solución rápida.</strong><p>Si un componente no sirve, el problema se conversa. Desvincularlo para salir del paso genera deuda y pierde trazabilidad.</p></div>
   <div class="practice"><span class="tag">Uso</span><strong>No inventar valores locales.</strong><p>Colores, paddings, radios, borders e iconos deben venir de las reglas del sistema.</p></div>
@@ -196,7 +235,7 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 </section>
 
 <section class="section" id="dev">
- <div class="label">06 · Cómo trabajamos con los Devs</div>
+ <div class="label">07 · Cómo trabajamos con los Devs</div>
  <h2>Una parte súper importante fue entender cómo los Devs necesitaban que les mostráramos el DS.</h2>
  <p class="intro">Nos podía quedar perfecto para Diseño, pero si después los Devs no entendían bien las propiedades, los estados o cómo mapearlo, igual íbamos a tener problemas. Esa conversación nos hizo cambiar varias cosas de cómo entregábamos.</p>
  <div class="dev-grid">
@@ -235,7 +274,7 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 </section>
 
 <section class="section" id="aprendizajes">
- <div class="label">07 · Lo que salió bien y lo que nos dio problemas</div>
+ <div class="label">08 · Lo que salió bien y lo que nos dio problemas</div>
  <h2>Lo que nos salió mal también nos ayudó a definir mejores prácticas.</h2>
  <div class="matrix">
   <div class="result good">
@@ -247,7 +286,7 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
     <li>Probar componentes en pantallas reales antes de considerarlos cerrados.</li>
     <li>Alinear temprano con Dev en vez de resolver todo dentro de Figma.</li>
     <li>Definir accesibilidad, estados y responsive como parte del componente.</li>
-    <li>Usar Skills para revisar tareas repetitivas una vez que la regla ya existía.</li>
+    <li>Usar plugins en Figma para apoyar construcción y documentación sin reemplazar el criterio del equipo.</li><li>Usar Skills para revisar tareas repetitivas una vez que la regla ya existía.</li>
    </ul>
   </div>
   <div class="result bad">
@@ -266,7 +305,7 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 </section>
 
 <section class="section" id="skills">
- <div class="label">08 · Dónde entraron las Skills</div>
+ <div class="label">09 · Dónde entraron las Skills</div>
  <h2>Las Skills aparecieron después, para ayudarnos con todo lo repetitivo.</h2>
  <p class="intro">Cuando ya teníamos las reglas más claras, empezamos a crear Skills para no estar repitiendo siempre las mismas revisiones. Nos ayudaron con naming, auditorías, migraciones y construcción de componentes, pero siempre con revisión humana.</p>
  <div class="skill-lab">
@@ -281,7 +320,7 @@ h1{font-family:var(--serif);font-size:clamp(38px,6vw,70px);line-height:.98;lette
 </section>
 
 <section class="section" id="ff">
- <div class="label">09 · Lo que Dany podría reutilizar para FF</div>
+ <div class="label">10 · Lo que Dany podría reutilizar para FF</div>
  <h2>Para FF no copiaría Prime tal cual: reutilizaría el proceso.</h2>
  <p class="intro">FF puede tener otros componentes, otra identidad o incluso otra forma de trabajar. Pero todo este camino sirve para no partir de cero y, sobre todo, para evitar varios errores que nosotros ya tuvimos.</p>
  <div class="flow">
