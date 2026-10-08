@@ -1,3 +1,9 @@
+---
+name: user-story-builder
+description: >-
+  Crea, estructura y revisa historias de usuario (HU) a partir de requerimientos, notas, reglas de negocio, diseños de Figma y tickets de Jira proporcionados. Se utiliza cuando se pide redactar una HU, convertir un requerimiento en historia de usuario, definir criterios de aceptación, documentar estados y errores o revisar si una HU está completa para el handoff a Desarrollo y QA. Separa criterios, reglas y pendientes sin inventar información. No se utiliza para cambios exclusivamente visuales ni tareas técnicas sin comportamiento de usuario.
+---
+
 # user-story-builder
 
 ## Qué hace
