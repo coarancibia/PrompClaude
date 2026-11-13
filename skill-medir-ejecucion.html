@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medir una tarea con y sin Claude · Skills</title>
+<script>
+  (function(){
+    var saved = localStorage.getItem('prompclaude-theme');
+    document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+  })();
+</script>
+<style>
+  :root{
+    --ink-900:#13151a;
+    --ink-700:#3a3d46;
+    --ink-500:#6b6f7a;
+    --ink-300:#a9adb8;
+    --paper:#f6f5f2;
+    --panel:#ffffff;
+    --line:#e3e1db;
+    --accent:#ff5a36;
+    --accent-dim:#ffe7de;
+    --code-bg:#1c1d22;
+    --code-text:#e9e8e4;
+    --code-accent:#ff8a65;
+    --tint:#fbfaf8;
+    --ink-solid:#13151a;
+    --mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --serif: "Fraunces", "Georgia", serif;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  html[data-theme="dark"]{
+    --ink-900:#f3f2ee;
+    --ink-700:#c7c9d1;
+    --ink-500:#8b8f9c;
+    --ink-300:#565a66;
+    --paper:#15171d;
+    --panel:#1c1f26;
+    --line:#2b2e37;
+    --accent:#ff6b4a;
+    --accent-dim:#3a2018;
+    --code-bg:#111318;
+    --tint:#242730;
+    --ink-solid:#2e313b;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink-900);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    transition:background-color .2s ease,color .2s ease;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ---------- layout shell ---------- */
+  .shell{display:grid; grid-template-columns:272px 1fr; max-width:1320px; margin:0 auto;}
+  @media (max-width: 960px){.shell{grid-template-columns:1fr;}}
+
+  /* ---------- sidebar / nav ---------- */
+  .nav{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:32px 20px 32px 0; border-right:1px solid var(--line);}
+  @media (max-width:960px){.nav{position:relative; height:auto; border-right:none; border-bottom:1px solid var(--line); padding:24px 24px 16px;}}
+  .nav-brand{font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-500); margin-bottom:4px;}
+  .nav-title{font-family:var(--serif); font-size:21px; line-height:1.2; margin:0 0 24px; font-weight:600;}
+  .nav-title em{color:var(--accent); font-style:normal;}
+  .nav-section-label{font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-300); margin:20px 0 8px;}
+  .nav a{display:flex; gap:10px; align-items:baseline; text-decoration:none; color:var(--ink-700); font-size:13.5px; padding:7px 0; transition:color .15s ease;}
+  .nav a:hover{color:var(--accent);}
+  .nav a .tag{font-family:var(--mono); font-size:10.5px; color:var(--ink-300); flex-shrink:0; width:20px;}
+
+  /* ---------- main column ---------- */
+  main{padding:56px 48px 100px;}
+  @media (max-width:960px){main{padding:36px 22px 80px;}}
+  @media (max-width:600px){main{padding:28px 16px 64px;}}
+
+  /* ---------- hero ---------- */
+  .hero{margin-bottom:32px;}
+  .hero-eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+  .hero-eyebrow::before{content:""; width:7px;height:7px; background:var(--accent); border-radius:50%; display:inline-block;}
+  h1{font-family:var(--serif); font-weight:600; font-size:clamp(30px, 4vw, 46px); line-height:1.1; letter-spacing:-0.01em; margin:0 0 16px; max-width:26ch;}
+  .hero-lede{font-size:16px; line-height:1.6; color:var(--ink-700); max-width:680px; margin:0 0 20px;}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:22px;}
+  .pill{font-family:var(--mono); font-size:11.5px; padding:6px 12px; border:1px solid var(--line); border-radius:99px; color:var(--ink-500); background:var(--panel);}
+  .pill b{color:var(--ink-900); font-weight:600;}
+  .inline-code{font-family:var(--mono);background:var(--tint);border:1px solid var(--line);padding:2px 8px;border-radius:6px;font-size:12px;color:var(--ink-900);}
+
+  .card-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;display:inline-block;padding:4px 11px;border-radius:99px;}
+  .tag-ux{color:#1d4ed8; background:#dfe9ff;}
+
+  .status-badge{font-family:var(--mono); font-size:10.5px; font-weight:700; padding:4px 11px; border-radius:99px; white-space:nowrap;}
+  .status-revision{background:#fdf6ed; color:#e67e22;}
+  .status-publicada{background:#d6f5e6; color:#1d7a4e;}
+
+  .download-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 26px;border:1px solid var(--line);border-radius:14px;background:var(--panel);flex-wrap:wrap;}
+  .download-card h3{font-family:var(--serif);font-size:19px;margin:0 0 7px;}
+  .download-card p{font-size:13.5px;line-height:1.55;color:var(--ink-500);margin:0;max-width:600px;}
+  .download-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:9px;background:var(--accent);color:#fff;text-decoration:none;font-family:var(--mono);font-size:12px;font-weight:700;}
+  .download-btn:hover{filter:brightness(.94);}
+  .download-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+  .why-intro{font-size:14px;line-height:1.65;color:var(--ink-700);max-width:780px;margin:0 0 8px;padding:16px 20px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;}
+  .why-intro b{color:var(--ink-900);}
+
+  /* ---------- section heading ---------- */
+  section.block{margin-bottom:56px; scroll-margin-top:24px;}
+  .block-head{display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap;}
+  .block-num{font-family:var(--mono); font-size:13px; color:var(--accent);}
+  h2{font-family:var(--serif); font-size:23px; font-weight:600; margin:0; letter-spacing:-0.01em;}
+  .block-sub{color:var(--ink-500); font-size:14px; line-height:1.55; max-width:680px; margin:10px 0 22px;}
+  .view-label{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-300); margin:0 0 20px; padding-bottom:12px; border-bottom:1px solid var(--line);}
+
+  /* ---------- accordion ---------- */
+  details.acc{border:1px solid var(--line); border-radius:14px; background:var(--panel); overflow:hidden; margin-bottom:14px;}
+  details.acc summary{list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 20px;}
+  details.acc summary::-webkit-details-marker{display:none;}
+  .acc-summary-title{font-family:var(--serif); font-size:15px; font-weight:600; color:var(--ink-900);}
+  .acc-toggle{font-family:var(--mono); font-size:16px; color:var(--accent); transition:transform .2s ease; flex-shrink:0;}
+  details.acc[open] .acc-toggle{transform:rotate(45deg);}
+  details.acc .acc-body{padding:0 20px 20px; border-top:1px solid var(--line); padding-top:18px;}
+
+  /* ---------- audiencia ---------- */
+  .audience-row{display:flex; flex-wrap:wrap; gap:10px;}
+
+  /* ---------- checklist / checkgrid ---------- */
+  .checkgrid{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px;}
+  @media (max-width:760px){.checkgrid{grid-template-columns:1fr;}}
+  .checkgrid.two{grid-template-columns:1fr 1fr;}
+  @media (max-width:760px){.checkgrid.two{grid-template-columns:1fr;}}
+  .checkcard{border:1px solid var(--line); border-radius:12px; padding:20px 20px 6px; background:var(--panel);}
+  .checkcard h3{font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); margin:0 0 14px;}
+  .checkcard ul{list-style:none; margin:0; padding:0;}
+  .checkcard li{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; line-height:1.5; color:var(--ink-700); padding:9px 0; border-top:1px solid var(--line);}
+  .checkcard li:first-child{border-top:none;}
+  .checkcard li svg{flex-shrink:0; margin-top:2px; width:14px; height:14px; color:var(--accent);}
+  .checkcard.problems li svg{color:#c1492c;}
+
+  /* ---------- do / dont ---------- */
+  .dodont{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:760px){.dodont{grid-template-columns:1fr;}}
+  .dodont .col{border-radius:12px; padding:22px 22px 14px; border:1px solid var(--line);}
+  .dodont .do{background:#f4faf2; border-color:#d7ead0;}
+  .dodont .dont{background:#fdf4f2; border-color:#f4d9d1;}
+  .dodont h3{font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; margin:0 0 14px;}
+  .dodont .do h3{color:#3f7d2c;}
+  .dodont .dont h3{color:#c1492c;}
+  .dodont ul{margin:0; padding:0; list-style:none;}
+  .dodont li{font-size:13.5px; line-height:1.5; color:var(--ink-700); padding:8px 0; display:flex; gap:9px;}
+  .dodont li::before{flex-shrink:0; margin-top:1px; font-family:var(--mono); font-size:12px;}
+  .dodont .do li::before{content:"+"; color:#3f7d2c;}
+  .dodont .dont li::before{content:"–"; color:#c1492c;}
+
+  /* ---------- steps ---------- */
+  .steps{display:flex; flex-direction:column; gap:9px;}
+  .step-row{display:flex; gap:16px; align-items:flex-start; padding:14px 18px; background:var(--panel); border:1px solid var(--line); border-radius:12px;}
+  .step-num{flex-shrink:0; width:24px; height:24px; border-radius:50%; background:var(--ink-solid); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:11px; font-weight:700;}
+  .step-text{font-size:13.5px; line-height:1.55; color:var(--ink-700); padding-top:2px;}
+  .step-text b{color:var(--ink-900);}
+
+  /* ---------- promptcard / skillmd block ---------- */
+  .promptcard{border:1px solid var(--line); border-radius:14px; background:var(--panel); overflow:hidden; margin-bottom:22px;}
+  .promptcard-head{display:flex; justify-content:space-between; align-items:center; gap:16px; padding:16px 20px; border-bottom:1px solid var(--line); background:var(--tint); flex-wrap:wrap;}
+  .promptcard-title{display:flex; align-items:center; gap:10px; font-size:14px; font-weight:600; color:var(--ink-900);}
+  .promptcard-title .dot{width:8px;height:8px;border-radius:50%; background:var(--accent); flex-shrink:0;}
+  .promptcard-where{font-family:var(--mono); font-size:11px; color:var(--ink-500); background:var(--accent-dim); padding:3px 9px; border-radius:99px; white-space:nowrap;}
+  .promptbody{position:relative; background:var(--code-bg);}
+  .promptbody pre{margin:0; padding:22px 24px; font-family:var(--mono); font-size:12.6px; line-height:1.7; color:var(--code-text); white-space:pre-wrap; word-break:break-word;}
+  .promptcard-foot{padding:13px 20px; font-size:12.5px; color:var(--ink-500); border-top:1px solid var(--line); background:var(--tint); line-height:1.5;}
+  .promptcard-foot b{color:var(--ink-700);}
+  .promptcard-foot .inline-code{font-size:11px;}
+
+  .skillmd-card{border-top:3px solid var(--accent); box-shadow:0 16px 36px -20px rgba(19,21,26,.22);}
+  .skillmd-card .promptbody pre{max-height:640px; overflow-y:auto;}
+  .skillmd-card .promptbody pre::-webkit-scrollbar{width:9px;}
+  .skillmd-card .promptbody pre::-webkit-scrollbar-thumb{background:#3a3b42; border-radius:8px;}
+
+  .copybtn{display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:11.5px; letter-spacing:.02em; color:var(--ink-700); background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:7px 12px; cursor:pointer; transition:all .15s ease; flex-shrink:0;}
+  .copybtn:hover{border-color:var(--accent); color:var(--accent);}
+  .copybtn:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  .copybtn.copied{background:var(--ink-solid); color:#fff; border-color:var(--ink-solid);}
+  .copybtn svg{width:13px; height:13px; flex-shrink:0;}
+
+  /* ---------- io grid (ejemplo de uso) ---------- */
+  .io-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media (max-width:600px){.io-grid{grid-template-columns:1fr;}}
+  .io-box{border:1px solid var(--line); border-radius:10px; padding:14px 16px; background:var(--tint);}
+  .io-label{font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin-bottom:6px;}
+  .io-text{font-size:12.5px; line-height:1.5; color:var(--ink-700);}
+
+  /* ---------- callout destacado (revisión del equipo) ---------- */
+  .golden-card{background:var(--ink-solid); border-radius:20px; padding:36px 40px;}
+  @media (max-width:600px){.golden-card{padding:26px 22px;}}
+  .golden-eyebrow{font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--code-accent); margin-bottom:16px;}
+  .golden-card h3{font-family:var(--serif); font-size:20px; font-weight:600; color:#fff; margin:0 0 18px;}
+  .golden-questions{display:flex; flex-direction:column; gap:10px;}
+  .golden-questions .gq{display:flex; gap:10px; font-size:13.5px; color:rgba(255,255,255,.75); line-height:1.55; padding:10px 0; border-top:1px solid rgba(255,255,255,.1);}
+  .golden-questions .gq:first-child{border-top:none;}
+  .golden-questions .gq b{color:#fff; font-family:var(--mono); flex-shrink:0;}
+
+  /* ---------- mini check (checklist de aprobación) ---------- */
+  .mini-check-card{border:1px solid var(--line); border-radius:14px; background:var(--panel); padding:24px 26px;}
+  .mini-check{display:grid; grid-template-columns:1fr 1fr; gap:10px 20px;}
+  @media (max-width:600px){.mini-check{grid-template-columns:1fr;}}
+  .mini-check-item{display:flex; gap:9px; align-items:flex-start; font-size:13.5px; color:var(--ink-700); line-height:1.5;}
+  .mini-check-item svg{flex-shrink:0; width:15px; height:15px; color:var(--accent); margin-top:2px;}
+
+  /* ---------- versionado ---------- */
+  .template-block{border:1px solid var(--line); border-radius:14px; background:var(--panel); overflow:hidden;}
+  .template-row{display:flex; gap:14px; padding:14px 20px; border-bottom:1px solid var(--line);}
+  .template-row:last-child{border-bottom:none;}
+  .template-row:nth-child(odd){background:var(--tint);}
+  .template-row.future{opacity:.55;}
+  .template-key{font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); min-width:120px; flex-shrink:0; padding-top:2px;}
+  .template-val{font-size:13px; color:var(--ink-500); line-height:1.5;}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line); margin-top:36px; padding-top:26px; font-size:12.5px; color:var(--ink-300); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  /* ---------- top bar / breadcrumb ---------- */
+  .topbar{border-bottom:1px solid var(--line); background:var(--panel);}
+  .topbar-inner{max-width:1320px; margin:0 auto; padding:16px 48px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  @media (max-width:600px){.topbar-inner{padding:14px 16px;}}
+  .breadcrumb{font-family:var(--mono); font-size:12.5px; color:var(--ink-500); display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .breadcrumb a{color:var(--ink-500); text-decoration:none;}
+  .breadcrumb a:hover{color:var(--accent);}
+  .breadcrumb .current{color:var(--ink-900); font-weight:600;}
+  .switcher{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+  .switcher a{font-family:var(--mono); font-size:12px; padding:6px 12px; border-radius:99px; text-decoration:none; color:var(--ink-500); border:1px solid var(--line); transition:all .15s ease;}
+  .switcher a:hover{border-color:var(--accent); color:var(--accent);}
+  .switcher a.active{background:var(--ink-solid); color:#fff; border-color:var(--ink-solid);}
+  .theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid var(--line);border-radius:99px;background:var(--panel);color:var(--ink-500);cursor:pointer;transition:border-color .15s ease,color .15s ease;flex-shrink:0;}
+  .theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+  .theme-toggle svg{width:14px;height:14px;display:block;}
+  .theme-toggle .icon-sun{display:none;}
+  .theme-toggle .icon-moon{display:block;}
+  html[data-theme="dark"] .theme-toggle .icon-sun{display:block;}
+  html[data-theme="dark"] .theme-toggle .icon-moon{display:none;}
+.prompt-group{display:inline-flex;align-items:center;gap:3px;padding:3px 4px 3px 9px;border:1px solid var(--line);border-radius:99px;background:var(--tint)}
+.prompt-group-label{font-family:var(--mono);font-size:10px;color:var(--ink-300);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+.prompt-group a{border:0!important;padding:3px 8px!important;background:transparent!important}
+.prompt-group a.active{background:var(--ink-solid)!important;color:#fff!important}
+.prompt-group:has(a.active){border-color:var(--ink-solid)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Inicio</a>
+      <span>/</span>
+      <a href="skills.html">Skills</a>
+      <span>/</span>
+      <span class="current">Medir una tarea con y sin Claude</span>
+    </div>
+    <div class="switcher">
+      <a href="diccionario-claude.html">Diccionario</a>
+      <a href="comando.html">Comandos</a>
+      <span class="prompt-group"><span class="prompt-group-label">Prompts</span>
+      <a href="componentes.html">Componentes</a>
+      <a href="naming.html">Naming</a>
+      <a href="auditoria.html">Auditoría</a>
+      </span>
+      <a href="skills.html" class="active">Skills</a>
+      <a href="agente.html">Agente</a>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema claro/oscuro">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="shell"><nav class="nav" aria-label="En esta guía"><div class="nav-brand">Equipo UX</div><h2 class="nav-title">Medición de tareas</h2><a href="#instalar"><span class="tag">01</span>Instala la skill en Claude</a>
+<a href="#empezar"><span class="tag">02</span>Inicia tu primer handoff</a>
+<a href="#cerrar"><span class="tag">03</span>Cierra la medición</a>
+<a href="#resultado"><span class="tag">04</span>Lleva el resultado a la planilla</a></nav><main><div class="hero"><div class="hero-eyebrow">Skill en piloto · Versión 1.0</div><h1>Medir una tarea con y sin Claude</h1><p class="hero-lede">Activa la medición y tu skill de trabajo en el mismo mensaje. Con este handoff de ejemplo puedes seguir el tiempo desde la preparación hasta la aprobación.</p></div><section class="block" id="instalar"><div class="block-head"><span class="block-num">01</span><h2>Instala la skill en Claude</h2></div><p class="block-sub">Descarga el ZIP. En Claude, entra a <strong>Personalizar → Habilidades</strong>, elige la opción de cargar una habilidad y selecciona el ZIP completo. Activa <code>medir-ejecucion-skill</code> y comprueba que tu skill de handoff también esté habilitada.</p><a class="download-btn" href="assets/downloads/medir-ejecucion-skill-v1.zip" download>Descargar skill (.zip)</a></section>
+<section class="block" id="empezar"><div class="block-head"><span class="block-num">02</span><h2>Inicia tu primer handoff</h2></div><p class="block-sub">Abre un chat antes de preparar los insumos. Copia este mensaje y cambia el nombre del flujo y el criterio de revisión según tu caso.</p><div class="promptcard"><div class="promptcard-head"><strong>Mensaje para Claude</strong></div><pre>Usa medir-ejecucion-skill junto con mi skill de handoff para el flujo de recuperación de contraseña. Empieza a medir antes de que prepare los insumos. El handoff estará listo cuando revise que desarrollo puede identificar los estados, errores y pendientes. Marca el primer borrador y cierra cuando te diga «listo».</pre></div><p class="block-sub">Si Claude te pide usar el cronómetro, inícialo y responde «partí». Pásale los insumos del flujo. Cuando recibas el primer borrador, marca una vuelta y sigue contando mientras lo revisas y pides ajustes.</p></section>
+<section class="block" id="cerrar"><div class="block-head"><span class="block-num">03</span><h2>Cierra la medición</h2></div><p class="block-sub">Cuando apruebes el handoff, escribe <strong>«listo»</strong>. Indica cuánto tiempo trabajaste tú y si ese dato es medido o estimado. Si usaste cronómetro, incluye la vuelta del primer borrador y el tiempo final.</p><div class="promptcard"><div class="promptcard-head"><strong>Ejemplo de cierre con cronómetro</strong></div><pre>Listo. El primer borrador salió a los 8 min y aprobé el handoff a los 14 min. Estimo que dediqué 6 min a preparar y revisar. Un handoff equivalente me tomaba unos 35 min hasta la aprobación. Dame la fila para la planilla.</pre></div></section>
+<section class="block" id="resultado"><div class="block-head"><span class="block-num">04</span><h2>Lleva el resultado a la planilla</h2></div><p class="block-sub">En ese ejemplo, el ahorro total estimado es de <strong>21 min por handoff</strong> (35 − 14). Los 6 min representan tu dedicación. Para calcular ahorro de dedicación también necesitas conocer los minutos de trabajo activo del caso manual.</p><p class="block-sub">Claude entrega una fila con los valores separados por tabulaciones. Copia el encabezado y la fila la primera vez que los pegues en Excel o Google Sheets. En las siguientes ejecuciones agrega solo la fila. Los tokens quedan como «sin dato» cuando no hay consumo verificable para ese caso.</p><p class="block-sub">Si todavía no tienes una referencia manual, guarda la ejecución y mide otro handoff de alcance equivalente, desde la preparación hasta la aprobación.</p></section><footer>
+      <span><a href="skills.html" style="color:var(--ink-500);">← Volver al catálogo de Skills</a></span>
+      <span>cencoPrime / cencoPrime black</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  function escapeForClipboard(el){
+    const clone = el.cloneNode(true);
+    return clone.textContent;
+  }
+
+  document.querySelectorAll('.promptcard').forEach(function(card){
+    const pre = card.querySelector('pre');
+    if(!pre) return;
+    const head = card.querySelector('.promptcard-head');
+
+    const btn = document.createElement('button');
+    btn.className = 'copybtn';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Copiar contenido');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copiar contenido</span>';
+
+    btn.addEventListener('click', function(){
+      const text = escapeForClipboard(pre);
+      const finish = function(){
+        btn.classList.add('copied');
+        btn.querySelector('span').textContent = 'Copiado ✓';
+        setTimeout(function(){
+          btn.classList.remove('copied');
+          btn.querySelector('span').textContent = 'Copiar contenido';
+        }, 1800);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(finish).catch(function(){
+          fallbackCopy(text, finish);
+        });
+      } else {
+        fallbackCopy(text, finish);
+      }
+    });
+
+    head.appendChild(btn);
+  });
+
+  function fallbackCopy(text, cb){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    cb();
+  }
+
+  (function(){
+    var toggle = document.getElementById('theme-toggle');
+    if(!toggle) return;
+    toggle.addEventListener('click', function(){
+      var current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      var next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('prompclaude-theme', next);
+    });
+  })();
+</script>
+
+</body>
+</html>
